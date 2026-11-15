@@ -1,0 +1,184 @@
+{
+  "video_branch": "vjepa2_1_l",
+  "protocol": "fully nested paired ablation (see module docstring)",
+  "n_clips": 121,
+  "feature_version": "v3-fixed-lag-motion",
+  "folds": [
+    {
+      "fold": 0,
+      "auroc_without_video": 0.875,
+      "auroc_with_video": 0.875,
+      "video_weight": 1.4006132355816794e-06,
+      "inner_video_auroc": 0.6632751937984496
+    },
+    {
+      "fold": 1,
+      "auroc_without_video": 0.9166666666666666,
+      "auroc_with_video": 0.9166666666666666,
+      "video_weight": 0.05169687942214973,
+      "inner_video_auroc": 0.47229166666666667
+    },
+    {
+      "fold": 2,
+      "auroc_without_video": 0.5984848484848485,
+      "auroc_with_video": 0.5984848484848485,
+      "video_weight": 0.23906445712485566,
+      "inner_video_auroc": 0.7054166666666667
+    },
+    {
+      "fold": 3,
+      "auroc_without_video": 0.8333333333333334,
+      "auroc_with_video": 0.8333333333333334,
+      "video_weight": 1.7301819186063415e-07,
+      "inner_video_auroc": 0.633125
+    },
+    {
+      "fold": 4,
+      "auroc_without_video": 0.9249999999999999,
+      "auroc_with_video": 0.9249999999999999,
+      "video_weight": 3.4042031812029495e-07,
+      "inner_video_auroc": 0.5557598039215687
+    }
+  ],
+  "video_alone_mean_of_fold_models": {
+    "n": 121,
+    "acc": 0.5619834710743802,
+    "bal_acc": 0.5629781420765028,
+    "log_loss": 0.6573874684817446,
+    "auroc": 0.6478142076502732,
+    "auroc_ci95": [
+      0.5376835907335907,
+      0.7598608795653113
+    ],
+    "acc_ci95": [
+      0.4571142857142857,
+      0.6842312474098632
+    ],
+    "n_boot": 2000,
+    "classwise": {
+      "threshold": 0.5,
+      "tp_lie": 27,
+      "fn_lie": 34,
+      "tn_truth": 41,
+      "fp_truth": 19,
+      "lie_sensitivity": 0.4426229508196721,
+      "truth_specificity": 0.6833333333333333,
+      "bal_acc": 0.5629781420765028,
+      "acc": 0.5619834710743802,
+      "predicted_lie_fraction": 0.38016528925619836,
+      "brier": 0.23318988997699547,
+      "log_loss": 0.6573874684817446,
+      "ece_10bin": 0.08694156525457732,
+      "baseline_always_truthful_acc": 0.49586776859504134,
+      "baseline_always_truthful_bal_acc": 0.5,
+      "baseline_prior_brier": 0.24998292466361588
+    }
+  },
+  "without_video": {
+    "n": 121,
+    "acc": 0.71900826446281,
+    "bal_acc": 0.7187158469945355,
+    "log_loss": 0.5723008942366116,
+    "auroc": 0.7778688524590164,
+    "auroc_ci95": [
+      0.6758388450069789,
+      0.9000066489361702
+    ],
+    "acc_ci95": [
+      0.6097439832014214,
+      0.820005617977528
+    ],
+    "n_boot": 2000,
+    "at_threshold": {
+      "threshold": 0.46004186891180376,
+      "tp_lie": 53,
+      "fn_lie": 8,
+      "tn_truth": 37,
+      "fp_truth": 23,
+      "lie_sensitivity": 0.8688524590163934,
+      "truth_specificity": 0.6166666666666667,
+      "bal_acc": 0.74275956284153,
+      "acc": 0.743801652892562,
+      "predicted_lie_fraction": 0.628099173553719,
+      "brier": 0.19476781414929636,
+      "log_loss": 0.5723008942366116,
+      "ece_10bin": 0.09354073063510743,
+      "baseline_always_truthful_acc": 0.49586776859504134,
+      "baseline_always_truthful_bal_acc": 0.5,
+      "baseline_prior_brier": 0.24998292466361588,
+      "lie_sensitivity_ci95": [
+        0.75,
+        0.9523809523809523
+      ],
+      "truth_specificity_ci95": [
+        0.4506725747744896,
+        0.8048780487804879
+      ],
+      "bal_acc_ci95": [
+        0.636499363327674,
+        0.8524394091044076
+      ]
+    }
+  },
+  "with_video": {
+    "n": 121,
+    "acc": 0.7107438016528925,
+    "bal_acc": 0.7102459016393443,
+    "log_loss": 0.5701304771559327,
+    "auroc": 0.7726775956284153,
+    "auroc_ci95": [
+      0.6642959009913033,
+      0.9027380226190727
+    ],
+    "acc_ci95": [
+      0.6020304463248715,
+      0.8151283339422726
+    ],
+    "n_boot": 2000,
+    "at_threshold": {
+      "threshold": 0.46211899110862165,
+      "tp_lie": 53,
+      "fn_lie": 8,
+      "tn_truth": 37,
+      "fp_truth": 23,
+      "lie_sensitivity": 0.8688524590163934,
+      "truth_specificity": 0.6166666666666667,
+      "bal_acc": 0.74275956284153,
+      "acc": 0.743801652892562,
+      "predicted_lie_fraction": 0.628099173553719,
+      "brier": 0.194820465897739,
+      "log_loss": 0.5701304771559327,
+      "ece_10bin": 0.07442066167696286,
+      "baseline_always_truthful_acc": 0.49586776859504134,
+      "baseline_always_truthful_bal_acc": 0.5,
+      "baseline_prior_brier": 0.24998292466361588,
+      "lie_sensitivity_ci95": [
+        0.75,
+        0.9523809523809523
+      ],
+      "truth_specificity_ci95": [
+        0.4506725747744896,
+        0.8048780487804879
+      ],
+      "bal_acc_ci95": [
+        0.636499363327674,
+        0.8524394091044076
+      ]
+    }
+  },
+  "paired": {
+    "delta_auroc": -0.005191256830601065,
+    "delta_auroc_ci95": [
+      -0.018988848704038677,
+      0.009608950161026468
+    ],
+    "share_of_resamples_with_video_better": 0.2775
+  },
+  "minutes": 876.4170100728671,
+  "code_revision": {
+    "commit": "cc870f971a97f9d61870ec5a2abd58c9f49d1a63",
+    "dirty": true,
+    "source_tree_sha256": "10ebf3b428430e38391730371f8b268b0b1f1b06a780c819b4683ab030039960"
+  },
+  "decision": "do not include video in the verdict: no evidence it helps on unseen people"
+}

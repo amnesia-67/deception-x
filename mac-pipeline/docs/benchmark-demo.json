@@ -1,0 +1,235 @@
+{
+  "mode": "demo",
+  "session_id": "4fdb93771bfb",
+  "uptime_seconds": 8.04185012500966,
+  "config": {
+    "capture_fps": 30,
+    "sample_fps": 24,
+    "frames_per_window": 64,
+    "hop_seconds": 1.3333333333333333
+  },
+  "capture": {
+    "camera": {
+      "status": "mock",
+      "observed_fps": 30
+    },
+    "audio": {
+      "status": "mock",
+      "sample_rate": 16000
+    }
+  },
+  "metrics": {
+    "completed_windows": 5,
+    "dropped_windows": 0,
+    "rejected_windows": 0,
+    "queue_depth": 0,
+    "window_latency_ms": 25.274665997130796,
+    "process_peak_rss_mb": 53.96875,
+    "unique_frames_per_second": 23.99836261272384,
+    "inference_updates_per_second": 0.62495735970635,
+    "queue_wait_ms": 0.027709000278264284,
+    "result_age_seconds": 0.03381404318497516
+  },
+  "latest": {
+    "window": {
+      "id": 5,
+      "start": 204257.7060630401,
+      "end": 204260.33939637282,
+      "sample_fps": 24,
+      "unique_frames": 64,
+      "coverage": 1.0,
+      "timestamps": [
+        204257.7060630401,
+        204257.73939637342,
+        204257.80606304007,
+        204257.8393963734,
+        204257.87272970672,
+        204257.90606304005,
+        204257.9727297067,
+        204258.00606304003,
+        204258.03939637335,
+        204258.07272970668,
+        204258.13939637333,
+        204258.17272970665,
+        204258.20606303998,
+        204258.2393963733,
+        204258.30606303996,
+        204258.33939637328,
+        204258.3727297066,
+        204258.40606303993,
+        204258.47272970658,
+        204258.5060630399,
+        204258.53939637323,
+        204258.57272970656,
+        204258.6393963732,
+        204258.67272970654,
+        204258.70606303986,
+        204258.7393963732,
+        204258.80606303984,
+        204258.83939637317,
+        204258.8727297065,
+        204258.90606303982,
+        204258.97272970647,
+        204259.0060630398,
+        204259.03939637312,
+        204259.07272970644,
+        204259.1393963731,
+        204259.17272970642,
+        204259.20606303975,
+        204259.23939637307,
+        204259.30606303972,
+        204259.33939637305,
+        204259.37272970637,
+        204259.4060630397,
+        204259.47272970635,
+        204259.50606303968,
+        204259.539396373,
+        204259.57272970633,
+        204259.63939637298,
+        204259.6727297063,
+        204259.70606303963,
+        204259.73939637296,
+        204259.8060630396,
+        204259.83939637293,
+        204259.87272970626,
+        204259.90606303958,
+        204259.97272970623,
+        204260.00606303956,
+        204260.0393963729,
+        204260.0727297062,
+        204260.13939637286,
+        204260.1727297062,
+        204260.2060630395,
+        204260.23939637284,
+        204260.3060630395,
+        204260.33939637282
+      ],
+      "actual_sample_fps": 23.924050638481646,
+      "max_frame_gap_seconds": 0.06666666665114462,
+      "target_end": 204260.33106304138,
+      "audio": {
+        "start": 204257.7060630401,
+        "end": 204260.33939637282,
+        "sample_rate": 16000,
+        "coverage": 1.0,
+        "missing_samples": 0,
+        "status": "available",
+        "alignment_wait_ms": 0.3945409844163805
+      }
+    },
+    "branches": {
+      "vision": {
+        "status": "mock",
+        "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_large_384",
+        "elapsed_ms": 0.017,
+        "embedding_shape": [
+          1024
+        ],
+        "reason": "Illustrative zero embedding; no model weights were used.",
+        "input_contract": "sunhacks-input-v1",
+        "device": "mock",
+        "pooling": "mean_all_tokens",
+        "revision": null
+      },
+      "dasheng": {
+        "status": "mock",
+        "model_id": "mispeech/dasheng-base",
+        "elapsed_ms": 0.076,
+        "embedding_shape": [
+          768
+        ],
+        "reason": "Illustrative zero embedding; no model weights were used.",
+        "input_contract": "sunhacks-input-v1",
+        "device": "mock",
+        "pooling": "mean_hidden_states",
+        "revision": null
+      },
+      "emotion": {
+        "status": "mock",
+        "model_id": "emotion2vec/emotion2vec_plus_large",
+        "elapsed_ms": 0.022,
+        "embedding_shape": [
+          1024
+        ],
+        "reason": "Illustrative zero embedding; no model weights were used.",
+        "input_contract": "sunhacks-input-v1",
+        "device": "mock",
+        "pooling": "utterance_mean",
+        "revision": null
+      },
+      "text": {
+        "status": "unavailable",
+        "model_id": "Qwen/Qwen3-Embedding-0.6B",
+        "elapsed_ms": 0.006,
+        "embedding_shape": null,
+        "reason": "Transcript unavailable; supply manual text or configure local ASR.",
+        "input_contract": "sunhacks-input-v1"
+      },
+      "fusion": {
+        "status": "unavailable",
+        "model_id": "teammate/fusion-pending",
+        "elapsed_ms": 0.001,
+        "embedding_shape": null,
+        "reason": "Teammate trained artifact, ordered feature schema and validation evidence are missing.",
+        "input_contract": "sunhacks-input-v1"
+      },
+      "tabular": {
+        "status": "unavailable",
+        "model_id": "teammate/tabular-pending",
+        "elapsed_ms": 0.002,
+        "embedding_shape": null,
+        "reason": "Teammate trained artifact, ordered feature schema and validation evidence are missing.",
+        "input_contract": "sunhacks-input-v1"
+      }
+    },
+    "features": {
+      "audio": {
+        "status": "ok",
+        "rms_dbfs": -36.990736038877586,
+        "peak_dbfs": -33.97940028086514,
+        "clipping_fraction": 0.0,
+        "activity_fraction_proxy": 0.0,
+        "activity_method": "20ms RMS threshold; not voice activity detection",
+        "activity_threshold_dbfs": -35.0,
+        "duration_seconds": 2.6333125,
+        "sample_rate": 16000
+      },
+      "video": {
+        "status": "ok",
+        "brightness_mean": 0.0479983660130719,
+        "mean_absolute_frame_difference": 0.006589441567600247,
+        "frames": 64,
+        "interpretation": "Image quality/motion diagnostics only; no face, emotion or physiology inference"
+      }
+    },
+    "transcript": {
+      "text": "",
+      "status": "missing",
+      "source": "manual",
+      "updated_at": null
+    },
+    "manager": {
+      "status": "not_requested"
+    },
+    "produced_at": 204260.373210416,
+    "calibrated_task_output": null,
+    "mock": true
+  },
+  "errors": [],
+  "calibration": {
+    "status": "not_started",
+    "reason": "Diagnostic baseline only; physiological feature models are missing."
+  },
+  "transcript": {
+    "text": "",
+    "status": "missing",
+    "source": "manual",
+    "updated_at": null
+  },
+  "manager_busy": false,
+  "manager": {
+    "status": "not_requested"
+  },
+  "warning": "Experimental observations; task-specific trained heads and calibration are absent.",
+  "benchmark_type": "synthetic_orchestration_only; not model throughput"
+}

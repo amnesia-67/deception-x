@@ -1,0 +1,80 @@
+{
+  "mediapipe-blazeface": {
+    "url": "https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/latest/blaze_face_short_range.tflite",
+    "size": 229746,
+    "md5_b64": "o91uwxclKQdwuXzsDL+UyQ=="
+  },
+  "qwen3-embedding-0.6b": {
+    "repo": "Qwen/Qwen3-Embedding-0.6B",
+    "revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3",
+    "files": {
+      "config.json": {
+        "size": 727,
+        "check": "git-blob sha1 cef2749ee936 matches Hub"
+      },
+      "tokenizer.json": {
+        "size": 11423705,
+        "check": "sha256 def76fb086971c78... matches Hub LFS oid"
+      },
+      "tokenizer_config.json": {
+        "size": 9706,
+        "check": "git-blob sha1 7345216a0785 matches Hub"
+      },
+      "vocab.json": {
+        "size": 2776833,
+        "check": "git-blob sha1 4783fe10ac3a matches Hub"
+      },
+      "merges.txt": {
+        "size": 1671853,
+        "check": "git-blob sha1 31349551d90c matches Hub"
+      },
+      "model.safetensors": {
+        "size": 1191586416,
+        "check": "sha256 0437e45c94563b09... matches Hub LFS oid"
+      }
+    }
+  },
+  "emotion2vec_plus_large-config": {
+    "repo": "emotion2vec/emotion2vec_plus_large",
+    "revision": "6c303ba987b86b93193de93e34bb2b077a6bedc4",
+    "files": {
+      "config.yaml": {
+        "size": 5552,
+        "check": "git-blob sha1 62bb0fb68307 matches Hub"
+      },
+      "tokens.txt": {
+        "size": 119,
+        "check": "git-blob sha1 e5a8dfffb083 matches Hub"
+      }
+    }
+  },
+  "emotion2vec_plus_large": {
+    "source_url": "https://huggingface.co/emotion2vec/emotion2vec_plus_large/resolve/6c303ba987b86b93193de93e34bb2b077a6bedc4/model.pt",
+    "hub_revision": "6c303ba987b86b93193de93e34bb2b077a6bedc4",
+    "checkpoint_key": "model",
+    "source_size_bytes": 1945790254,
+    "bytes_fetched": 0,
+    "num_tensors": 185,
+    "num_params": 162140185,
+    "verification": "Locally extracted with weights_only=True from existing verified official checkpoint; safetensors SHA256 exactly matches teammate MODEL_SOURCES export.",
+    "output_sha256": "8f9e72908b91a65d5b3fd4020056bf6638988c0fa1c136fb1d709570efbf3d41",
+    "reused_existing_base": true
+  },
+  "_execution": {
+    "source_revision": "6e30a90391984e8dec392e41de1f6ddb25b3ed6d",
+    "selected": [
+      "mediapipe",
+      "qwen3-embedding-0.6b",
+      "emotion2vec_plus_large"
+    ],
+    "staging_only": true,
+    "qwen_reused_existing_verified_snapshot": true,
+    "emotion_local_conversion_matches_teammate_sha256": true,
+    "no_tuned_adapters_downloaded_by_this_command": true,
+    "vjepa_not_selected": true,
+    "datasets_downloaded": false,
+    "training_performed": false,
+    "installed_review_base_directory": "/Users/cadenwate/Projects/sunhacks-pipeline/.models/teammate-6e30a90-bases",
+    "mediapipe_reference": "https://developers.google.com/edge/mediapipe/solutions/vision/face_detector"
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "capture_fps": 30,
+  "sample_fps": 16,
+  "frames_per_window": 64,
+  "hop_seconds": 4,
+  "camera_device": 0,
+  "audio_device": null,
+  "models": {
+    "vision": {
+      "mode": "remote_classifier_pending_validation",
+      "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_large_384",
+      "device": "cuda",
+      "disabled_reason": "Reviewed ViT-L serving code and the provenance-only repair 70cfe69 are accepted by exact reconstructed source fingerprint. Each startup validates the L model contract, source fingerprint, manifest and generated video forward."
+    },
+    "dasheng": {
+      "path": "../models/dasheng-base",
+      "source_path": "../models/dasheng-base",
+      "revision": "e0b0a27818689e59010bdd7739475e33090dff11",
+      "allow_reviewed_code": true,
+      "device": "cpu",
+      "dtype": "float32",
+      "keep_loaded": true
+    },
+    "emotion": {
+      "path": "../models/emotion2vec_plus_large",
+      "revision": "6c303ba987b86b93193de93e34bb2b077a6bedc4",
+      "license_reviewed": true,
+      "device": "cpu",
+      "dtype": "float32",
+      "keep_loaded": true,
+      "training_base_precision": "bf16_roundtrip_fp32"
+    },
+    "text": {
+      "path": "../models/qwen3-embedding-0.6b",
+      "revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3",
+      "device": "mps",
+      "dtype": "float16",
+      "keep_loaded": true
+    },
+    "asr": {
+      "backend": "transformers",
+      "path": "../models/whisper-large-v3-turbo",
+      "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+      "device": "mps",
+      "dtype": "float16",
+      "language": "english",
+      "max_new_tokens": 128,
+      "keep_loaded": true
+    },
+    "fusion": {
+      "path": "",
+      "disabled_reason": "The current two-branch export uses tuned Dasheng and the 88-feature v3 digest; no L-inclusive fusion is exported."
+    },
+    "tabular": {
+      "path": "",
+      "disabled_reason": "The hash-bound local 88-feature v3-fixed-lag-motion adapter is used in whole-answer mode."
+    },
+    "stack": {
+      "path": "",
+      "disabled_reason": "The versioned two-branch local stack and its exported threshold are used in whole-answer mode."
+    }
+  },
+  "env_file": ".env",
+  "deployment": {
+    "artifacts_status": "verified_webcam_pilot_audio",
+    "classifier_architecture": "webcam-pilot-dasheng-v1",
+    "source_revision": "bed0f8df47688a99afc7fdb085d747c823ccf14a",
+    "artifact_reason": "Selected webcam-pilot Dasheng audio checkpoint, calibrated with its own 0.5436123431421811 cutoff. Digest and video are separate diagnostics. Webcam-pilot ViT-L export remains pending in the handoff.",
+    "requested_vision": "V-JEPA 2.1 ViT-L",
+    "reported_vision": "V-JEPA 2.1 ViT-L (reviewed source; generated GPU forward verified)",
+    "vision_choice_accepted": true,
+    "target_vision_after_retraining": "V-JEPA 2.1 ViT-L",
+    "fusion_training_domain": null,
+    "local_export_revision": "bed0f8df47688a99afc7fdb085d747c823ccf14a",
+    "classifier_profile": "webcam_pilot"
+  },
+  "runtime_mode": "split_local_video",
+  "cpu_threads": 2,
+  "fast_runtime": {
+    "deadline_seconds": 15,
+    "emotion_enabled": true,
+    "prepare_emotion": true,
+    "prepare_on_start": false
+  },
+  "remote_vision": {
+    "host": "127.0.0.1",
+    "port": 5002,
+    "enabled": false,
+    "protocol_reviewed": true,
+    "status": "disabled_for_local_webcam_pilot_audio",
+    "reason": "Local webcam-pilot audio is selected. The pilot video export is pending; existing courtroom ViT-L can be enabled separately when its socket is reachable.",
+    "advertised_video_model": "vjepa2_1_vitl_lora_5fold",
+    "participant_media_authorized": true,
+    "timeout_seconds": 20,
+    "expected_manifest_sha256": "30d1f7fc8dcce8307a0193bcaab5b345500e7cc4cb6f912c1fefdaf8f8012b32",
+    "reviewed_source_revision": "488a818864684b0e0b2a2275866e996e06eaef5c",
+    "max_frame_edge": 960,
+    "reviewed_source_record_revision": "fae2ad43c89c4747e0bc31f2b549147e11a09fdf"
+  },
+  "capture_mode": "whole_answer",
+  "split_runtime": {
+    "deadline_seconds": 25,
+    "answer_min_seconds": 5,
+    "answer_max_seconds": 30,
+    "target_answer_seconds": [
+      5,
+      7
+    ],
+    "prepare_on_start": false
+  },
+  "local_ensemble": {
+    "manifest_path": "sunhacks/vendor/ensemble_v3_compat.json",
+    "fold_dir": "../models/dasheng_lora",
+    "xgb_path": "../models/branch2_xgboost.json",
+    "expected_manifest_sha256": "0057caa6a7c6587e48b27900c726276681297875cc093ac204ec755ac7a1c1be",
+    "expected_xgb_sha256": "f501ea925d0cc2f8d15776b239d97463963f2a83e4a155303420eaed36f563c1",
+    "face_model_path": "../models/mediapipe/blaze_face_short_range.tflite",
+    "expected_face_sha256": "b4578f35940bf5a1a655214a1cce5cab13eba73c1297cd78e1a04c2380b0152f",
+    "schema_path": "sunhacks/vendor/friend_digest_schema_v3.json",
+    "feature_version": "v3-fixed-lag-motion",
+    "expected_schema_sha256": "bbed857c527031550a878e01e4be8670fcd2a169eea07a482389c4ead31b5356"
+  },
+  "capture_max_frame_edge": 960,
+  "claim_check": {
+    "enabled": true,
+    "allow_visual": true,
+    "provider": "openrouter",
+    "model": "nace-ai/drex-max",
+    "deadline_seconds": 5.0
+  },
+  "classifier_profile": "webcam_pilot",
+  "pilot_audio": {
+    "manifest_path": "../models/pilot_webcam/dasheng/deploy_meta.json",
+    "fold_dir": "../models/pilot_webcam/dasheng",
+    "source_revision": "143e924e857b2ed26a40e52b5a0bd598b7245b65",
+    "manifest_sha256": "5381b13f06d70cf4ad062f23998c50429eee03cf46ac43ab4b6e9b8b58c41cd2"
+  }
+}

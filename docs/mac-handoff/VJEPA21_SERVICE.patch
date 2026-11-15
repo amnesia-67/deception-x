@@ -1,0 +1,803 @@
+diff --git a/src/jepa_deploy.py b/src/jepa_deploy.py
+new file mode 100644
+--- /dev/null
++++ b/src/jepa_deploy.py
+@@ -0,0 +1,101 @@
++"""Small, strict deployment helpers for the existing V-JEPA2.1 ViT-B folds.
++
++No training, datasets, downloads or base-model instantiation occurs here.
++"""
++from __future__ import annotations
++
++import hashlib
++import io
++import json
++from pathlib import Path
++
++import torch
++
++MODEL_LABEL = "vjepa2_1_vitb_lora_5fold"
++MODEL_ID = "facebookresearch/vjepa2:vjepa2_1_vit_base_384"
++BACKBONE = "vjepa2_1"
++MANIFEST_FORMAT = "sunhacks-vjepa21-vitb-classifier-v1"
++BASE_RELATIVE_PATH = "models/vjepa2_1-vitb-384/encoder.safetensors"
++CONTRACT = {
++    "backbone": BACKBONE, "model_id": MODEL_ID, "variant": "ViT-B",
++    "classifier_only": True, "cache_frames": 128, "views": 2,
++    "cache_window_frames": 64, "frames_per_view": 32, "frame_stride": 2,
++    "spatial_resolution": 384, "hidden_width": 768,
++    "native_temporal_tubelets": 16, "interpolated_temporal_steps": 32,
++    "temporal_interpolation": "linear_align_corners_false",
++    "preprocessing": "rlt-face384-square-bilinear-antialias-div255-imagenet-v1",
++    "sampling_limitation": "count_uniform_to128_repeats_short_inputs_no_timestamps",
++}
++MAX_FOLD_BYTES = 64 * 1024 * 1024
++
++
++def file_sha256(path):
++    with Path(path).open("rb") as stream:
++        return hashlib.file_digest(stream, "sha256").hexdigest()
++
++
++def read_checkpoint(path, *, expected_sha256=None, expected_size=None):
++    """Hash and restricted-load the SAME bounded bytes; never use pickle fallback."""
++    path = Path(path)
++    with path.open("rb") as stream:
++        data = stream.read(MAX_FOLD_BYTES + 1)
++    if not data or len(data) > MAX_FOLD_BYTES:
++        raise ValueError("Fold checkpoint is empty or exceeds 64 MiB")
++    digest = hashlib.sha256(data).hexdigest()
++    if expected_sha256 is not None and digest != expected_sha256:
++        raise ValueError(f"Checkpoint SHA256 mismatch: {path.name}")
++    if expected_size is not None and len(data) != expected_size:
++        raise ValueError(f"Checkpoint size mismatch: {path.name}")
++    checkpoint = torch.load(io.BytesIO(data), map_location="cpu", weights_only=True)
++    if not isinstance(checkpoint, dict) or not isinstance(checkpoint.get("config"), dict):
++        raise ValueError("Fold requires a plain config dictionary and trainable state")
++    if checkpoint["config"].get("backbone") != BACKBONE:
++        raise ValueError("Only V-JEPA2.1 ViT-B (vjepa2_1) fold checkpoints are accepted")
++    state_schema(checkpoint.get("state"))
++    return checkpoint, digest, len(data)
++
++
++def state_schema(state):
++    if not isinstance(state, dict) or set(state) != {"lora", "head"}:
++        raise ValueError("Trainable state must contain exactly lora and head dictionaries")
++    result = {}
++    for group in ("lora", "head"):
++        values = state[group]
++        if not isinstance(values, dict) or not values:
++            raise ValueError(f"Missing {group} parameters")
++        result[group] = {}
++        for name, value in values.items():
++            if (not isinstance(name, str) or not isinstance(value, torch.Tensor) or
++                    not value.is_floating_point() or value.is_complex() or not torch.isfinite(value).all()):
++                raise ValueError(f"{group} must contain named finite real floating tensors only")
++            result[group][name] = {"shape": list(value.shape), "dtype": str(value.dtype)}
++    return result
++
++
++def validate_fold_state(model, state):
++    """Validate BOTH groups before either shared module can be mutated."""
++    state_schema(state)
++    expected = {
++        "lora": {key: value for key, value in model.backbone.state_dict().items() if "lora_" in key},
++        "head": model.head.state_dict(),
++    }
++    if not expected["lora"]:
++        raise ValueError("Configured backbone has no LoRA parameters")
++    for group in ("lora", "head"):
++        if set(state[group]) != set(expected[group]):
++            raise ValueError(f"Incomplete or unknown {group} keys")
++        for key, value in state[group].items():
++            if value.shape != expected[group][key].shape or value.dtype != expected[group][key].dtype:
++                raise ValueError(f"Wrong {group} shape/dtype: {key}")
++
++
++def load_fold_state_strict(model, state):
++    validate_fold_state(model, state)
++    result = model.backbone.load_state_dict(state["lora"], strict=False)
++    if result.unexpected_keys or any("lora_" in key for key in result.missing_keys):
++        raise ValueError("Backbone did not load the exact complete LoRA state")
++    model.head.load_state_dict(state["head"], strict=True)
++
++
++def canonical_json(value):
++    return json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False)
+diff --git a/src/jepa_service.py b/src/jepa_service.py
+--- a/src/jepa_service.py
++++ b/src/jepa_service.py
+@@ -1,36 +1,43 @@
+-"""Live V-JEPA 2 inference for the socket server (Branch-1 visual model from Gemini.pdf).
+-
+-Serves the five LoRA-tuned V-JEPA 2 ViT-L fold models (models/vjepa2_lora/fold<k>.pt) as an
++"""Live V-JEPA2.1 ViT-B classifier inference for the socket server (Branch-1 visual model from Gemini.pdf).
++
++Serves the five existing LoRA-tuned V-JEPA2.1 ViT-B fold models (models/vjepa2_1_lora/fold<k>.pt) as an
+ ensemble: each fold model was trained with a different fifth of the people held out, so for
+ a new person every fold is a valid predictor and their logits are averaged.
+ 
+ Input (from Node 1): a list of video frames of one spoken answer (JPEG/PNG bytes), either
+ face crops (as the PDF's Node 1 sends) or raw frames with face_crop=True (MediaPipe BlazeFace
+ crop on this machine). Frames are resampled to the 128-frame layout used in training and
+-scored on the same two 64-frame windows (first and second half) as the cross-validation.
++scored on the same two 64-cache-frame views as cross-validation: each view selects
++32 frames at stride 2, spatially pools 16 native tubelets (width 768), then interpolates to 32.
++This endpoint returns classifier scores, not encoder features for local fusion.
+ 
+ Honest status: under 5-fold identity-grouped CV on Real-Life Trials this model scored
+-AUROC 0.468 (95% CI 0.36-0.64), i.e. chance. Its verdicts are not evidence of deception.
++AUROC 0.528 (95% CI 0.38-0.75), with a wide interval including chance. Its verdicts are not evidence of deception.
+ """
+ 
+ from __future__ import annotations
+ 
+ import base64
+-import glob
++import hashlib
+ import json
+ import os
+ import threading
+ import time
+ from dataclasses import fields
++from pathlib import Path
++
++from src.jepa_deploy import (BACKBONE, BASE_RELATIVE_PATH, CONTRACT, MANIFEST_FORMAT,
++    MODEL_ID, MODEL_LABEL, file_sha256, load_fold_state_strict,
++    read_checkpoint, state_schema, validate_fold_state)
+ from typing import Dict, List, Optional
+ 
+ import numpy as np
+ import torch
+ 
+ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+-DEPLOY_DIR = os.path.join(ROOT, "models", "vjepa2_lora")
++DEPLOY_DIR = os.path.join(ROOT, "models", "vjepa2_1_lora")
+ N_CACHE = 128   # training cached 128 uniformly spaced frames per clip
+-RES = 384       # training crops were 384x384 (the backbone resizes to 256)
++RES = 384       #2.1 ViT-B training crops and backbone both remain 384x384
+ MIN_FRAMES = 16
+ 
+ 
+@@ -53,37 +60,77 @@
+     def __init__(self, deploy_dir: str = DEPLOY_DIR, device: str = "cuda"):
+         from src.tuning import TuneConfig, TunedModel
+ 
+-        files = sorted(glob.glob(os.path.join(deploy_dir, "fold*.pt")))
+-        if not files:
+-            raise FileNotFoundError(f"no fold*.pt in {deploy_dir}; run `python main.py export`")
++        deploy_path = Path(deploy_dir)
++        meta_path = deploy_path / "deploy_meta.json"
++        with meta_path.open("rb") as stream:
++            manifest_bytes = stream.read(4 * 1024 * 1024 + 1)
++        if len(manifest_bytes) > 4 * 1024 * 1024:
++            raise ValueError("Deployment manifest exceeds 4 MiB")
++        self.meta = json.loads(manifest_bytes)
++        if (self.meta.get("format") != MANIFEST_FORMAT or self.meta.get("contract") != CONTRACT or
++                self.meta.get("model") != MODEL_LABEL):
++            raise ValueError("Expected a reviewed V-JEPA2.1 ViT-B classifier manifest; no V-JEPA2 fallback")
++        expected_names = {f"fold{k}.pt" for k in range(5)}
++        if {path.name for path in deploy_path.glob("fold*.pt")} != expected_names:
++            raise ValueError("Deployment must contain exactly fold0.pt through fold4.pt")
++        entries = self.meta.get("folds")
++        if not isinstance(entries, dict) or set(entries) != expected_names:
++            raise ValueError("Manifest must describe all five folds exactly")
++        base = self.meta.get("base_encoder", {})
++        base_path = Path(ROOT) / BASE_RELATIVE_PATH
++        if (base.get("path") != BASE_RELATIVE_PATH or not isinstance(base.get("sha256"), str) or
++                len(base["sha256"]) != 64 or not base_path.is_file() or
++                base.get("size") != base_path.stat().st_size or file_sha256(base_path) != base["sha256"]):
++            raise ValueError("V-JEPA2.1 ViT-B base encoder hash/size does not match manifest")
++        self.manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
+         self.folds = []
+         self.models: Dict[tuple, "TunedModel"] = {}
+-        valid = {f.name for f in fields(TuneConfig)}
+-        for fp in files:
+-            ck = torch.load(fp, map_location="cpu", weights_only=False)
+-            cfg = TuneConfig(**{k: v for k, v in ck["config"].items() if k in valid})
+-            if cfg.backbone != "vjepa2":
+-                raise ValueError(f"{fp} is a {cfg.backbone} model, expected vjepa2")
+-            key = (cfg.lora_r, cfg.lora_blocks)
+-            if key not in self.models:  # one base model per adapter shape; fold weights are swapped in
+-                self.models[key] = TunedModel(cfg, device=device).eval()
+-            self.folds.append({"name": os.path.basename(fp), "key": key, "state": ck["state"],
+-                               "test_auroc": ck["info"]["test"]["auroc"]})
+-        self.lock = threading.Lock()  # one GPU job at a time; the socket server is multi-threaded
+-        meta_path = os.path.join(deploy_dir, "deploy_meta.json")
+-        self.meta = json.load(open(meta_path)) if os.path.exists(meta_path) else {}
++        valid = {field.name for field in fields(TuneConfig)}
++        for name in sorted(expected_names):
++            entry = entries[name]
++            if (not isinstance(entry, dict) or not isinstance(entry.get("sha256"), str) or
++                    len(entry["sha256"]) != 64 or type(entry.get("size")) is not int):
++                raise ValueError("Every fold requires a SHA256 and byte size")
++            ck, _, _ = read_checkpoint(deploy_path / name, expected_sha256=entry["sha256"],
++                                       expected_size=entry["size"])
++            if (set(ck["config"]) - valid or ck["config"] != entry.get("config") or
++                    state_schema(ck["state"]) != entry.get("state_schema")):
++                raise ValueError("Unknown/mismatched fold config or trainable-state schema")
++            cfg = TuneConfig(**ck["config"])
++            if cfg.backbone != BACKBONE:
++                raise ValueError("Only existing vjepa2_1 folds are accepted")
++            key = (cfg.backbone, cfg.lora_r, cfg.lora_blocks, cfg.lora_dropout, cfg.head_dropout)
++            if key not in self.models:
++                model = TunedModel(cfg, device=device).eval()
++                bb = model.backbone
++                if (bb.name, bb.n_frames, bb.res, bb.out_dim) != (BACKBONE, 32, 384, 768):
++                    raise ValueError("Loader must instantiate V-JEPA2.1 ViT-B/32 frames/768, with its dynamic 768 head")
++                self.models[key] = model
++            validate_fold_state(self.models[key], ck["state"])
++            self.folds.append({"name": name, "key": key, "state": ck["state"]})
++        self.n_frames = next(iter(self.models.values())).backbone.n_frames
++        self.lock = threading.Lock()
+         self.device = device
+ 
+     def info(self) -> Dict:
+-        return {"model": "vjepa2_vitl_lora_5fold", "folds": len(self.folds),
+-                "adapter_shapes": [list(k) for k in self.models], "cv_metrics": self.meta.get("cv_metrics"),
++        return {"model": MODEL_LABEL, "model_id": MODEL_ID, "folds": len(self.folds),
++                "adapter_shapes": sorted({(key[1], key[2]) for key in self.models}),
++                "contract": dict(CONTRACT), "manifest_sha256": self.manifest_sha256,
++                "device": str(self.device), "cv_metrics": self.meta.get("cv_metrics"),
+                 "caveat": self.meta.get("caveat")}
++
++    def _windows(self, crops):
++        from src.clip_store import eval_starts, select_frames
++        # 128 cache frames -> two 64-cache-frame views; each selects32 at stride 2.
++        return [torch.from_numpy(np.ascontiguousarray(crops[select_frames(N_CACHE, self.n_frames, start)]))
++                for start in eval_starts(N_CACHE)]
+ 
+     def _prepare(self, payload: Dict) -> np.ndarray:
+         frames_b64 = payload.get("frames")
+         if not isinstance(frames_b64, list) or len(frames_b64) < MIN_FRAMES:
+             raise ValueError(f"'frames' must be a list of >= {MIN_FRAMES} base64 JPEG/PNG images")
+         frames = [decode_image(base64.b64decode(f)) for f in frames_b64]
++        # Legacy count-based API:128inputs may include repeats; no capture fps/timestamps.
+         frames = resample_uniform(frames, N_CACHE)
+         if payload.get("face_crop", False):
+             from scripts.preprocess_rlt import crop_frames, detect_faces, smooth_boxes
+@@ -106,44 +153,58 @@
+ 
+     @torch.no_grad()
+     def predict(self, payload: Dict) -> Dict:
+-        from src.clip_store import eval_starts, select_frames
+-
+         t0 = time.perf_counter()
+         crops, face = self._prepare(payload)                # (128, 384, 384, 3) uint8
+         t_prep = time.perf_counter() - t0
+-        windows = [torch.from_numpy(np.ascontiguousarray(crops[select_frames(N_CACHE, 64, s)]))
+-                   for s in eval_starts(N_CACHE)]
++        windows = self._windows(crops)
+         with self.lock:
+             per_fold, attn = [], []
+             for f in self.folds:
+                 model = self.models[f["key"]]
+-                model.load_trainable_state(f["state"])
++                load_fold_state_strict(model, f["state"])
+                 logits = []
+                 for win in windows:
+                     x = win.to(self.device).unsqueeze(0)
+-                    with torch.autocast("cuda", dtype=torch.bfloat16):
+-                        tokens = model.backbone(x)               # (1, 32, 1024) tubelets
+-                        logits.append(float(model.head(tokens).float()))
++                    device_type = torch.device(self.device).type
++                    with torch.autocast(device_type, dtype=torch.bfloat16, enabled=device_type == "cuda"):
++                        tokens = model.backbone(x)               # (1,32,768),16native ->32interpolated
++                        if tuple(tokens.shape) != (1,32,768) or not torch.isfinite(tokens).all():
++                            raise ValueError("V-JEPA2.1 emitted invalid/nonfinite 768-wide tokens")
++                        value = float(model.head(tokens).float())
++                        if not np.isfinite(value):
++                            raise ValueError("V-JEPA2.1 classifier emitted a nonfinite logit")
++                        logits.append(value)
+                         h = model.head.norm(tokens.float())
+-                        attn.append(torch.softmax(model.head.score(h).squeeze(-1), 1)[0].float().cpu().numpy())
++                        attention = torch.softmax(model.head.score(h).squeeze(-1), 1)[0].float().cpu().numpy()
++                        if attention.shape != (32,) or not np.isfinite(attention).all():
++                            raise ValueError("V-JEPA2.1 classifier emitted invalid/nonfinite attention")
++                        attn.append(attention)
+                 per_fold.append(float(np.mean(logits)))
+-            torch.cuda.synchronize()
++            if torch.device(self.device).type == "cuda":
++                torch.cuda.synchronize(torch.device(self.device))
+         logit = float(np.mean(per_fold))
+-        p = 1.0 / (1.0 + np.exp(-logit))
++        if not np.isfinite(logit):
++            raise ValueError("V-JEPA2.1 ensemble emitted a nonfinite logit")
++        sigmoid = lambda value: 1.0 / (1.0 + np.exp(-value)) if value >= 0 else np.exp(value) / (1.0 + np.exp(value))
++        p = sigmoid(logit)
+         a = np.mean(attn, 0)  # temporal attention over 32 tubelets, averaged over folds and windows
+         out = {
+-            "model": "vjepa2_vitl_lora_5fold", "branch": 1,
+-            "probability": round(p, 6), "p_neural": round(p, 6),
+-            "verdict": "Deceptive" if p >= 0.5 else "Truthful",
+-            "per_fold_probability": [round(1 / (1 + np.exp(-l)), 6) for l in per_fold],
++            "model": MODEL_LABEL, "model_id": MODEL_ID, "branch": 1,
++            "classifier_only": True, "contract": dict(CONTRACT),
++            "manifest_sha256": self.manifest_sha256, "device": str(self.device),
++            "raw_score": round(float(p),6), "calibrated": False,
++            "probability": round(float(p),6), "p_neural": round(float(p),6),
++            "score_semantics": "experimental_sigmoid_classifier_score_not_honesty_probability",
++            "per_fold_probability": [round(float(sigmoid(value)), 6) for value in per_fold],
+             "temporal_attention_32": [round(float(v), 5) for v in a],
+             "peak_tubelets": [int(i) for i in np.argsort(-a)[:3]],
+             "n_frames_received": len(payload["frames"]),
+             "prep_ms": round(t_prep * 1000, 1),
+             "inference_ms": round((time.perf_counter() - t0 - t_prep) * 1000, 1),
+             "cv_auroc": (self.meta.get("cv_metrics") or {}).get("auroc"),
+-            "caveat": self.meta.get("caveat", "chance-level under identity-grouped CV; not evidence of deception"),
++            "caveat": self.meta.get("caveat", "uncertain under identity-grouped CV; not evidence of deception"),
+         }
+         if face is not None:
+             out["face"] = face
+         return out
++
+diff --git a/src/v2_socket_server.py b/src/v2_socket_server.py
+--- a/src/v2_socket_server.py
++++ b/src/v2_socket_server.py
+@@ -87,16 +87,16 @@
+         )
+         self._load_branch1_model()
+ 
+-        # Live V-JEPA 2 (LoRA, 5-fold ensemble) on raw video frames
++        # Live V-JEPA2.1 ViT-B (LoRA,5-fold classifier ensemble) on raw video frames
+         self.jepa = None
+         if enable_jepa and TORCH_AVAILABLE:
+             try:
+                 from src.jepa_service import JEPAService
+                 self.jepa = JEPAService(device="cuda" if torch.cuda.is_available() else "cpu")
+-                print(f"[V2 Socket Server] V-JEPA 2 video model loaded: {self.jepa.info()['folds']} fold models "
++                print(f"[V2 Socket Server] V-JEPA2.1 ViT-B video model loaded: {self.jepa.info()['folds']} fold models "
+                       f"(CV AUROC {(self.jepa.info()['cv_metrics'] or {}).get('auroc')})")
+             except Exception as e:
+-                print(f"[V2 Socket Server] V-JEPA 2 video model not loaded: {e}")
++                print(f"[V2 Socket Server] V-JEPA2.1 ViT-B video model not loaded: {e}")
+ 
+     def _load_branch1_model(self):
+         """Loads Branch 1 V-JEPA neural discrepancy network if PyTorch and checkpoint are available."""
+@@ -413,7 +413,7 @@
+                     "trained_on": (self.schema or {}).get("trained_on", "unknown"),
+                     "jepa_loaded": self.jepa is not None,
+                     "jepa": self.jepa.info() if self.jepa is not None else None,
+-                    "models": ["v2_tabular_xgboost"] + (["vjepa2_vitl_lora_5fold"] if self.jepa is not None else []),
++                    "models": ["v2_tabular_xgboost"] + ([self.jepa.info()["model"]] if self.jepa is not None else []),
+                     "timestamp": time.time()
+                 }
+             elif meta.get("action") == "schema":
+@@ -422,7 +422,7 @@
+                             "caveats": (self.schema or {}).get("caveats")}
+             elif meta.get("action") == "jepa_video":
+                 if self.jepa is None:
+-                    raise RuntimeError("V-JEPA 2 video model is not loaded on this server")
++                    raise RuntimeError("V-JEPA2.1 ViT-B video model is not loaded on this server")
+                 response = {"status": "success", **self.jepa.predict(meta["payload"])}
+             elif meta.get("action") == "jepa":
+                 res = self.process_jepa(
+@@ -531,7 +531,7 @@
+         print(f"Listening on: {self.host}:{self.port} (bound {actual_addr})")
+         print(f"Model V2: Tabular LOSO XGBoost ({self.model_path})")
+         if self.jepa is not None:
+-            print(f"Model JEPA: V-JEPA 2 ViT-L LoRA x{len(self.jepa.folds)} folds (action 'jepa_video')")
++            print(f"Model JEPA: V-JEPA2.1 ViT-B LoRA x{len(self.jepa.folds)} folds (action 'jepa_video')")
+         print(f"Hardware Acceleration: {self.active_device}")
+         print(f"Ready for connections from localhost and remote machines...")
+         print(f"============================================================")
+@@ -592,3 +592,4 @@
+     args = parser.parse_args()
+ 
+     run_server(host=args.host, port=args.port, device=args.device)
++
+diff --git a/scripts/export_deploy.py b/scripts/export_deploy.py
+--- a/scripts/export_deploy.py
++++ b/scripts/export_deploy.py
+@@ -15,14 +15,14 @@
+ import numpy as np
+ 
+ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+-from scripts.train_stage2 import FEAT, OUT, TAB_VERSION  # noqa: E402
+-from src.clip_store import ClipStore  # noqa: E402
+-from src.tabular_branch import TabularLOSOXGBoost  # noqa: E402
+ 
+ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ 
+ 
+ def main():
++    from scripts.train_stage2 import FEAT, OUT, TAB_VERSION
++    from src.clip_store import ClipStore
++    from src.tabular_branch import TabularLOSOXGBoost
+     st = ClipStore()
+     d = np.load(os.path.join(FEAT, "tabular.npz"), allow_pickle=False)
+     assert list(d["ids"]) == st.ids and str(d["version"]) == TAB_VERSION, "run scripts/train_stage2.py first"
+@@ -56,28 +56,71 @@
+     export_jepa()
+ 
+ 
+-def export_jepa():
+-    """Copy the 5 LoRA-tuned V-JEPA 2 fold models (served as an ensemble) + their honest CV metrics."""
++def export_jepa(destination=None):
++    """Package EXISTING 2.1 ViT-B folds only; no dataset access, fit or training.
++
++    Refuse to overwrite a published directory. Stage a complete immutable export
++    and rename it into place after every fold/config/hash is ready.
++    """
+     import shutil
++    import tempfile
++    from pathlib import Path
++    import torch
++    from src.jepa_deploy import (BASE_RELATIVE_PATH, CONTRACT, MANIFEST_FORMAT,
++        MODEL_LABEL, canonical_json, file_sha256, read_checkpoint, state_schema)
+ 
+-    src = os.path.join(ROOT, "runs", "tune_vjepa2")
+-    dst = os.path.join(ROOT, "models", "vjepa2_lora")
+-    os.makedirs(dst, exist_ok=True)
+-    s = json.load(open(os.path.join(src, "summary.json")))
+-    n = 0
+-    for f in range(5):
+-        fp = os.path.join(src, f"fold{f}.pt")
+-        if os.path.exists(fp):
+-            shutil.copy2(fp, os.path.join(dst, f"fold{f}.pt"))
+-            n += 1
+-    meta = {"cv_metrics": {"protocol": s["protocol"], "auroc": s["oof"]["auroc"], "auroc_ci95": s["auroc_ci95"],
+-                           "accuracy": s["oof"]["acc"], "per_fold_auroc": [f["test"]["auroc"] for f in s["folds"]]},
+-            "caveat": (f"V-JEPA 2 scored AUROC {s['oof']['auroc']:.3f} (95% CI {s['auroc_ci95'][0]:.2f}-"
+-                       f"{s['auroc_ci95'][1]:.2f}) on unseen people - chance level. Its verdicts are not evidence "
+-                       "of deception.")}
+-    json.dump(meta, open(os.path.join(dst, "deploy_meta.json"), "w"), indent=2)
+-    print(f"exported {n} V-JEPA 2 fold models to {dst} (CV AUROC {s['oof']['auroc']:.3f})")
++    source = Path(ROOT) / "runs" / "tune_vjepa2_1"
++    target = Path(destination) if destination is not None else Path(ROOT) / "models" / "vjepa2_1_lora"
++    if target.exists():
++        raise FileExistsError("Choose a new export directory; do not overwrite a running deployment")
++    expected = {f"fold{k}.pt" for k in range(5)}
++    if {path.name for path in source.glob("fold*.pt")} != expected:
++        raise ValueError("Need exactly five EXISTING 2.1 folds:fold0.pt through fold4.pt")
++    base_path = Path(ROOT) / BASE_RELATIVE_PATH
++    base = {"path": BASE_RELATIVE_PATH, "size": base_path.stat().st_size,
++            "sha256": file_sha256(base_path)}
++    summary = json.loads((source / "summary.json").read_text())
++    target.parent.mkdir(parents=True, exist_ok=True)
++    stage = Path(tempfile.mkdtemp(prefix=".vjepa21-export-", dir=target.parent))
++    try:
++        entries = {}
++        for name in sorted(expected):
++            old, _, _ = read_checkpoint(source / name)
++            # Strip test IDs/labels/probabilities and arbitrary training info. Only
++            #primitive JSON config plus tensor state belongs in deployment.
++            config = json.loads(canonical_json(old["config"]))
++            payload = {"config": config, "state": old["state"]}
++            out_path = stage / name
++            torch.save(payload, out_path)
++            checked, digest, size = read_checkpoint(out_path)
++            entries[name] = {"sha256": digest, "size": size, "config": config,
++                             "state_schema": state_schema(checked["state"])}
++        meta = {"format": MANIFEST_FORMAT, "model": MODEL_LABEL, "contract": dict(CONTRACT),
++                "base_encoder": base, "folds": entries,
++                "cv_metrics": {"protocol": summary["protocol"], "auroc": summary["oof"]["auroc"],
++                    "auroc_ci95": summary["auroc_ci95"], "accuracy": summary["oof"]["acc"],
++                    "per_fold_auroc": [fold["test"]["auroc"] for fold in summary["folds"]]},
++                "caveat": "V-JEPA2.1 ViT-B has wide identity-grouped confidence intervals; scores are not evidence of deception."}
++        (stage / "deploy_meta.json").write_text(canonical_json(meta) + "\n")
++        if target.exists():
++            raise FileExistsError("Export target appeared while staging; refusing overwrite")
++        stage.rename(target)
++    finally:
++        if stage.exists():
++            shutil.rmtree(stage)
++    print(f"exported 5 existing V-JEPA2.1 ViT-B fold models to {target}")
++    return target
+ 
+ 
+ if __name__ == "__main__":
+-    main()
++    import argparse
++    parser = argparse.ArgumentParser(description="Export existing models")
++    parser.add_argument("--jepa21-only", action="store_true", help="Package existing 2.1folds; no training or dataset reads")
++    parser.add_argument("--jepa21-output", default=None, help="Fresh output directory for the 2.1-only export")
++    args = parser.parse_args()
++    if args.jepa21_only:
++        export_jepa(args.jepa21_output)
++    else:
++        if args.jepa21_output is not None:
++            parser.error("--jepa21-output requires --jepa21-only")
++        main()
+diff --git a/tests/test_jepa21_deploy.py b/tests/test_jepa21_deploy.py
+new file mode 100644
+--- /dev/null
++++ b/tests/test_jepa21_deploy.py
+@@ -0,0 +1,212 @@
++"""CPU-only fake-backbone deployment checks; no weights, CUDA, datasets or sockets."""
++import copy
++from dataclasses import dataclass
++import importlib.util
++import json
++from pathlib import Path
++import sys
++import types
++
++import numpy as np
++import pytest
++import torch
++from torch import nn
++
++ROOT = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT))
++from src import jepa_deploy as deploy
++from src import jepa_service as service
++
++spec = importlib.util.spec_from_file_location('export_jepa21_test', ROOT / 'scripts/export_deploy.py')
++exporter = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(exporter)
++
++@dataclass
++class FakeConfig:
++    backbone: str = 'vjepa2_1'
++    lora_r: int = 2
++    lora_blocks: int = 1
++    lora_dropout: float = 0.1
++    head_dropout: float = 0.3
++
++class FakeBackbone(nn.Module):
++    name, n_frames, res, out_dim = 'vjepa2_1', 32, 384, 768
++    def __init__(self):
++        super().__init__()
++        self.lora_A = nn.Parameter(torch.ones(2,768))
++        self.lora_B = nn.Parameter(torch.zeros(768,2))
++        self.frozen = nn.Parameter(torch.zeros(1),requires_grad=False)
++    def forward(self,x):
++        assert x.shape[1] == 32
++        return torch.ones(x.shape[0],32,768)
++
++class FakeHead(nn.Module):
++    def __init__(self):
++        super().__init__()
++        self.norm=nn.LayerNorm(768)
++        self.score=nn.Linear(768,1)
++        self.out=nn.Linear(768,1)
++    def forward(self,x): return self.out(self.norm(x)).mean(1).squeeze(-1)
++
++class FakeModel(nn.Module):
++    def __init__(self,cfg=None,device='cpu'):
++        super().__init__()
++        self.backbone=FakeBackbone()
++        self.head=FakeHead()
++
++
++def state():
++    model=FakeModel()
++    return {'lora':{k:v.clone() for k,v in model.backbone.state_dict().items() if 'lora_' in k},
++            'head':{k:v.clone() for k,v in model.head.state_dict().items()}}
++
++
++def training_files(tmp_path):
++    source=tmp_path/'runs/tune_vjepa2_1'
++    source.mkdir(parents=True)
++    base=tmp_path/deploy.BASE_RELATIVE_PATH
++    base.parent.mkdir(parents=True)
++    base.write_bytes(b'fake base encoder for CPU tests only')
++    config=vars(FakeConfig())
++    for fold in range(5):
++        torch.save({'config':dict(config),'state':state(),'info':{'must_not_export':'training-only'},
++                    'test_ids':['private-id']},source/f'fold{fold}.pt')
++    (source/'summary.json').write_text(json.dumps({'protocol':'synthetic-test-only',
++        'oof':{'auroc':0.5,'acc':0.5},'auroc_ci95':[0.1,0.9],
++        'folds':[{'test':{'auroc':0.5}}]*5}))
++    return source
++
++
++def bundle(tmp_path,monkeypatch):
++    source=training_files(tmp_path)
++    monkeypatch.setattr(exporter,'ROOT',str(tmp_path))
++    monkeypatch.setattr(service,'ROOT',str(tmp_path))
++    monkeypatch.setitem(sys.modules,'src.tuning',types.SimpleNamespace(TuneConfig=FakeConfig,TunedModel=FakeModel))
++    def select_frames(n_total,n_out,start): return start+np.arange(n_out)*(64//n_out)
++    monkeypatch.setitem(sys.modules,'src.clip_store',types.SimpleNamespace(select_frames=select_frames,eval_starts=lambda n:[0,n-64]))
++    return exporter.export_jepa(),source
++
++
++def test_no_train_export_and_strict_service_load(tmp_path,monkeypatch):
++    target,_=bundle(tmp_path,monkeypatch)
++    assert 'scripts.train_stage2' not in sys.modules
++    meta=json.loads((target/'deploy_meta.json').read_text())
++    assert meta['contract']['hidden_width']==768
++    assert meta['contract']['frames_per_view']==32
++    assert set(meta['folds'])=={f'fold{k}.pt' for k in range(5)}
++    for name,entry in meta['folds'].items():
++        ck,sha,size=deploy.read_checkpoint(target/name)
++        assert set(ck)=={'config','state'}
++        assert entry['sha256']==sha and entry['size']==size
++    loaded=service.JEPAService(str(target),device='cpu')
++    assert loaded.info()['model']=='vjepa2_1_vitb_lora_5fold'
++    assert loaded.info()['model_id'].endswith('vit_base_384')
++    assert loaded.info()['contract']['classifier_only'] is True
++    assert len(loaded.folds)==5
++
++
++def test_two_cache_views_select32_stride2(tmp_path,monkeypatch):
++    target,_=bundle(tmp_path,monkeypatch)
++    loaded=service.JEPAService(str(target),device='cpu')
++    crops=np.arange(128,dtype=np.uint8).reshape(128,1,1,1).repeat(3,-1)
++    windows=loaded._windows(crops)
++    assert [win.shape[0] for win in windows]==[32,32]
++    assert windows[0][:,0,0,0].tolist()==list(range(0,64,2))
++    assert windows[1][:,0,0,0].tolist()==list(range(64,128,2))
++
++
++def test_fake_classifier_predict_uses_B_geometry_without_CUDA(tmp_path,monkeypatch):
++    target,_=bundle(tmp_path,monkeypatch)
++    loaded=service.JEPAService(str(target),device='cpu')
++    monkeypatch.setattr(loaded,'_prepare',lambda payload:(np.zeros((128,1,1,3),dtype=np.uint8),None))
++    monkeypatch.setattr(torch.cuda,'synchronize',lambda *args:pytest.fail('CPU fake must not touch CUDA'))
++    result=loaded.predict({'frames':['synthetic']*128})
++    assert result['model']==deploy.MODEL_LABEL
++    assert result['classifier_only'] is True
++    assert result['calibrated'] is False and 'verdict' not in result
++    assert result['raw_score']==result['p_neural']
++    assert len(result['per_fold_probability'])==5
++    assert len(result['temporal_attention_32'])==32
++    assert '_embedding' not in result and 'sequence' not in result
++
++
++@pytest.mark.parametrize('mutation',[
++    lambda st:st['lora'].pop('lora_A'),
++    lambda st:st['lora'].__setitem__('unknown',torch.ones(1)),
++    lambda st:st['lora'].__setitem__('lora_A',torch.ones(1)),
++    lambda st:st['lora'].__setitem__('lora_A',torch.ones(2,768,dtype=torch.float64)),
++    lambda st:st['head'].pop('norm.weight'),
++    lambda st:st['head'].__setitem__('norm.weight',torch.full((768,),float('nan'))),
++])
++def test_bad_fold_never_partially_mutates_shared_model(mutation):
++    model=FakeModel()
++    original=copy.deepcopy(model.state_dict())
++    bad=state()
++    bad['lora']['lora_B'].fill_(123)
++    mutation(bad)
++    with pytest.raises(ValueError):deploy.load_fold_state_strict(model,bad)
++    for key,value in model.state_dict().items():assert torch.equal(value,original[key])
++
++
++def test_complete_fold_replaces_every_adapter_and_head():
++    model=FakeModel()
++    replacement=state()
++    replacement['lora']['lora_A'].fill_(42)
++    replacement['head']['norm.weight'].fill_(3)
++    deploy.load_fold_state_strict(model,replacement)
++    assert torch.all(model.backbone.lora_A==42)
++    assert torch.all(model.head.norm.weight==3)
++
++
++def test_hash_checked_before_restricted_load(tmp_path,monkeypatch):
++    path=tmp_path/'fold.pt'
++    path.write_bytes(b'changed bytes')
++    monkeypatch.setattr(torch,'load',lambda *args,**kwargs:pytest.fail('Digest mismatch must fail before deserialize'))
++    with pytest.raises(ValueError,match='SHA256'):deploy.read_checkpoint(path,expected_sha256='a'*64)
++
++
++def test_restricted_loader_flag_is_explicit(tmp_path,monkeypatch):
++    path=tmp_path/'fold.pt'
++    path.write_bytes(b'mocked payload')
++    calls=[]
++    def load(*args,**kwargs):
++        calls.append(kwargs)
++        return {'config':vars(FakeConfig()),'state':state()}
++    monkeypatch.setattr(torch,'load',load)
++    deploy.read_checkpoint(path)
++    assert calls==[{'map_location':'cpu','weights_only':True}]
++
++
++@pytest.mark.parametrize('change',['wrong-family','extra-fold','missing-fold','hash','partial-state','base-hash'])
++def test_service_refuses_mismatched_deployment(tmp_path,monkeypatch,change):
++    target,_=bundle(tmp_path,monkeypatch)
++    meta_path=target/'deploy_meta.json'
++    meta=json.loads(meta_path.read_text())
++    if change=='wrong-family':meta['contract']['backbone']='vjepa2'
++    elif change=='extra-fold':(target/'fold5.pt').write_bytes(b'extra')
++    elif change=='missing-fold':(target/'fold4.pt').unlink()
++    elif change=='hash':meta['folds']['fold0.pt']['sha256']='0'*64
++    elif change=='base-hash':meta['base_encoder']['sha256']='0'*64
++    else:
++        ck,_,_=deploy.read_checkpoint(target/'fold0.pt')
++        ck['state']['lora'].pop('lora_A')
++        torch.save(ck,target/'fold0.pt')
++        _,digest,size=deploy.read_checkpoint(target/'fold0.pt')
++        meta['folds']['fold0.pt'].update(sha256=digest,size=size,state_schema=deploy.state_schema(ck['state']))
++    meta_path.write_text(json.dumps(meta))
++    with pytest.raises(ValueError):service.JEPAService(str(target),device='cpu')
++
++
++def test_existing_export_directory_is_never_overwritten(tmp_path,monkeypatch):
++    target,_=bundle(tmp_path,monkeypatch)
++    with pytest.raises(FileExistsError):exporter.export_jepa()
++    assert (target/'deploy_meta.json').exists()
++
++
++def test_nonfinite_fake_forward_fails_instead_of_emitting_verdict(tmp_path,monkeypatch):
++    target,_=bundle(tmp_path,monkeypatch)
++    loaded=service.JEPAService(str(target),device='cpu')
++    monkeypatch.setattr(loaded,'_prepare',lambda payload:(np.zeros((128,1,1,3),dtype=np.uint8),None))
++    for model in loaded.models.values():
++        monkeypatch.setattr(model.backbone,'forward',lambda x:torch.full((1,32,768),float('nan')))
++    with pytest.raises(ValueError,match='nonfinite'):loaded.predict({'frames':['synthetic']*128})
+diff --git a/tests/test_v2_socket.py b/tests/test_v2_socket.py
+--- a/tests/test_v2_socket.py
++++ b/tests/test_v2_socket.py
+@@ -119,12 +119,12 @@
+         srv.process_jepa(None, None, None)
+ 
+ 
+-JEPA_DIR = os.path.join(ROOT, "models", "vjepa2_lora")
++JEPA_DIR = os.path.join(ROOT, "models", "vjepa2_1_lora")
+ 
+ 
+ @pytest.mark.skipif(not os.path.isdir(JEPA_DIR), reason="run `python main.py export` first")
+ def test_jepa_video_reproduces_cross_validation_prediction(server):
+-    """The served V-JEPA 2 fold that held a clip out must reproduce that clip's stored OOF probability."""
++    """The served V-JEPA2.1 ViT-B fold that held a clip out must reproduce that clip's stored OOF probability."""
+     import csv
+ 
+     from src.clip_store import ClipStore
+@@ -132,8 +132,8 @@
+ 
+     srv, port = server
+     if srv.jepa is None:
+-        pytest.skip("V-JEPA 2 not loaded")
+-    oof = {r["clip_id"]: r for r in csv.DictReader(open(os.path.join(ROOT, "runs", "tune_vjepa2", "oof.csv")))}
++        pytest.skip("V-JEPA2.1 ViT-B not loaded")
++    oof = {r["clip_id"]: r for r in csv.DictReader(open(os.path.join(ROOT, "runs", "tune_vjepa2_1", "oof.csv")))}
+     cid = "trial_truth_020"
+     crops = np.asarray(ClipStore().frames(cid))
+     r = V2ModelSocketClient("127.0.0.1", port).predict_video(list(crops), quality=100)
+@@ -141,4 +141,5 @@
+     k = int(oof[cid]["fold"])
+     assert abs(r["per_fold_probability"][k] - float(oof[cid]["prob"])) < 0.03
+     assert len(r["temporal_attention_32"]) == 32 and abs(sum(r["temporal_attention_32"]) - 1) < 1e-2
+-    assert r["cv_auroc"] is not None and "chance" in r["caveat"]
++    assert r["cv_auroc"] is not None and "not evidence of deception" in r["caveat"]
++
+diff --git a/README.md b/README.md
+--- a/README.md
++++ b/README.md
+@@ -79,18 +79,29 @@
+ `{"features": {"<name>": value, ...}}` / `{"features": [..89 values..]}` / raw float32 bytes.
+ Replies carry the probability, verdict and TreeSHAP drivers.
+ 
+-**V-JEPA 2 video model** (`{"action": "jepa_video", "frames": [<base64 JPEG>, ...], "face_crop": false}`):
+-send >= 16 frames spanning one spoken answer (face crops, or raw frames with `"face_crop": true` for a
+-server-side MediaPipe crop). The server runs the 5 LoRA-tuned V-JEPA 2 fold models (~3 s on the RTX 5070)
+-and returns `probability`, `verdict`, `per_fold_probability`, `temporal_attention_32` (which of the 32
+-tubelets drove the score), `cv_auroc` and a `caveat`. **This model is chance-level on unseen people
+-(CV AUROC 0.468); treat its output as a demo signal, not evidence.** Python helper:
+-```python
+-from src.v2_socket_client import V2ModelSocketClient
+-c = V2ModelSocketClient("192.168.0.224", 5002)
+-print(c.ping()["models"])
+-r = c.predict_video(list_of_rgb_frames_or_jpeg_paths, face_crop=True)
++**V-JEPA2.1 ViT-B classifier** (`{"action": "jepa_video", "frames": [<base64 JPEG>, ...], "face_crop": false}`):
++packages the existing `runs/tune_vjepa2_1/fold0.pt` through `fold4.pt`; no V-JEPA2 fallback.
++Each 128-frame answer layout is split into two 64-cache-frame views, selecting 32 frames
++at stride 2 per view. The native 768-wide 16 tubelets are interpolated to 32 as in training.
++This endpoint returns five-fold classifier scores and within-view attention, not fusion embeddings.
++The legacy count-based 128-frame resampler repeats short inputs and has no capture timestamp/fps
++contract. Averaged attention bins combine the two temporal halves and are not a global answer timeline.
++
++Package existing folds only (no training/dataset reads), into a **fresh** directory:
++
++```bash
++python scripts/export_deploy.py --jepa21-only
++# If models/vjepa2_1_lora already exists, stop the service and retain/archive that
++# complete version before explicitly selecting a new export. Never overwrite live weights.
++python run_v2_socket.py --device cuda
+ ```
++
++The export records full fold/base hashes and tensor/config schemas. The service requires all five
++folds, restricted `weights_only=True` loading, exact complete LoRA/head keys, matching shapes/dtypes
++and finite tensors. A mismatch fails startup; no previous-fold parameters are silently retained.
++Ping advertises `vjepa2_1_vitb_lora_5fold`, exact2.1 ViT-B identity and its classifier-only contract.
++Scores remain experimental and must not be presented as evidence of deception.
++
+ Start without the video model: `python main.py socket --no-jepa`.
+ 
+ WSL 2 forwards only Windows *localhost* into Linux. To let other machines (Node 1) connect,
+@@ -106,3 +117,4 @@
+ `src/clip_store.py` data/augmentation · `src/features_tabular.py` digest · `src/multimodal_fusion.py`
+ ReDA/DARE/DMC · `scripts/` pipeline steps · `third_party/` vendored V-JEPA 2.1 encoder and emotion2vec (MIT) ·
+ `reports/` result reports.
++

@@ -1,0 +1,22 @@
+{
+  "kind": "processor_only_no_encoder_or_decoder_forward",
+  "shapes": {
+    "input_features": [
+      1,
+      128,
+      3000
+    ],
+    "attention_mask": [
+      1,
+      3000
+    ]
+  },
+  "dtypes": {
+    "input_features": "torch.float32",
+    "attention_mask": "torch.int32"
+  },
+  "sampling_rate": 16000,
+  "feature_size": 128,
+  "model_loaded": false,
+  "gpu_forward_run": false
+}

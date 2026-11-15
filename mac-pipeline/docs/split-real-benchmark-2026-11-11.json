@@ -1,0 +1,1455 @@
+{
+  "input": "Six-second generated speech with explicit synthetic silence;128generated non-person video frames, no live sensors",
+  "source_revision": "53393582c2994025f2bbececc01eb7a893de1c96",
+  "audio_transmitted": false,
+  "transcript_transmitted": false,
+  "participant_data_sent": false,
+  "remote_face_crop": true,
+  "trials": [
+    {
+      "branches": {
+        "vision": {
+          "status": "trained_classifier",
+          "model": "vjepa2_1_vitb_lora_5fold",
+          "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_base_384",
+          "manifest_sha256": "d93d19e751461e4fb906ea32ddaf0a3d0c5ad774585c27103ebd1b42b64cf03d",
+          "reviewed_source_revision": "53393582c2994025f2bbececc01eb7a893de1c96",
+          "remote_source_revision_verified": false,
+          "device": "cuda",
+          "classifier_only": true,
+          "calibrated": false,
+          "raw_score": 0.495947,
+          "per_fold_scores": [
+            0.422981,
+            0.537648,
+            0.752013,
+            0.449513,
+            0.304042
+          ],
+          "temporal_attention_32": [
+            0.02996,
+            0.03011,
+            0.03042,
+            0.0308,
+            0.03126,
+            0.03147,
+            0.03151,
+            0.03152,
+            0.03157,
+            0.0316,
+            0.03168,
+            0.03177,
+            0.03181,
+            0.03178,
+            0.0317,
+            0.03175,
+            0.03195,
+            0.03173,
+            0.0312,
+            0.03098,
+            0.03117,
+            0.03132,
+            0.03144,
+            0.03147,
+            0.03138,
+            0.03127,
+            0.03104,
+            0.03093,
+            0.03091,
+            0.03089,
+            0.03082,
+            0.03077
+          ],
+          "attention_alignment": "within_view_bins_averaged_across_two_halves_and_five_folds",
+          "server_timings": {
+            "prep_ms": 2313.7,
+            "inference_ms": 1403.4
+          },
+          "embedding_shape": null,
+          "input_contract": "sunhacks-vjepa21-vitb-classifier-v1",
+          "reason": "Real tuned2.1ViT-B classifier score; uncalibrated for webcam use and not evidence of deception.",
+          "source_window_id": 1,
+          "request_id": "c2589477-e95d-429d-965c-488ab3d20224",
+          "source_start": 0.0,
+          "source_end": 6.0,
+          "source_frames_sent": 128,
+          "source_unique_timestamps": 128,
+          "encoder_unique_source_frames": 64,
+          "server_echoes_source_identity": false,
+          "source_alignment": "local_request_connection_and_timestamps_only",
+          "synthetic_fixture": false,
+          "face_crop_requested": true,
+          "elapsed_ms": 3803.537,
+          "client_packing_ms": 38.679,
+          "request_bytes": 344136,
+          "response_bytes": 1712
+        },
+        "dasheng": {
+          "status": "trained",
+          "model_id": "mispeech/dasheng-base",
+          "classifier": "tuned_dasheng_lora_5fold",
+          "raw_score": 0.4093360272015145,
+          "per_fold_scores": [
+            0.4825476778731103,
+            0.3441718911581456,
+            0.5101868996254854,
+            0.33490901374202675,
+            0.3748646536088046
+          ],
+          "calibrated": false,
+          "score_semantics": "experimental_class1_score_not_honesty_probability",
+          "trained_classifier": {
+            "status": "trained",
+            "raw_score": 0.4093360272015145,
+            "calibrated": false,
+            "per_fold_scores": [
+              0.4825476778731103,
+              0.3441718911581456,
+              0.5101868996254854,
+              0.33490901374202675,
+              0.3748646536088046
+            ],
+            "score_semantics": "experimental_class1_score_not_honesty_probability"
+          },
+          "class_1_meaning": "deceptive (label 1 = Real-Life Trials 'Deceptive' folder)",
+          "source_revision": "53393582c2994025f2bbececc01eb7a893de1c96",
+          "manifest_sha256": "281d0f016737a9b92f3a3623a581300346303224d8adc877e078267c12531516",
+          "device": "cpu",
+          "dtype": "float32",
+          "gpu_bf16_parity_verified": false,
+          "source_window_id": 1,
+          "audio_eval_samples": 96000,
+          "sample_rate": 16000,
+          "embedding_shape": [
+            768
+          ],
+          "sequence_shape": [
+            32,
+            768
+          ],
+          "feature_aggregation": "mean_of_five_fold_temporal_features_not_fusion_input",
+          "score_aggregation": "mean_of_five_sigmoid_fold_logits",
+          "queue_wait_ms": 0.001,
+          "elapsed_ms": 553.291
+        },
+        "text": {
+          "status": "base",
+          "model_id": "Qwen/Qwen3-Embedding-0.6B",
+          "tuning": "frozen_base_for_digest",
+          "device": "mps",
+          "dtype": "torch.float16",
+          "embedding_shape": [
+            128
+          ],
+          "pooling": "last_token_full1024_then_mrl128_l2",
+          "elapsed_ms": 86.678,
+          "locality": "mac",
+          "precision_parity_verified": false,
+          "reason": "Frozen instructed Qwen features and33 raw-document intent prototypes; no tuned Qwen adapter is used by this digest.",
+          "source_window_id": 1
+        },
+        "emotion": {
+          "status": "base",
+          "model_id": "emotion2vec/emotion2vec_plus_large",
+          "tuning": "frozen_base_for_digest",
+          "device": "cpu",
+          "dtype": "torch.float32",
+          "embedding_shape": [
+            1024
+          ],
+          "class_probabilities": {
+            "angry": 6.509872946480755e-06,
+            "disgusted": 4.721075583802303e-06,
+            "fearful": 1.3427561498247087e-05,
+            "happy": 0.003091613296419382,
+            "neutral": 0.9968668818473816,
+            "other": 7.535422810178716e-07,
+            "sad": 1.2213277841510717e-05,
+            "surprised": 3.6802571230509784e-06,
+            "unknown": 1.011378429893739e-07
+          },
+          "model_audio_samples": 96000,
+          "locality": "mac",
+          "precision_parity_verified": false,
+          "elapsed_ms": 405.773,
+          "reason": "Frozen nine-class emotion probabilities for the digest; no tuned emotion adapter is used by the exported stack.",
+          "source_window_id": 1
+        },
+        "tabular": {
+          "status": "trained_classifier",
+          "classifier_only": true,
+          "calibrated": false,
+          "source_window_id": 1,
+          "locality": "mac",
+          "precision_parity_verified": false,
+          "model_id": "teammate/xgb_digest_89",
+          "raw_score": 0.38640648126602173,
+          "feature_count": 89,
+          "missing_features": [],
+          "backend": "xgboost_cpu_process",
+          "elapsed_ms": 5.598
+        },
+        "stack": {
+          "status": "trained_classifier",
+          "classifier_only": true,
+          "calibrated": false,
+          "source_window_id": 1,
+          "locality": "mac",
+          "precision_parity_verified": false,
+          "model_id": "teammate/stacked_ensemble",
+          "raw_score": 0.4567013778548167,
+          "used_modalities": [
+            "tuned_dasheng",
+            "xgb_digest"
+          ],
+          "not_used_modalities": [
+            "vision"
+          ],
+          "weights": {
+            "tuned_dasheng": 0.5999784936495687,
+            "xgb_digest": 0.4000215063504313
+          },
+          "calibration_scope": "parameters_fit_on_courtroom_data;webcam_calibration_unverified",
+          "cv_metrics": {
+            "protocol": "5-fold identity-grouped CV; stacker nested at the meta level",
+            "auroc": 0.7112021857923498,
+            "auroc_ci95": [
+              0.5768017442138302,
+              0.9313915243516759
+            ],
+            "accuracy": 0.6033057851239669,
+            "accuracy_ci95": [
+              0.45204374723817936,
+              0.8148467432950189
+            ],
+            "branch_auroc": {
+              "tuned_dasheng": 0.7636612021857924,
+              "xgb_digest": 0.7371584699453552
+            }
+          },
+          "caveats": [
+            "Trained on 121 courtroom clips (Real-Life Trials). Webcam/microphone input is a different domain; expect lower accuracy than the cross-validated numbers.",
+            "Recording conditions alone predict the training labels with AUROC 0.67; part of the signal may be artefacts.",
+            "Not suitable for real-world decisions about whether a person is lying."
+          ]
+        },
+        "fusion": {
+          "status": "unavailable",
+          "model_id": "fusion",
+          "source_window_id": 1,
+          "raw_score": null,
+          "embedding_shape": null,
+          "elapsed_ms": 0.0,
+          "reason": "The exported two-branch stack does not use the old ReDA fusion or video classifier score.",
+          "calibrated": false,
+          "locality": "mac"
+        }
+      },
+      "timings": {
+        "jobs": {
+          "vision": {
+            "status": "complete"
+          },
+          "dasheng": {
+            "status": "complete"
+          },
+          "semantic": {
+            "status": "complete"
+          },
+          "emotion": {
+            "status": "complete"
+          },
+          "face": {
+            "status": "complete"
+          }
+        },
+        "deadline_ms": 25000.0,
+        "service_ms": 3862.634
+      },
+      "locality": {
+        "vision": "friend_gpu_video_only",
+        "asr": "mac",
+        "audio": "mac",
+        "text": "mac",
+        "emotion": "mac",
+        "digest": "mac",
+        "ensemble": "mac",
+        "audio_transmitted": false,
+        "transcript_transmitted": false
+      },
+      "transcript": {
+        "status": "base",
+        "language": "english",
+        "model_id": "openai/whisper-large-v3-turbo",
+        "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+        "source": "local_asr",
+        "word_timestamps": null,
+        "timestamp_granularity": "window_only",
+        "sample_rate": 16000,
+        "duration_seconds": 6.0,
+        "load_cache_hit": true,
+        "load_or_cache_ms": 0.002,
+        "device": "mps",
+        "dtype": "torch.float16",
+        "truncated": false,
+        "inference_ms": 1375.41,
+        "reason": "Local automatic transcript; recognition may normalize or omit disfluencies. Verify against the captured speech.",
+        "limitations": [
+          "No word-level timestamps or guaranteed verbatim disfluency preservation."
+        ],
+        "elapsed_ms": 1432.573,
+        "scope": "video_window",
+        "source_window_id": 1
+      },
+      "transcript_chars": 77,
+      "features": {
+        "digest": {
+          "status": "available",
+          "feature_count": 89,
+          "values": {
+            "emo_angry": 6.509872946480755e-06,
+            "emo_disgusted": 4.721075583802303e-06,
+            "emo_fearful": 1.3427561498247087e-05,
+            "emo_happy": 0.003091613296419382,
+            "emo_neutral": 0.9968668818473816,
+            "emo_other": 7.535422810178716e-07,
+            "emo_sad": 1.2213277841510717e-05,
+            "emo_surprised": 3.6802571230509784e-06,
+            "emo_unknown": 1.011378429893739e-07,
+            "face_detect_rate": 0.0,
+            "face_head_speed_mean": 0.0,
+            "face_head_speed_p95": 0.0,
+            "face_head_speed_std": 0.0,
+            "face_lower_motion_max": 0.0013498155167326331,
+            "face_lower_motion_mean": 0.0008389379363507032,
+            "face_motion_mean": 0.004178784321993589,
+            "face_motion_std": 0.0022940244525671005,
+            "face_scale_change_std": 0.0,
+            "face_upper_lower_ratio": 9.160183906555176,
+            "face_upper_motion_max": 0.012980223633348942,
+            "face_upper_motion_mean": 0.0076939864084124565,
+            "intent_00": 0.011165431700646877,
+            "intent_01": 0.006308978423476219,
+            "intent_02": 0.007510365918278694,
+            "intent_03": 0.020198678597807884,
+            "intent_04": 0.2100856453180313,
+            "intent_05": 0.030063606798648834,
+            "intent_06": 0.015287966467440128,
+            "intent_07": 0.008458935655653477,
+            "intent_08": 0.01647312566637993,
+            "intent_09": 0.012627271004021168,
+            "intent_10": 0.016988079994916916,
+            "intent_11": 0.017038805410265923,
+            "intent_12": 0.010923261754214764,
+            "intent_13": 0.06179213523864746,
+            "intent_14": 0.026156893000006676,
+            "intent_15": 0.015796244144439697,
+            "intent_16": 0.041126057505607605,
+            "intent_17": 0.006990940775722265,
+            "intent_18": 0.006711180787533522,
+            "intent_19": 0.03190018981695175,
+            "intent_20": 0.004886344075202942,
+            "intent_21": 0.0060806879773736,
+            "intent_22": 0.020783720538020134,
+            "intent_23": 0.14131487905979156,
+            "intent_24": 0.006407617125660181,
+            "intent_25": 0.033228371292352676,
+            "intent_26": 0.03451387211680412,
+            "intent_27": 0.013723602518439293,
+            "intent_28": 0.13434801995754242,
+            "intent_29": 0.007054940797388554,
+            "intent_30": 0.006375642027705908,
+            "intent_31": 0.002995456336066127,
+            "intent_32": 0.014683039858937263,
+            "txt_certainty_per100": 0.0,
+            "txt_disfluency_per100": 0.0,
+            "txt_false_start_per100": 0.0,
+            "txt_first_plur_per100": 0.0,
+            "txt_first_sing_per100": 0.0,
+            "txt_hedge_per100": 0.0,
+            "txt_mattr25": 1.0,
+            "txt_mean_word_len": 4.846153736114502,
+            "txt_negation_per100": 0.0,
+            "txt_question_marks": 0.0,
+            "txt_repetition_per100": 0.0,
+            "txt_rm_cognitive_per100": 0.0,
+            "txt_rm_net_external_minus_internal": 0.0,
+            "txt_rm_sensory_per100": 0.0,
+            "txt_rm_spatial_per100": 0.0,
+            "txt_rm_temporal_per100": 0.0,
+            "txt_third_per100": 0.0,
+            "txt_word_count": 13.0,
+            "txt_words_per_s": 2.1666667461395264,
+            "voc_centroid_mean": 2313.68017578125,
+            "voc_centroid_std": 1704.3609619140625,
+            "voc_f0_jitter": 0.016559839248657227,
+            "voc_f0_st_mean": 9.480265617370605,
+            "voc_f0_st_range": 10.84510326385498,
+            "voc_f0_st_std": 3.1298091411590576,
+            "voc_flatness_mean": 0.42548874020576477,
+            "voc_max_pause_s": 0.0,
+            "voc_mean_pause_s": 0.0,
+            "voc_onset_latency_s": 0.0,
+            "voc_pauses_per_min": 0.0,
+            "voc_rms_db_mean": -18.360692977905273,
+            "voc_rms_db_std": 11.55103588104248,
+            "voc_speech_ratio": 0.7023411393165588,
+            "voc_voiced_ratio": 0.5561138987541199,
+            "voc_zcr_mean": 0.11069479584693909
+          },
+          "missing_features": []
+        },
+        "face": {
+          "status": "available",
+          "face_detect_rate": 0.0,
+          "centre_crop_fallback": true
+        }
+      },
+      "memory": {
+        "rss_mb": 2017.719,
+        "peak_rss_mb": 2693.391,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3809.859
+      }
+    },
+    {
+      "branches": {
+        "vision": {
+          "status": "trained_classifier",
+          "model": "vjepa2_1_vitb_lora_5fold",
+          "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_base_384",
+          "manifest_sha256": "d93d19e751461e4fb906ea32ddaf0a3d0c5ad774585c27103ebd1b42b64cf03d",
+          "reviewed_source_revision": "53393582c2994025f2bbececc01eb7a893de1c96",
+          "remote_source_revision_verified": false,
+          "device": "cuda",
+          "classifier_only": true,
+          "calibrated": false,
+          "raw_score": 0.495947,
+          "per_fold_scores": [
+            0.422981,
+            0.537648,
+            0.752013,
+            0.449513,
+            0.304042
+          ],
+          "temporal_attention_32": [
+            0.02996,
+            0.03011,
+            0.03042,
+            0.0308,
+            0.03126,
+            0.03147,
+            0.03151,
+            0.03152,
+            0.03157,
+            0.0316,
+            0.03168,
+            0.03177,
+            0.03181,
+            0.03178,
+            0.0317,
+            0.03175,
+            0.03195,
+            0.03173,
+            0.0312,
+            0.03098,
+            0.03117,
+            0.03132,
+            0.03144,
+            0.03147,
+            0.03138,
+            0.03127,
+            0.03104,
+            0.03093,
+            0.03091,
+            0.03089,
+            0.03082,
+            0.03077
+          ],
+          "attention_alignment": "within_view_bins_averaged_across_two_halves_and_five_folds",
+          "server_timings": {
+            "prep_ms": 313.7,
+            "inference_ms": 1174.2
+          },
+          "embedding_shape": null,
+          "input_contract": "sunhacks-vjepa21-vitb-classifier-v1",
+          "reason": "Real tuned2.1ViT-B classifier score; uncalibrated for webcam use and not evidence of deception.",
+          "source_window_id": 2,
+          "request_id": "904f272c-664d-4ee8-b429-12f2fd33c2a1",
+          "source_start": 0.0,
+          "source_end": 6.0,
+          "source_frames_sent": 128,
+          "source_unique_timestamps": 128,
+          "encoder_unique_source_frames": 64,
+          "server_echoes_source_identity": false,
+          "source_alignment": "local_request_connection_and_timestamps_only",
+          "synthetic_fixture": false,
+          "face_crop_requested": true,
+          "elapsed_ms": 1646.048,
+          "client_packing_ms": 27.96,
+          "request_bytes": 344136,
+          "response_bytes": 1711
+        },
+        "dasheng": {
+          "status": "trained",
+          "model_id": "mispeech/dasheng-base",
+          "classifier": "tuned_dasheng_lora_5fold",
+          "raw_score": 0.4093360272015145,
+          "per_fold_scores": [
+            0.4825476778731103,
+            0.3441718911581456,
+            0.5101868996254854,
+            0.33490901374202675,
+            0.3748646536088046
+          ],
+          "calibrated": false,
+          "score_semantics": "experimental_class1_score_not_honesty_probability",
+          "trained_classifier": {
+            "status": "trained",
+            "raw_score": 0.4093360272015145,
+            "calibrated": false,
+            "per_fold_scores": [
+              0.4825476778731103,
+              0.3441718911581456,
+              0.5101868996254854,
+              0.33490901374202675,
+              0.3748646536088046
+            ],
+            "score_semantics": "experimental_class1_score_not_honesty_probability"
+          },
+          "class_1_meaning": "deceptive (label 1 = Real-Life Trials 'Deceptive' folder)",
+          "source_revision": "53393582c2994025f2bbececc01eb7a893de1c96",
+          "manifest_sha256": "281d0f016737a9b92f3a3623a581300346303224d8adc877e078267c12531516",
+          "device": "cpu",
+          "dtype": "float32",
+          "gpu_bf16_parity_verified": false,
+          "source_window_id": 2,
+          "audio_eval_samples": 96000,
+          "sample_rate": 16000,
+          "embedding_shape": [
+            768
+          ],
+          "sequence_shape": [
+            32,
+            768
+          ],
+          "feature_aggregation": "mean_of_five_fold_temporal_features_not_fusion_input",
+          "score_aggregation": "mean_of_five_sigmoid_fold_logits",
+          "queue_wait_ms": 0.002,
+          "elapsed_ms": 472.772
+        },
+        "text": {
+          "status": "base",
+          "model_id": "Qwen/Qwen3-Embedding-0.6B",
+          "tuning": "frozen_base_for_digest",
+          "device": "mps",
+          "dtype": "torch.float16",
+          "embedding_shape": [
+            128
+          ],
+          "pooling": "last_token_full1024_then_mrl128_l2",
+          "elapsed_ms": 53.317,
+          "locality": "mac",
+          "precision_parity_verified": false,
+          "reason": "Frozen instructed Qwen features and33 raw-document intent prototypes; no tuned Qwen adapter is used by this digest.",
+          "source_window_id": 2
+        },
+        "emotion": {
+          "status": "base",
+          "model_id": "emotion2vec/emotion2vec_plus_large",
+          "tuning": "frozen_base_for_digest",
+          "device": "cpu",
+          "dtype": "torch.float32",
+          "embedding_shape": [
+            1024
+          ],
+          "class_probabilities": {
+            "angry": 6.509872946480755e-06,
+            "disgusted": 4.721075583802303e-06,
+            "fearful": 1.3427561498247087e-05,
+            "happy": 0.003091613296419382,
+            "neutral": 0.9968668818473816,
+            "other": 7.535422810178716e-07,
+            "sad": 1.2213277841510717e-05,
+            "surprised": 3.6802571230509784e-06,
+            "unknown": 1.011378429893739e-07
+          },
+          "model_audio_samples": 96000,
+          "locality": "mac",
+          "precision_parity_verified": false,
+          "elapsed_ms": 348.475,
+          "reason": "Frozen nine-class emotion probabilities for the digest; no tuned emotion adapter is used by the exported stack.",
+          "source_window_id": 2
+        },
+        "tabular": {
+          "status": "trained_classifier",
+          "classifier_only": true,
+          "calibrated": false,
+          "source_window_id": 2,
+          "locality": "mac",
+          "precision_parity_verified": false,
+          "model_id": "teammate/xgb_digest_89",
+          "raw_score": 0.38640648126602173,
+          "feature_count": 89,
+          "missing_features": [],
+          "backend": "xgboost_cpu_process",
+          "elapsed_ms": 1.368
+        },
+        "stack": {
+          "status": "trained_classifier",
+          "classifier_only": true,
+          "calibrated": false,
+          "source_window_id": 2,
+          "locality": "mac",
+          "precision_parity_verified": false,
+          "model_id": "teammate/stacked_ensemble",
+          "raw_score": 0.4567013778548167,
+          "used_modalities": [
+            "tuned_dasheng",
+            "xgb_digest"
+          ],
+          "not_used_modalities": [
+            "vision"
+          ],
+          "weights": {
+            "tuned_dasheng": 0.5999784936495687,
+            "xgb_digest": 0.4000215063504313
+          },
+          "calibration_scope": "parameters_fit_on_courtroom_data;webcam_calibration_unverified",
+          "cv_metrics": {
+            "protocol": "5-fold identity-grouped CV; stacker nested at the meta level",
+            "auroc": 0.7112021857923498,
+            "auroc_ci95": [
+              0.5768017442138302,
+              0.9313915243516759
+            ],
+            "accuracy": 0.6033057851239669,
+            "accuracy_ci95": [
+              0.45204374723817936,
+              0.8148467432950189
+            ],
+            "branch_auroc": {
+              "tuned_dasheng": 0.7636612021857924,
+              "xgb_digest": 0.7371584699453552
+            }
+          },
+          "caveats": [
+            "Trained on 121 courtroom clips (Real-Life Trials). Webcam/microphone input is a different domain; expect lower accuracy than the cross-validated numbers.",
+            "Recording conditions alone predict the training labels with AUROC 0.67; part of the signal may be artefacts.",
+            "Not suitable for real-world decisions about whether a person is lying."
+          ]
+        },
+        "fusion": {
+          "status": "unavailable",
+          "model_id": "fusion",
+          "source_window_id": 2,
+          "raw_score": null,
+          "embedding_shape": null,
+          "elapsed_ms": 0.0,
+          "reason": "The exported two-branch stack does not use the old ReDA fusion or video classifier score.",
+          "calibrated": false,
+          "locality": "mac"
+        }
+      },
+      "timings": {
+        "jobs": {
+          "vision": {
+            "status": "complete"
+          },
+          "dasheng": {
+            "status": "complete"
+          },
+          "semantic": {
+            "status": "complete"
+          },
+          "emotion": {
+            "status": "complete"
+          },
+          "face": {
+            "status": "complete"
+          }
+        },
+        "deadline_ms": 25000.0,
+        "service_ms": 1686.765
+      },
+      "locality": {
+        "vision": "friend_gpu_video_only",
+        "asr": "mac",
+        "audio": "mac",
+        "text": "mac",
+        "emotion": "mac",
+        "digest": "mac",
+        "ensemble": "mac",
+        "audio_transmitted": false,
+        "transcript_transmitted": false
+      },
+      "transcript": {
+        "status": "base",
+        "language": "english",
+        "model_id": "openai/whisper-large-v3-turbo",
+        "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+        "source": "local_asr",
+        "word_timestamps": null,
+        "timestamp_granularity": "window_only",
+        "sample_rate": 16000,
+        "duration_seconds": 6.0,
+        "load_cache_hit": true,
+        "load_or_cache_ms": 0.003,
+        "device": "mps",
+        "dtype": "torch.float16",
+        "truncated": false,
+        "inference_ms": 983.982,
+        "reason": "Local automatic transcript; recognition may normalize or omit disfluencies. Verify against the captured speech.",
+        "limitations": [
+          "No word-level timestamps or guaranteed verbatim disfluency preservation."
+        ],
+        "elapsed_ms": 1003.626,
+        "scope": "video_window",
+        "source_window_id": 2
+      },
+      "transcript_chars": 77,
+      "features": {
+        "digest": {
+          "status": "available",
+          "feature_count": 89,
+          "values": {
+            "emo_angry": 6.509872946480755e-06,
+            "emo_disgusted": 4.721075583802303e-06,
+            "emo_fearful": 1.3427561498247087e-05,
+            "emo_happy": 0.003091613296419382,
+            "emo_neutral": 0.9968668818473816,
+            "emo_other": 7.535422810178716e-07,
+            "emo_sad": 1.2213277841510717e-05,
+            "emo_surprised": 3.6802571230509784e-06,
+            "emo_unknown": 1.011378429893739e-07,
+            "face_detect_rate": 0.0,
+            "face_head_speed_mean": 0.0,
+            "face_head_speed_p95": 0.0,
+            "face_head_speed_std": 0.0,
+            "face_lower_motion_max": 0.0013498155167326331,
+            "face_lower_motion_mean": 0.0008389379363507032,
+            "face_motion_mean": 0.004178784321993589,
+            "face_motion_std": 0.0022940244525671005,
+            "face_scale_change_std": 0.0,
+            "face_upper_lower_ratio": 9.160183906555176,
+            "face_upper_motion_max": 0.012980223633348942,
+            "face_upper_motion_mean": 0.0076939864084124565,
+            "intent_00": 0.011165431700646877,
+            "intent_01": 0.006308978423476219,
+            "intent_02": 0.007510365918278694,
+            "intent_03": 0.020198678597807884,
+            "intent_04": 0.2100856453180313,
+            "intent_05": 0.030063606798648834,
+            "intent_06": 0.015287966467440128,
+            "intent_07": 0.008458935655653477,
+            "intent_08": 0.01647312566637993,
+            "intent_09": 0.012627271004021168,
+            "intent_10": 0.016988079994916916,
+            "intent_11": 0.017038805410265923,
+            "intent_12": 0.010923261754214764,
+            "intent_13": 0.06179213523864746,
+            "intent_14": 0.026156893000006676,
+            "intent_15": 0.015796244144439697,
+            "intent_16": 0.041126057505607605,
+            "intent_17": 0.006990940775722265,
+            "intent_18": 0.006711180787533522,
+            "intent_19": 0.03190018981695175,
+            "intent_20": 0.004886344075202942,
+            "intent_21": 0.0060806879773736,
+            "intent_22": 0.020783720538020134,
+            "intent_23": 0.14131487905979156,
+            "intent_24": 0.006407617125660181,
+            "intent_25": 0.033228371292352676,
+            "intent_26": 0.03451387211680412,
+            "intent_27": 0.013723602518439293,
+            "intent_28": 0.13434801995754242,
+            "intent_29": 0.007054940797388554,
+            "intent_30": 0.006375642027705908,
+            "intent_31": 0.002995456336066127,
+            "intent_32": 0.014683039858937263,
+            "txt_certainty_per100": 0.0,
+            "txt_disfluency_per100": 0.0,
+            "txt_false_start_per100": 0.0,
+            "txt_first_plur_per100": 0.0,
+            "txt_first_sing_per100": 0.0,
+            "txt_hedge_per100": 0.0,
+            "txt_mattr25": 1.0,
+            "txt_mean_word_len": 4.846153736114502,
+            "txt_negation_per100": 0.0,
+            "txt_question_marks": 0.0,
+            "txt_repetition_per100": 0.0,
+            "txt_rm_cognitive_per100": 0.0,
+            "txt_rm_net_external_minus_internal": 0.0,
+            "txt_rm_sensory_per100": 0.0,
+            "txt_rm_spatial_per100": 0.0,
+            "txt_rm_temporal_per100": 0.0,
+            "txt_third_per100": 0.0,
+            "txt_word_count": 13.0,
+            "txt_words_per_s": 2.1666667461395264,
+            "voc_centroid_mean": 2313.68017578125,
+            "voc_centroid_std": 1704.3609619140625,
+            "voc_f0_jitter": 0.016559839248657227,
+            "voc_f0_st_mean": 9.480265617370605,
+            "voc_f0_st_range": 10.84510326385498,
+            "voc_f0_st_std": 3.1298091411590576,
+            "voc_flatness_mean": 0.42548874020576477,
+            "voc_max_pause_s": 0.0,
+            "voc_mean_pause_s": 0.0,
+            "voc_onset_latency_s": 0.0,
+            "voc_pauses_per_min": 0.0,
+            "voc_rms_db_mean": -18.360692977905273,
+            "voc_rms_db_std": 11.55103588104248,
+            "voc_speech_ratio": 0.7023411393165588,
+            "voc_voiced_ratio": 0.5561138987541199,
+            "voc_zcr_mean": 0.11069479584693909
+          },
+          "missing_features": []
+        },
+        "face": {
+          "status": "available",
+          "face_detect_rate": 0.0,
+          "centre_crop_fallback": true
+        }
+      },
+      "memory": {
+        "rss_mb": 2129.75,
+        "peak_rss_mb": 2693.391,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3809.859
+      }
+    },
+    {
+      "branches": {
+        "vision": {
+          "status": "trained_classifier",
+          "model": "vjepa2_1_vitb_lora_5fold",
+          "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_base_384",
+          "manifest_sha256": "d93d19e751461e4fb906ea32ddaf0a3d0c5ad774585c27103ebd1b42b64cf03d",
+          "reviewed_source_revision": "53393582c2994025f2bbececc01eb7a893de1c96",
+          "remote_source_revision_verified": false,
+          "device": "cuda",
+          "classifier_only": true,
+          "calibrated": false,
+          "raw_score": 0.495947,
+          "per_fold_scores": [
+            0.422981,
+            0.537648,
+            0.752013,
+            0.449513,
+            0.304042
+          ],
+          "temporal_attention_32": [
+            0.02996,
+            0.03011,
+            0.03042,
+            0.0308,
+            0.03126,
+            0.03147,
+            0.03151,
+            0.03152,
+            0.03157,
+            0.0316,
+            0.03168,
+            0.03177,
+            0.03181,
+            0.03178,
+            0.0317,
+            0.03175,
+            0.03195,
+            0.03173,
+            0.0312,
+            0.03098,
+            0.03117,
+            0.03132,
+            0.03144,
+            0.03147,
+            0.03138,
+            0.03127,
+            0.03104,
+            0.03093,
+            0.03091,
+            0.03089,
+            0.03082,
+            0.03077
+          ],
+          "attention_alignment": "within_view_bins_averaged_across_two_halves_and_five_folds",
+          "server_timings": {
+            "prep_ms": 291.8,
+            "inference_ms": 1142.8
+          },
+          "embedding_shape": null,
+          "input_contract": "sunhacks-vjepa21-vitb-classifier-v1",
+          "reason": "Real tuned2.1ViT-B classifier score; uncalibrated for webcam use and not evidence of deception.",
+          "source_window_id": 3,
+          "request_id": "918a2927-7571-4dc2-8a56-223136b06950",
+          "source_start": 0.0,
+          "source_end": 6.0,
+          "source_frames_sent": 128,
+          "source_unique_timestamps": 128,
+          "encoder_unique_source_frames": 64,
+          "server_echoes_source_identity": false,
+          "source_alignment": "local_request_connection_and_timestamps_only",
+          "synthetic_fixture": false,
+          "face_crop_requested": true,
+          "elapsed_ms": 1593.122,
+          "client_packing_ms": 31.343,
+          "request_bytes": 344136,
+          "response_bytes": 1711
+        },
+        "dasheng": {
+          "status": "trained",
+          "model_id": "mispeech/dasheng-base",
+          "classifier": "tuned_dasheng_lora_5fold",
+          "raw_score": 0.4093360272015145,
+          "per_fold_scores": [
+            0.4825476778731103,
+            0.3441718911581456,
+            0.5101868996254854,
+            0.33490901374202675,
+            0.3748646536088046
+          ],
+          "calibrated": false,
+          "score_semantics": "experimental_class1_score_not_honesty_probability",
+          "trained_classifier": {
+            "status": "trained",
+            "raw_score": 0.4093360272015145,
+            "calibrated": false,
+            "per_fold_scores": [
+              0.4825476778731103,
+              0.3441718911581456,
+              0.5101868996254854,
+              0.33490901374202675,
+              0.3748646536088046
+            ],
+            "score_semantics": "experimental_class1_score_not_honesty_probability"
+          },
+          "class_1_meaning": "deceptive (label 1 = Real-Life Trials 'Deceptive' folder)",
+          "source_revision": "53393582c2994025f2bbececc01eb7a893de1c96",
+          "manifest_sha256": "281d0f016737a9b92f3a3623a581300346303224d8adc877e078267c12531516",
+          "device": "cpu",
+          "dtype": "float32",
+          "gpu_bf16_parity_verified": false,
+          "source_window_id": 3,
+          "audio_eval_samples": 96000,
+          "sample_rate": 16000,
+          "embedding_shape": [
+            768
+          ],
+          "sequence_shape": [
+            32,
+            768
+          ],
+          "feature_aggregation": "mean_of_five_fold_temporal_features_not_fusion_input",
+          "score_aggregation": "mean_of_five_sigmoid_fold_logits",
+          "queue_wait_ms": 0.002,
+          "elapsed_ms": 462.288
+        },
+        "text": {
+          "status": "base",
+          "model_id": "Qwen/Qwen3-Embedding-0.6B",
+          "tuning": "frozen_base_for_digest",
+          "device": "mps",
+          "dtype": "torch.float16",
+          "embedding_shape": [
+            128
+          ],
+          "pooling": "last_token_full1024_then_mrl128_l2",
+          "elapsed_ms": 51.058,
+          "locality": "mac",
+          "precision_parity_verified": false,
+          "reason": "Frozen instructed Qwen features and33 raw-document intent prototypes; no tuned Qwen adapter is used by this digest.",
+          "source_window_id": 3
+        },
+        "emotion": {
+          "status": "base",
+          "model_id": "emotion2vec/emotion2vec_plus_large",
+          "tuning": "frozen_base_for_digest",
+          "device": "cpu",
+          "dtype": "torch.float32",
+          "embedding_shape": [
+            1024
+          ],
+          "class_probabilities": {
+            "angry": 6.509872946480755e-06,
+            "disgusted": 4.721075583802303e-06,
+            "fearful": 1.3427561498247087e-05,
+            "happy": 0.003091613296419382,
+            "neutral": 0.9968668818473816,
+            "other": 7.535422810178716e-07,
+            "sad": 1.2213277841510717e-05,
+            "surprised": 3.6802571230509784e-06,
+            "unknown": 1.011378429893739e-07
+          },
+          "model_audio_samples": 96000,
+          "locality": "mac",
+          "precision_parity_verified": false,
+          "elapsed_ms": 334.353,
+          "reason": "Frozen nine-class emotion probabilities for the digest; no tuned emotion adapter is used by the exported stack.",
+          "source_window_id": 3
+        },
+        "tabular": {
+          "status": "trained_classifier",
+          "classifier_only": true,
+          "calibrated": false,
+          "source_window_id": 3,
+          "locality": "mac",
+          "precision_parity_verified": false,
+          "model_id": "teammate/xgb_digest_89",
+          "raw_score": 0.38640648126602173,
+          "feature_count": 89,
+          "missing_features": [],
+          "backend": "xgboost_cpu_process",
+          "elapsed_ms": 1.271
+        },
+        "stack": {
+          "status": "trained_classifier",
+          "classifier_only": true,
+          "calibrated": false,
+          "source_window_id": 3,
+          "locality": "mac",
+          "precision_parity_verified": false,
+          "model_id": "teammate/stacked_ensemble",
+          "raw_score": 0.4567013778548167,
+          "used_modalities": [
+            "tuned_dasheng",
+            "xgb_digest"
+          ],
+          "not_used_modalities": [
+            "vision"
+          ],
+          "weights": {
+            "tuned_dasheng": 0.5999784936495687,
+            "xgb_digest": 0.4000215063504313
+          },
+          "calibration_scope": "parameters_fit_on_courtroom_data;webcam_calibration_unverified",
+          "cv_metrics": {
+            "protocol": "5-fold identity-grouped CV; stacker nested at the meta level",
+            "auroc": 0.7112021857923498,
+            "auroc_ci95": [
+              0.5768017442138302,
+              0.9313915243516759
+            ],
+            "accuracy": 0.6033057851239669,
+            "accuracy_ci95": [
+              0.45204374723817936,
+              0.8148467432950189
+            ],
+            "branch_auroc": {
+              "tuned_dasheng": 0.7636612021857924,
+              "xgb_digest": 0.7371584699453552
+            }
+          },
+          "caveats": [
+            "Trained on 121 courtroom clips (Real-Life Trials). Webcam/microphone input is a different domain; expect lower accuracy than the cross-validated numbers.",
+            "Recording conditions alone predict the training labels with AUROC 0.67; part of the signal may be artefacts.",
+            "Not suitable for real-world decisions about whether a person is lying."
+          ]
+        },
+        "fusion": {
+          "status": "unavailable",
+          "model_id": "fusion",
+          "source_window_id": 3,
+          "raw_score": null,
+          "embedding_shape": null,
+          "elapsed_ms": 0.0,
+          "reason": "The exported two-branch stack does not use the old ReDA fusion or video classifier score.",
+          "calibrated": false,
+          "locality": "mac"
+        }
+      },
+      "timings": {
+        "jobs": {
+          "vision": {
+            "status": "complete"
+          },
+          "dasheng": {
+            "status": "complete"
+          },
+          "semantic": {
+            "status": "complete"
+          },
+          "emotion": {
+            "status": "complete"
+          },
+          "face": {
+            "status": "complete"
+          }
+        },
+        "deadline_ms": 25000.0,
+        "service_ms": 1635.675
+      },
+      "locality": {
+        "vision": "friend_gpu_video_only",
+        "asr": "mac",
+        "audio": "mac",
+        "text": "mac",
+        "emotion": "mac",
+        "digest": "mac",
+        "ensemble": "mac",
+        "audio_transmitted": false,
+        "transcript_transmitted": false
+      },
+      "transcript": {
+        "status": "base",
+        "language": "english",
+        "model_id": "openai/whisper-large-v3-turbo",
+        "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+        "source": "local_asr",
+        "word_timestamps": null,
+        "timestamp_granularity": "window_only",
+        "sample_rate": 16000,
+        "duration_seconds": 6.0,
+        "load_cache_hit": true,
+        "load_or_cache_ms": 0.002,
+        "device": "mps",
+        "dtype": "torch.float16",
+        "truncated": false,
+        "inference_ms": 961.6,
+        "reason": "Local automatic transcript; recognition may normalize or omit disfluencies. Verify against the captured speech.",
+        "limitations": [
+          "No word-level timestamps or guaranteed verbatim disfluency preservation."
+        ],
+        "elapsed_ms": 990.173,
+        "scope": "video_window",
+        "source_window_id": 3
+      },
+      "transcript_chars": 77,
+      "features": {
+        "digest": {
+          "status": "available",
+          "feature_count": 89,
+          "values": {
+            "emo_angry": 6.509872946480755e-06,
+            "emo_disgusted": 4.721075583802303e-06,
+            "emo_fearful": 1.3427561498247087e-05,
+            "emo_happy": 0.003091613296419382,
+            "emo_neutral": 0.9968668818473816,
+            "emo_other": 7.535422810178716e-07,
+            "emo_sad": 1.2213277841510717e-05,
+            "emo_surprised": 3.6802571230509784e-06,
+            "emo_unknown": 1.011378429893739e-07,
+            "face_detect_rate": 0.0,
+            "face_head_speed_mean": 0.0,
+            "face_head_speed_p95": 0.0,
+            "face_head_speed_std": 0.0,
+            "face_lower_motion_max": 0.0013498155167326331,
+            "face_lower_motion_mean": 0.0008389379363507032,
+            "face_motion_mean": 0.004178784321993589,
+            "face_motion_std": 0.0022940244525671005,
+            "face_scale_change_std": 0.0,
+            "face_upper_lower_ratio": 9.160183906555176,
+            "face_upper_motion_max": 0.012980223633348942,
+            "face_upper_motion_mean": 0.0076939864084124565,
+            "intent_00": 0.011165431700646877,
+            "intent_01": 0.006308978423476219,
+            "intent_02": 0.007510365918278694,
+            "intent_03": 0.020198678597807884,
+            "intent_04": 0.2100856453180313,
+            "intent_05": 0.030063606798648834,
+            "intent_06": 0.015287966467440128,
+            "intent_07": 0.008458935655653477,
+            "intent_08": 0.01647312566637993,
+            "intent_09": 0.012627271004021168,
+            "intent_10": 0.016988079994916916,
+            "intent_11": 0.017038805410265923,
+            "intent_12": 0.010923261754214764,
+            "intent_13": 0.06179213523864746,
+            "intent_14": 0.026156893000006676,
+            "intent_15": 0.015796244144439697,
+            "intent_16": 0.041126057505607605,
+            "intent_17": 0.006990940775722265,
+            "intent_18": 0.006711180787533522,
+            "intent_19": 0.03190018981695175,
+            "intent_20": 0.004886344075202942,
+            "intent_21": 0.0060806879773736,
+            "intent_22": 0.020783720538020134,
+            "intent_23": 0.14131487905979156,
+            "intent_24": 0.006407617125660181,
+            "intent_25": 0.033228371292352676,
+            "intent_26": 0.03451387211680412,
+            "intent_27": 0.013723602518439293,
+            "intent_28": 0.13434801995754242,
+            "intent_29": 0.007054940797388554,
+            "intent_30": 0.006375642027705908,
+            "intent_31": 0.002995456336066127,
+            "intent_32": 0.014683039858937263,
+            "txt_certainty_per100": 0.0,
+            "txt_disfluency_per100": 0.0,
+            "txt_false_start_per100": 0.0,
+            "txt_first_plur_per100": 0.0,
+            "txt_first_sing_per100": 0.0,
+            "txt_hedge_per100": 0.0,
+            "txt_mattr25": 1.0,
+            "txt_mean_word_len": 4.846153736114502,
+            "txt_negation_per100": 0.0,
+            "txt_question_marks": 0.0,
+            "txt_repetition_per100": 0.0,
+            "txt_rm_cognitive_per100": 0.0,
+            "txt_rm_net_external_minus_internal": 0.0,
+            "txt_rm_sensory_per100": 0.0,
+            "txt_rm_spatial_per100": 0.0,
+            "txt_rm_temporal_per100": 0.0,
+            "txt_third_per100": 0.0,
+            "txt_word_count": 13.0,
+            "txt_words_per_s": 2.1666667461395264,
+            "voc_centroid_mean": 2313.68017578125,
+            "voc_centroid_std": 1704.3609619140625,
+            "voc_f0_jitter": 0.016559839248657227,
+            "voc_f0_st_mean": 9.480265617370605,
+            "voc_f0_st_range": 10.84510326385498,
+            "voc_f0_st_std": 3.1298091411590576,
+            "voc_flatness_mean": 0.42548874020576477,
+            "voc_max_pause_s": 0.0,
+            "voc_mean_pause_s": 0.0,
+            "voc_onset_latency_s": 0.0,
+            "voc_pauses_per_min": 0.0,
+            "voc_rms_db_mean": -18.360692977905273,
+            "voc_rms_db_std": 11.55103588104248,
+            "voc_speech_ratio": 0.7023411393165588,
+            "voc_voiced_ratio": 0.5561138987541199,
+            "voc_zcr_mean": 0.11069479584693909
+          },
+          "missing_features": []
+        },
+        "face": {
+          "status": "available",
+          "face_detect_rate": 0.0,
+          "centre_crop_fallback": true
+        }
+      },
+      "memory": {
+        "rss_mb": 2134.719,
+        "peak_rss_mb": 2693.391,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3809.859
+      }
+    }
+  ],
+  "memory_before": {
+    "rss_mb": 214.688,
+    "peak_rss_mb": 214.688,
+    "mps_current_mb": 0.0,
+    "mps_driver_mb": 0.453
+  },
+  "health": {
+    "status": "classifier_contract_declared",
+    "classifier_ready": true,
+    "classifier_response_validated": false,
+    "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_base_384",
+    "manifest_sha256": "d93d19e751461e4fb906ea32ddaf0a3d0c5ad774585c27103ebd1b42b64cf03d",
+    "elapsed_ms": 13.742
+  },
+  "prepare": {
+    "status": "ready",
+    "components": {
+      "asr": {
+        "status": "ready",
+        "model_id": "openai/whisper-large-v3-turbo",
+        "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+        "kernels_warmed": false,
+        "cache_hit": false,
+        "device": "mps",
+        "dtype": "torch.float16",
+        "reason": "Official local ASR weights are resident; first-forward latency remains to be measured.",
+        "elapsed_ms": 1925.786
+      },
+      "dasheng": {
+        "status": "ready",
+        "weights_loaded": true,
+        "kernels_warmed": false,
+        "model_id": "mispeech/dasheng-base",
+        "classifier": "tuned_dasheng_lora_5fold",
+        "device": "cpu",
+        "dtype": "float32",
+        "folds": 5,
+        "manifest_sha256": "281d0f016737a9b92f3a3623a581300346303224d8adc877e078267c12531516",
+        "gpu_bf16_parity_verified": false
+      },
+      "faces": {
+        "status": "ready",
+        "model_id": "mediapipe/blaze_face_short_range",
+        "device": "cpu",
+        "weights_loaded": true,
+        "kernels_warmed": false,
+        "cache_hit": false,
+        "asset_sha256": "b4578f35940bf5a1a655214a1cce5cab13eba73c1297cd78e1a04c2380b0152f",
+        "elapsed_ms": 523.67
+      },
+      "digest": {
+        "status": "ready",
+        "weights_loaded": true,
+        "kernels_warmed": false,
+        "feature_count": 89,
+        "locality": "mac",
+        "backend": "xgboost_cpu_process",
+        "worker_pid": 6887,
+        "parent_imports_xgboost": false,
+        "worker_imports_torch": false,
+        "cache_hit": false,
+        "elapsed_ms": 537.461
+      },
+      "text": {
+        "status": "ready",
+        "weights_loaded": true,
+        "model_id": "Qwen/Qwen3-Embedding-0.6B",
+        "kernels_warmed": true,
+        "tuning": "frozen_base_for_digest",
+        "static_intents_prepared": 33
+      },
+      "emotion": {
+        "status": "ready",
+        "weights_loaded": true,
+        "model_id": "emotion2vec/emotion2vec_plus_large",
+        "kernels_warmed": false,
+        "tuning": "frozen_base_for_digest"
+      }
+    },
+    "local_weights_loaded": true,
+    "locality": {
+      "vision": "friend_gpu_video_only",
+      "asr": "mac",
+      "audio": "mac",
+      "text": "mac",
+      "emotion": "mac",
+      "digest": "mac",
+      "ensemble": "mac",
+      "audio_transmitted": false,
+      "transcript_transmitted": false
+    },
+    "remote": {
+      "status": "classifier_contract_declared",
+      "busy": false,
+      "classifier_only": true,
+      "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_base_384",
+      "participant_media_authorized": true,
+      "classifier_ready": true,
+      "classifier_response_validated": false,
+      "manifest_sha256": "d93d19e751461e4fb906ea32ddaf0a3d0c5ad774585c27103ebd1b42b64cf03d",
+      "elapsed_ms": 13.742
+    },
+    "remote_verified": false,
+    "kernels_warmed": false,
+    "static_qwen_intent_forward": true,
+    "elapsed_ms": 10384.425
+  },
+  "shutdown": {
+    "status": "closed",
+    "closed": true,
+    "cleanup_done": true,
+    "cleanup_in_progress": false,
+    "active_jobs": [],
+    "active_prepares": 0,
+    "preparation": {
+      "status": "ready",
+      "components": {
+        "asr": {
+          "status": "ready",
+          "model_id": "openai/whisper-large-v3-turbo",
+          "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+          "kernels_warmed": false,
+          "cache_hit": false,
+          "device": "mps",
+          "dtype": "torch.float16",
+          "reason": "Official local ASR weights are resident; first-forward latency remains to be measured.",
+          "elapsed_ms": 1925.786
+        },
+        "dasheng": {
+          "status": "ready",
+          "weights_loaded": true,
+          "kernels_warmed": false,
+          "model_id": "mispeech/dasheng-base",
+          "classifier": "tuned_dasheng_lora_5fold",
+          "device": "cpu",
+          "dtype": "float32",
+          "folds": 5,
+          "manifest_sha256": "281d0f016737a9b92f3a3623a581300346303224d8adc877e078267c12531516",
+          "gpu_bf16_parity_verified": false
+        },
+        "faces": {
+          "status": "ready",
+          "model_id": "mediapipe/blaze_face_short_range",
+          "device": "cpu",
+          "weights_loaded": true,
+          "kernels_warmed": false,
+          "cache_hit": false,
+          "asset_sha256": "b4578f35940bf5a1a655214a1cce5cab13eba73c1297cd78e1a04c2380b0152f",
+          "elapsed_ms": 523.67
+        },
+        "digest": {
+          "status": "ready",
+          "weights_loaded": true,
+          "kernels_warmed": false,
+          "feature_count": 89,
+          "locality": "mac",
+          "backend": "xgboost_cpu_process",
+          "worker_pid": 6887,
+          "parent_imports_xgboost": false,
+          "worker_imports_torch": false,
+          "cache_hit": false,
+          "elapsed_ms": 537.461
+        },
+        "text": {
+          "status": "ready",
+          "weights_loaded": true,
+          "model_id": "Qwen/Qwen3-Embedding-0.6B",
+          "kernels_warmed": true,
+          "tuning": "frozen_base_for_digest",
+          "static_intents_prepared": 33
+        },
+        "emotion": {
+          "status": "ready",
+          "weights_loaded": true,
+          "model_id": "emotion2vec/emotion2vec_plus_large",
+          "kernels_warmed": false,
+          "tuning": "frozen_base_for_digest"
+        }
+      },
+      "local_weights_loaded": true,
+      "locality": {
+        "vision": "friend_gpu_video_only",
+        "asr": "mac",
+        "audio": "mac",
+        "text": "mac",
+        "emotion": "mac",
+        "digest": "mac",
+        "ensemble": "mac",
+        "audio_transmitted": false,
+        "transcript_transmitted": false
+      },
+      "remote": {
+        "status": "classifier_contract_declared",
+        "busy": false,
+        "classifier_only": true,
+        "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_base_384",
+        "participant_media_authorized": true,
+        "classifier_ready": true,
+        "classifier_response_validated": false,
+        "manifest_sha256": "d93d19e751461e4fb906ea32ddaf0a3d0c5ad774585c27103ebd1b42b64cf03d",
+        "elapsed_ms": 13.742
+      },
+      "remote_verified": false,
+      "kernels_warmed": false,
+      "static_qwen_intent_forward": true,
+      "elapsed_ms": 10384.425
+    },
+    "locality": {
+      "vision": "friend_gpu_video_only",
+      "asr": "mac",
+      "audio": "mac",
+      "text": "mac",
+      "emotion": "mac",
+      "digest": "mac",
+      "ensemble": "mac",
+      "audio_transmitted": false,
+      "transcript_transmitted": false
+    },
+    "cleanup_errors": []
+  },
+  "sampled_peak_rss_mb": 2640.031,
+  "limits": [
+    "Generated fixture engineering timings only; no captured person or predictive-quality evaluation.",
+    "CPUfp32/MPSfp16 outputs have not been compared to training GPUbf16.",
+    "Three trials are insufficient for sustained live capacity or p95.",
+    "Remote video is independent from the local learned Dasheng/digest stack."
+  ]
+}

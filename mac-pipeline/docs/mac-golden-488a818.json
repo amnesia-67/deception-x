@@ -1,0 +1,99 @@
+{
+  "fixture": "Published generated golden_v1 inputs; all108 transport hashes verified; no participant media",
+  "comparison": "MacCPUFP32/MPSFP16 versus submitted CUDAFP32 reference",
+  "network_calls": false,
+  "asr": "disabled for supplied fixture transcript; no recognition quality claim",
+  "video": "not run; GPU network unavailable",
+  "checks": [
+    {
+      "name": "digest_88",
+      "shape_matches": true,
+      "missingness_matches": true,
+      "max_abs": 0.004507660865783691,
+      "supplied_tolerance": 0.005778059363365173,
+      "within_supplied_tolerance": true
+    },
+    {
+      "name": "qwen_embedding_1024",
+      "shape_matches": true,
+      "missingness_matches": true,
+      "max_abs": 0.0340728759765625,
+      "supplied_tolerance": 0.4533820152282715,
+      "within_supplied_tolerance": true
+    },
+    {
+      "name": "emotion2vec_9",
+      "shape_matches": true,
+      "missingness_matches": true,
+      "max_abs": 2.205371856689453e-06,
+      "supplied_tolerance": 0.0004017055034637451,
+      "within_supplied_tolerance": true
+    },
+    {
+      "name": "dasheng_fold_logits",
+      "shape_matches": true,
+      "missingness_matches": true,
+      "max_abs": 0.0005286931991579369,
+      "supplied_tolerance": 0.009069621562957764,
+      "within_supplied_tolerance": true
+    },
+    {
+      "name": "xgb_digest",
+      "shape_matches": true,
+      "missingness_matches": true,
+      "max_abs": 0.0,
+      "supplied_tolerance": 0.0,
+      "within_supplied_tolerance": true
+    },
+    {
+      "name": "final_score",
+      "shape_matches": true,
+      "missingness_matches": true,
+      "max_abs": 4.16194000192327e-05,
+      "supplied_tolerance": 0.00011228125642215314,
+      "within_supplied_tolerance": true
+    }
+  ],
+  "selection_matches": true,
+  "crops_hash_matches": true,
+  "face_rate": 0.0,
+  "decision_matches": true,
+  "score": 0.5326434879377537,
+  "expected_score": 0.5326018685377345,
+  "elapsed_ms": 1357.288,
+  "largest_digest_differences": [
+    [
+      "face_upper_lower_ratio",
+      0.004507660865783691
+    ],
+    [
+      "intent_04",
+      0.0014018714427947998
+    ],
+    [
+      "intent_13",
+      0.00030153989791870117
+    ],
+    [
+      "face_lower_motion_p95",
+      0.00023250281810760498
+    ],
+    [
+      "intent_19",
+      0.00022523850202560425
+    ],
+    [
+      "face_upper_motion_p95",
+      0.0002037137746810913
+    ],
+    [
+      "face_lower_motion_mean",
+      0.00019174814224243164
+    ],
+    [
+      "intent_16",
+      0.0001780688762664795
+    ]
+  ],
+  "cleanup_status": "closed"
+}

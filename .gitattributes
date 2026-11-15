@@ -1,0 +1,4 @@
+*.safetensors filter=lfs diff=lfs merge=lfs -text
+models/vjepa2_1_l_lora/** -text
+models/pilot_webcam/** -text
+fixtures/golden_v1/pilot_webcam_expected.json -text

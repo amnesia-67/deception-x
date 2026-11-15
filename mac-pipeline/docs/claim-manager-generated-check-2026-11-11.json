@@ -1,0 +1,71 @@
+{
+  "fixture": "Only generated diagram, generated claim and technical evidence; no participant media/text",
+  "math": {
+    "status": "contradiction",
+    "kind": "math",
+    "reason": "The transcribed arithmetic claim contradicts exact arithmetic.",
+    "evidence": [
+      "Parsed equation: one + one = three.",
+      "Calculated values: 2 and 3."
+    ],
+    "source_window_id": 501,
+    "call_made": false,
+    "sent_keyframes": 0,
+    "never_confirms_truth": true,
+    "decision_effect": "contradiction_only",
+    "expression": "one + one",
+    "claimed_expression": "three",
+    "calculated_left": "2",
+    "calculated_right": "3",
+    "elapsed_ms": 0.352
+  },
+  "visual": {
+    "status": "contradiction",
+    "kind": "visual",
+    "reason": "The recognized claim says purple; the image observations report green.",
+    "evidence": [
+      "The vision model reported green for the visible shirt in both selected frames."
+    ],
+    "source_window_id": 502,
+    "call_made": true,
+    "sent_keyframes": 2,
+    "never_confirms_truth": true,
+    "decision_effect": "contradiction_only",
+    "attempted_keyframes": 2,
+    "transmission_status": "response_received",
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "claimed_color": "purple",
+    "observed_color": "green",
+    "garment": "shirt",
+    "elapsed_ms": 1912.637
+  },
+  "manager": {
+    "status": "available",
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "sent_keyframes": 0,
+    "input_mode": "text",
+    "thinking": "disabled",
+    "elapsed_ms": 2863.865,
+    "summary": "Synthetic fixture only: the transcript states 'One plus one equals three,' and the supplied arithmetic check reports a contradiction because the recognized equation evaluates to 2 on the left and 3 on the right. This is a check of the recognized equation, not a truthfulness assessment of any speaker.",
+    "observations": [
+      "Transcript text (synthetic fixture): 'One plus one equals three.'",
+      "Supplied claim_check status is contradiction, kind math, with parsed equation 'one + one' and claimed value 'three'.",
+      "Arithmetic evidence: calculated_left = 2, calculated_right = 3, so the recognized equation does not hold.",
+      "The claim_check is marked never_confirms_truth and decision_effect contradiction_only; it does not verify any claim as true.",
+      "No keyframes were sent (sent_keyframes = 0) and no model call was made (call_made = false).",
+      "No trained classifier lean or branch outputs are supplied in this fixture."
+    ],
+    "limitations": [
+      "This is a generated integration fixture with no participant recording; it does not represent a real assessment or a trained-model accuracy test.",
+      "No images were provided or inspected; visual observations cannot be made.",
+      "The contradiction concerns the transcribed arithmetic statement only and does not establish intent to deceive or any personal attribute.",
+      "No confirmation of truth is available from this check; absence of contradiction would likewise not verify truth."
+    ]
+  },
+  "limits": [
+    "Tests API wiring/deadlines and a synthetic drawn garment only; not real-person visual accuracy.",
+    "No source classifier accuracy claim is made."
+  ]
+}

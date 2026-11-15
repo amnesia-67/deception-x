@@ -1,0 +1,1 @@
+funasr==1.4.25 (PyPI wheel, MIT): funasr/models/emotion2vec/*. Imports rewritten to local; registry decorator, audio loader and LooseVersion removed.

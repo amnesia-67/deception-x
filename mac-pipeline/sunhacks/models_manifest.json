@@ -1,0 +1,218 @@
+{
+  "input_contract": "sunhacks-input-v1",
+  "verified_sources_date": "2026-11-11",
+  "note": "Interface research, not a claim of runtime verification. Installed revisions and measured results belong in local configuration and benchmark reports. No pretrained model supplies a reliable deception score.",
+  "vision": {
+    "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_large_384",
+    "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitl_dist_vitG_384.pt",
+    "checkpoint_key": "ema_encoder",
+    "source": "https://github.com/facebookresearch/vjepa2",
+    "source_revision": "204698b45b3712590f06245fbfba32d3be539812",
+    "checkpoint_sha256": "7ea9b7cb4a75d10644a8a8d42cff9e177b10dca8f02173f0eaf2b0bed82838c6",
+    "architecture": "V-JEPA 2.1 distilled ViT-L/16",
+    "parameters_approx": 300000000,
+    "input": {
+      "shape": [
+        1,
+        3,
+        64,
+        384,
+        384
+      ],
+      "dtype": "float32 or measured compatible float16",
+      "color": "RGB",
+      "preprocessing": "OpenCV bilinear short-side438; rounded center crop384; /255; ImageNet mean/std"
+    },
+    "native_output": [
+      1,
+      18432,
+      1024
+    ],
+    "pipeline_output": [
+      1024
+    ],
+    "pooling": "mean_all_tokens",
+    "license": "MIT upstream project; Apache-2.0 source carveouts",
+    "lora_candidate_suffixes": [
+      "attn.qkv",
+      "attn.proj"
+    ],
+    "caveats": [
+      "Current upstream backbones.py contains a localhost weight URL; direct local loading avoids it.",
+      "Mac latency and memory must be measured for64x384; input sampling fps is not inference fps.",
+      "Not the V-JEPA2 Transformers checkpoint."
+    ]
+  },
+  "dasheng": {
+    "model_id": "mispeech/dasheng-base",
+    "source": "https://huggingface.co/mispeech/dasheng-base",
+    "source_revision": "e0b0a27818689e59010bdd7739475e33090dff11",
+    "parameters_approx": 85400000,
+    "input": {
+      "waveform": "mono float32 at16000Hz",
+      "native_tensor": "[B,64,mel_time]",
+      "extractor": "Official DashengFeatureExtractor; n_fft512,win512,hop160,64mel,fmin0,fmax8000,centerTrue,AmplitudeToDB(top_db120)"
+    },
+    "native_output": "hidden_states[B,variable_patches,768]; logits[B,768]",
+    "pipeline_output": [
+      768
+    ],
+    "pooling": "mean_hidden_states",
+    "license": "Apache-2.0",
+    "lora_candidate_suffixes": [
+      "attn.qkv",
+      "attn.proj"
+    ],
+    "caveats": [
+      "Custom source must be reviewed and pinned locally; no implicit trust_remote_code.",
+      "logits applies sigmoid even outputdim=None; pipeline uses raw hidden-state mean instead.",
+      "Released config target_length1008 mel frames; longer input segmentation depends on pinned source."
+    ]
+  },
+  "emotion": {
+    "model_id": "emotion2vec/emotion2vec_plus_large",
+    "source": "https://huggingface.co/emotion2vec/emotion2vec_plus_large",
+    "source_revision": "6c303ba987b86b93193de93e34bb2b077a6bedc4",
+    "runtime_source": "https://github.com/modelscope/FunASR/tree/main/funasr/models/emotion2vec",
+    "verified_runtime_package": "funasr==1.4.24",
+    "verified_inference_parameter_count": 162140185,
+    "loader": "Built-in architecture from official local YAML; unused pretraining decoder removed; strict weights_only mmap state load; no Hub lookup",
+    "input": "mono float32 at16000Hz; official config normalize:true means waveform layer normalization",
+    "native_output": "frame features[variable_time,1024] near50Hz or utterance features[1024]; nine emotion classes",
+    "pipeline_output": [
+      1024
+    ],
+    "pooling": "utterance_mean",
+    "license": "HF model-license pointing to FunASR; retain applicable custom MODEL_LICENSE separately from MIT code",
+    "license_source": "https://github.com/modelscope/FunASR/blob/main/MODEL_LICENSE",
+    "lora_candidate_suffixes": [
+      "attn.qkv",
+      "attn.proj"
+    ],
+    "caveats": [
+      "Large output is1024, unlike base768.",
+      "Emotion labels are not deception labels.",
+      "CPU is default until exact FunASR/MPS runtime measured."
+    ]
+  },
+  "text": {
+    "model_id": "Qwen/Qwen3-Embedding-0.6B",
+    "source": "https://huggingface.co/Qwen/Qwen3-Embedding-0.6B",
+    "source_revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3",
+    "input": "tokenized transcript text and attention mask; no audio/video input",
+    "model_context_limit_tokens": 32768,
+    "pipeline_max_tokens_default": 512,
+    "pipeline_output": [
+      1024
+    ],
+    "pooling": "last_token_l2",
+    "license": "Apache-2.0",
+    "minimum_transformers": "4.51.0",
+    "lora_candidate_suffixes": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ],
+    "caveats": [
+      "32..1024 dimension truncation supported by model but input contract v1 fixes1024 pending downstream training.",
+      "Vector truncation does not reduce underlying model parameter memory.",
+      "Raw text is not a classifier result."
+    ]
+  },
+  "fusion": {
+    "status": "unavailable",
+    "reason": "Teammate architecture/weights and ordered feature schema pending; ReDA,DARE,DMC,MMPDA are methods, not a verified single downloadable checkpoint."
+  },
+  "tabular": {
+    "status": "unavailable",
+    "reason": "Trained XGBoost model, exact feature order, missingness policy and calibration artifacts pending."
+  },
+  "handoff_preprocessing_settings_generator": "sunhacks.models.input_settings(config)",
+  "handoff_preprocessing_settings_default24": {
+    "video_frames": 64,
+    "sample_fps": 24.0,
+    "hop_seconds": 1.3333333333333333,
+    "capture_requested_fps": 30.0,
+    "capture_max_edge": 640,
+    "vision_preprocessing": "opencv-linear-short438-rounded-center384-rgb-div255-imagenet-v1",
+    "audio_sample_rate": 16000,
+    "audio_channels": 1,
+    "audio_alignment": "video-first-to-last-timestamp-half-open",
+    "audio_missingness": "reject-any-missing-sample",
+    "dasheng_preprocessing": {
+      "n_fft": 512,
+      "win_size": 512,
+      "hop_size": 160,
+      "feature_size": 64,
+      "f_min": 0,
+      "f_max": 8000,
+      "center": true,
+      "top_db": 120
+    },
+    "emotion_waveform_normalization": "layer_norm-entire-window",
+    "max_tokens": 512,
+    "text_policy": "raw-transcript-no-instruction",
+    "embedding_pooling": {
+      "vision": "mean_all_tokens",
+      "dasheng": "mean_hidden_states",
+      "emotion": "utterance_mean",
+      "text": "last_token_l2"
+    }
+  },
+  "rppg": {
+    "model_id": "FacePhys (RLAP-trained) ONNX",
+    "purpose": "Display-only live heart rate on the dashboard; never an input to lie/truth scoring.",
+    "source": "https://github.com/KegangWangCCNU/FacePhys-Release",
+    "source_revision": "07a140294bf81dca5b907fc725ec64ef461a650d",
+    "paper": "Wang et al., FacePhys: State of the Heart Learning, arXiv:2512.06275",
+    "license": "MIT with Privacy Protection Addendum (inference must stay on-device; derived metrics not transmitted without explicit consent)",
+    "parameters": 721388,
+    "parameters_note": "Counted from ONNX initializers; the paper reports 719K.",
+    "reported_hr_mae_bpm": {
+      "protocol": "cross-dataset, trained on RLAP (paper Table 4)",
+      "PURE": 0.24,
+      "UBFC-rPPG": 0.43,
+      "VitalVideo": 0.77,
+      "MMPD": 5.3
+    },
+    "input": {
+      "shape": [
+        1,
+        1,
+        36,
+        36,
+        3
+      ],
+      "dtype": "float32",
+      "range": "RGB/255",
+      "dt": "seconds since previous frame",
+      "streaming_state_tensors": 46
+    },
+    "runtime": "onnxruntime CPUExecutionProvider, 1 intra-op thread",
+    "fallback": "POS (Wang et al. 2017) on face-ROI mean RGB when the model is unavailable",
+    "assets": {
+      "facephys_onnx": {
+        "filename": "facephys_rlap.onnx",
+        "url": "https://raw.githubusercontent.com/KegangWangCCNU/FacePhys-Release/07a140294bf81dca5b907fc725ec64ef461a650d/weights/model.onnx",
+        "sha256": "a6922c3de4c18576842cf44b4f4cef664d51b536ced466c698d8f8bfd18188ba",
+        "bytes": 3159827,
+        "max_bytes": 8388608
+      },
+      "facephys_state": {
+        "filename": "facephys_rlap_state.json.gz",
+        "url": "https://raw.githubusercontent.com/KegangWangCCNU/FacePhys-Release/07a140294bf81dca5b907fc725ec64ef461a650d/weights/state.gz",
+        "sha256": "435d829af29d14f9c3f7b6f7d4b092cc9761589a05f44b05fa744a368fbe76c5",
+        "bytes": 109582,
+        "max_bytes": 4194304
+      },
+      "blazeface_short_range": {
+        "filename": "blaze_face_short_range.tflite",
+        "url": "https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite",
+        "sha256": "b4578f35940bf5a1a655214a1cce5cab13eba73c1297cd78e1a04c2380b0152f",
+        "bytes": 229746,
+        "max_bytes": 8388608
+      }
+    }
+  }
+}

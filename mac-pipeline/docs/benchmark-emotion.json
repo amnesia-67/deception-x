@@ -1,0 +1,46 @@
+{
+  "benchmark_type": "official_base_model_synthetic_smoke",
+  "branch": "emotion",
+  "platform": "macOS-15.3-arm64-arm-64bit",
+  "python": "3.12.11",
+  "torch": "2.15.0",
+  "mps_available": true,
+  "trials": [
+    {
+      "trial": 0,
+      "inference_and_preprocessing_ms": 118.24995800270699,
+      "embedding_shape": [
+        1024
+      ],
+      "finite": true,
+      "clip_frames_per_compute_second": null,
+      "fresh_inference_updates_per_second": 8.456662622891654
+    },
+    {
+      "trial": 1,
+      "inference_and_preprocessing_ms": 104.54925001249649,
+      "embedding_shape": [
+        1024
+      ],
+      "finite": true,
+      "clip_frames_per_compute_second": null,
+      "fresh_inference_updates_per_second": 9.564870143788433
+    }
+  ],
+  "input": "Transient generated color/motion pattern and sine wave; no people or dataset.",
+  "capture_fps": null,
+  "sample_fps": 24,
+  "frames_per_window": 64,
+  "clip_span_seconds": 2.625,
+  "quality_compared_to_64_frames": false,
+  "reduced_frame_experiment": false,
+  "device": "cpu",
+  "dtype": "torch.float32",
+  "load_ms": 2406.895207997877,
+  "status": "passed",
+  "model_parameters": null,
+  "process_peak_rss_mb": 1722.671875,
+  "mps_current_allocated_mb": 0.0,
+  "mps_driver_allocated_mb": 0.453125,
+  "limitation": "Single-branch smoke measurement includes preprocessing; not simultaneous full-pipeline latency, sensor fps, classification quality or sustained thermal performance."
+}

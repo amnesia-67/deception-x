@@ -1,0 +1,601 @@
+{
+  "benchmark_type": "local_required_paths_only_remote_offline",
+  "input": "Existing generated non-person speech fixture; 3.9375 seconds at16kHz. In-memory color clip is not encoded because remote vision is off.",
+  "models": {
+    "asr": {
+      "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+      "device": "mps",
+      "dtype": "float16",
+      "keep_loaded": true
+    },
+    "dasheng": {
+      "revision": "e0b0a27818689e59010bdd7739475e33090dff11",
+      "device": "cpu",
+      "dtype": "float32",
+      "keep_loaded": true
+    },
+    "text": {
+      "revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3",
+      "device": "mps",
+      "dtype": "float16",
+      "keep_loaded": true
+    },
+    "emotion": {
+      "revision": "6c303ba987b86b93193de93e34bb2b077a6bedc4",
+      "device": "cpu",
+      "dtype": "float32",
+      "keep_loaded": true
+    }
+  },
+  "cpu_threads": 2,
+  "remote_called": false,
+  "sensors_opened": false,
+  "manager_called": false,
+  "old_fusion_called": false,
+  "memory_before": {
+    "rss_mb": 207.703,
+    "lifetime_peak_rss_mb": 207.703,
+    "mps_current_mb": 0.0,
+    "mps_driver_mb": 0.453
+  },
+  "trials": [
+    {
+      "id": 1,
+      "timings": {
+        "service_ms": 3203.175,
+        "deadline_ms": 15000.0,
+        "jobs": {
+          "vision": {
+            "status": "unconfigured"
+          },
+          "dasheng": {
+            "status": "complete"
+          },
+          "semantic": {
+            "status": "complete",
+            "elapsed_ms": 3202.838
+          },
+          "emotion": {
+            "status": "complete"
+          }
+        }
+      },
+      "branches": {
+        "vision": {
+          "status": "unavailable",
+          "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_large_384",
+          "elapsed_ms": 0.0,
+          "embedding_shape": null,
+          "reason": "Verified remote raw-video encoder is unavailable; no local vision fallback."
+        },
+        "dasheng": {
+          "status": "base",
+          "model_id": "mispeech/dasheng-base",
+          "elapsed_ms": 615.255,
+          "embedding_shape": [
+            768
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "cpu"
+        },
+        "emotion": {
+          "status": "base",
+          "model_id": "emotion2vec/emotion2vec_plus_large",
+          "elapsed_ms": 179.974,
+          "embedding_shape": [
+            1024
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "cpu"
+        },
+        "text": {
+          "status": "base",
+          "model_id": "Qwen/Qwen3-Embedding-0.6B",
+          "elapsed_ms": 348.089,
+          "embedding_shape": [
+            1024
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "mps"
+        }
+      },
+      "asr": {
+        "status": "base",
+        "language": "english",
+        "model_id": "openai/whisper-large-v3-turbo",
+        "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+        "source": "local_asr",
+        "word_timestamps": null,
+        "timestamp_granularity": "window_only",
+        "sample_rate": 16000,
+        "duration_seconds": 3.9375,
+        "load_cache_hit": true,
+        "load_or_cache_ms": 0.004,
+        "device": "mps",
+        "dtype": "torch.float16",
+        "truncated": false,
+        "inference_ms": 2828.048,
+        "reason": "Local automatic transcript; recognition may normalize or omit disfluencies. Verify against the captured speech.",
+        "limitations": [
+          "No word-level timestamps or guaranteed verbatim disfluency preservation."
+        ],
+        "elapsed_ms": 2854.705,
+        "scope": "video_window",
+        "source_window_id": 1
+      },
+      "transcript_character_count": 70,
+      "memory": {
+        "rss_mb": 1417.359,
+        "lifetime_peak_rss_mb": 2736.516,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3786.828
+      }
+    },
+    {
+      "id": 2,
+      "timings": {
+        "service_ms": 967.799,
+        "deadline_ms": 15000.0,
+        "jobs": {
+          "vision": {
+            "status": "unconfigured"
+          },
+          "dasheng": {
+            "status": "complete"
+          },
+          "semantic": {
+            "status": "complete",
+            "elapsed_ms": 967.691
+          },
+          "emotion": {
+            "status": "complete"
+          }
+        }
+      },
+      "branches": {
+        "vision": {
+          "status": "unavailable",
+          "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_large_384",
+          "elapsed_ms": 0.0,
+          "embedding_shape": null,
+          "reason": "Verified remote raw-video encoder is unavailable; no local vision fallback."
+        },
+        "dasheng": {
+          "status": "base",
+          "model_id": "mispeech/dasheng-base",
+          "elapsed_ms": 98.717,
+          "embedding_shape": [
+            768
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "cpu"
+        },
+        "emotion": {
+          "status": "base",
+          "model_id": "emotion2vec/emotion2vec_plus_large",
+          "elapsed_ms": 196.489,
+          "embedding_shape": [
+            1024
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "cpu"
+        },
+        "text": {
+          "status": "base",
+          "model_id": "Qwen/Qwen3-Embedding-0.6B",
+          "elapsed_ms": 31.914,
+          "embedding_shape": [
+            1024
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "mps"
+        }
+      },
+      "asr": {
+        "status": "base",
+        "language": "english",
+        "model_id": "openai/whisper-large-v3-turbo",
+        "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+        "source": "local_asr",
+        "word_timestamps": null,
+        "timestamp_granularity": "window_only",
+        "sample_rate": 16000,
+        "duration_seconds": 3.9375,
+        "load_cache_hit": true,
+        "load_or_cache_ms": 0.003,
+        "device": "mps",
+        "dtype": "torch.float16",
+        "truncated": false,
+        "inference_ms": 923.426,
+        "reason": "Local automatic transcript; recognition may normalize or omit disfluencies. Verify against the captured speech.",
+        "limitations": [
+          "No word-level timestamps or guaranteed verbatim disfluency preservation."
+        ],
+        "elapsed_ms": 935.727,
+        "scope": "video_window",
+        "source_window_id": 2
+      },
+      "transcript_character_count": 70,
+      "memory": {
+        "rss_mb": 1561.688,
+        "lifetime_peak_rss_mb": 2736.516,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3792.828
+      }
+    },
+    {
+      "id": 3,
+      "timings": {
+        "service_ms": 956.268,
+        "deadline_ms": 15000.0,
+        "jobs": {
+          "vision": {
+            "status": "unconfigured"
+          },
+          "dasheng": {
+            "status": "complete"
+          },
+          "semantic": {
+            "status": "complete",
+            "elapsed_ms": 956.131
+          },
+          "emotion": {
+            "status": "complete"
+          }
+        }
+      },
+      "branches": {
+        "vision": {
+          "status": "unavailable",
+          "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_large_384",
+          "elapsed_ms": 0.0,
+          "embedding_shape": null,
+          "reason": "Verified remote raw-video encoder is unavailable; no local vision fallback."
+        },
+        "dasheng": {
+          "status": "base",
+          "model_id": "mispeech/dasheng-base",
+          "elapsed_ms": 74.5,
+          "embedding_shape": [
+            768
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "cpu"
+        },
+        "emotion": {
+          "status": "base",
+          "model_id": "emotion2vec/emotion2vec_plus_large",
+          "elapsed_ms": 189.506,
+          "embedding_shape": [
+            1024
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "cpu"
+        },
+        "text": {
+          "status": "base",
+          "model_id": "Qwen/Qwen3-Embedding-0.6B",
+          "elapsed_ms": 27.663,
+          "embedding_shape": [
+            1024
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "mps"
+        }
+      },
+      "asr": {
+        "status": "base",
+        "language": "english",
+        "model_id": "openai/whisper-large-v3-turbo",
+        "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+        "source": "local_asr",
+        "word_timestamps": null,
+        "timestamp_granularity": "window_only",
+        "sample_rate": 16000,
+        "duration_seconds": 3.9375,
+        "load_cache_hit": true,
+        "load_or_cache_ms": 0.003,
+        "device": "mps",
+        "dtype": "torch.float16",
+        "truncated": false,
+        "inference_ms": 913.775,
+        "reason": "Local automatic transcript; recognition may normalize or omit disfluencies. Verify against the captured speech.",
+        "limitations": [
+          "No word-level timestamps or guaranteed verbatim disfluency preservation."
+        ],
+        "elapsed_ms": 928.43,
+        "scope": "video_window",
+        "source_window_id": 3
+      },
+      "transcript_character_count": 70,
+      "memory": {
+        "rss_mb": 1584.547,
+        "lifetime_peak_rss_mb": 2736.516,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3800.828
+      }
+    },
+    {
+      "id": 4,
+      "timings": {
+        "service_ms": 967.194,
+        "deadline_ms": 15000.0,
+        "jobs": {
+          "vision": {
+            "status": "unconfigured"
+          },
+          "dasheng": {
+            "status": "complete"
+          },
+          "semantic": {
+            "status": "complete",
+            "elapsed_ms": 967.017
+          },
+          "emotion": {
+            "status": "complete"
+          }
+        }
+      },
+      "branches": {
+        "vision": {
+          "status": "unavailable",
+          "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_large_384",
+          "elapsed_ms": 0.0,
+          "embedding_shape": null,
+          "reason": "Verified remote raw-video encoder is unavailable; no local vision fallback."
+        },
+        "dasheng": {
+          "status": "base",
+          "model_id": "mispeech/dasheng-base",
+          "elapsed_ms": 91.964,
+          "embedding_shape": [
+            768
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "cpu"
+        },
+        "emotion": {
+          "status": "base",
+          "model_id": "emotion2vec/emotion2vec_plus_large",
+          "elapsed_ms": 193.249,
+          "embedding_shape": [
+            1024
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "cpu"
+        },
+        "text": {
+          "status": "base",
+          "model_id": "Qwen/Qwen3-Embedding-0.6B",
+          "elapsed_ms": 28.317,
+          "embedding_shape": [
+            1024
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "mps"
+        }
+      },
+      "asr": {
+        "status": "base",
+        "language": "english",
+        "model_id": "openai/whisper-large-v3-turbo",
+        "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+        "source": "local_asr",
+        "word_timestamps": null,
+        "timestamp_granularity": "window_only",
+        "sample_rate": 16000,
+        "duration_seconds": 3.9375,
+        "load_cache_hit": true,
+        "load_or_cache_ms": 0.002,
+        "device": "mps",
+        "dtype": "torch.float16",
+        "truncated": false,
+        "inference_ms": 927.471,
+        "reason": "Local automatic transcript; recognition may normalize or omit disfluencies. Verify against the captured speech.",
+        "limitations": [
+          "No word-level timestamps or guaranteed verbatim disfluency preservation."
+        ],
+        "elapsed_ms": 938.665,
+        "scope": "video_window",
+        "source_window_id": 4
+      },
+      "transcript_character_count": 70,
+      "memory": {
+        "rss_mb": 1586.625,
+        "lifetime_peak_rss_mb": 2736.516,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3800.828
+      }
+    },
+    {
+      "id": 5,
+      "timings": {
+        "service_ms": 967.814,
+        "deadline_ms": 15000.0,
+        "jobs": {
+          "vision": {
+            "status": "unconfigured"
+          },
+          "dasheng": {
+            "status": "complete"
+          },
+          "semantic": {
+            "status": "complete",
+            "elapsed_ms": 967.714
+          },
+          "emotion": {
+            "status": "complete"
+          }
+        }
+      },
+      "branches": {
+        "vision": {
+          "status": "unavailable",
+          "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_large_384",
+          "elapsed_ms": 0.0,
+          "embedding_shape": null,
+          "reason": "Verified remote raw-video encoder is unavailable; no local vision fallback."
+        },
+        "dasheng": {
+          "status": "base",
+          "model_id": "mispeech/dasheng-base",
+          "elapsed_ms": 82.03,
+          "embedding_shape": [
+            768
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "cpu"
+        },
+        "emotion": {
+          "status": "base",
+          "model_id": "emotion2vec/emotion2vec_plus_large",
+          "elapsed_ms": 195.31,
+          "embedding_shape": [
+            1024
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "cpu"
+        },
+        "text": {
+          "status": "base",
+          "model_id": "Qwen/Qwen3-Embedding-0.6B",
+          "elapsed_ms": 28.0,
+          "embedding_shape": [
+            1024
+          ],
+          "reason": "Official base encoder features; no task-trained classifier.",
+          "load_cache_hit": true,
+          "device": "mps"
+        }
+      },
+      "asr": {
+        "status": "base",
+        "language": "english",
+        "model_id": "openai/whisper-large-v3-turbo",
+        "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+        "source": "local_asr",
+        "word_timestamps": null,
+        "timestamp_granularity": "window_only",
+        "sample_rate": 16000,
+        "duration_seconds": 3.9375,
+        "load_cache_hit": true,
+        "load_or_cache_ms": 0.001,
+        "device": "mps",
+        "dtype": "torch.float16",
+        "truncated": false,
+        "inference_ms": 930.127,
+        "reason": "Local automatic transcript; recognition may normalize or omit disfluencies. Verify against the captured speech.",
+        "limitations": [
+          "No word-level timestamps or guaranteed verbatim disfluency preservation."
+        ],
+        "elapsed_ms": 939.686,
+        "scope": "video_window",
+        "source_window_id": 5
+      },
+      "transcript_character_count": 70,
+      "memory": {
+        "rss_mb": 1591.359,
+        "lifetime_peak_rss_mb": 2736.516,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3800.828
+      }
+    }
+  ],
+  "preparation": {
+    "status": "partial",
+    "components": {
+      "asr": {
+        "status": "ready",
+        "model_id": "openai/whisper-large-v3-turbo",
+        "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+        "kernels_warmed": false,
+        "cache_hit": false,
+        "device": "mps",
+        "dtype": "torch.float16",
+        "reason": "Official local ASR weights are resident; first-forward latency remains to be measured.",
+        "elapsed_ms": 3314.034
+      },
+      "dasheng": {
+        "status": "ready",
+        "model_id": "mispeech/dasheng-base",
+        "weights_loaded": true,
+        "kernels_warmed": false,
+        "cache_hit": false,
+        "elapsed_ms": 51.289
+      },
+      "text": {
+        "status": "ready",
+        "model_id": "Qwen/Qwen3-Embedding-0.6B",
+        "weights_loaded": true,
+        "kernels_warmed": false,
+        "cache_hit": false,
+        "elapsed_ms": 1321.491
+      },
+      "emotion": {
+        "status": "ready",
+        "model_id": "emotion2vec/emotion2vec_plus_large",
+        "weights_loaded": true,
+        "kernels_warmed": false,
+        "cache_hit": false,
+        "elapsed_ms": 3231.874
+      },
+      "vision": {
+        "status": "unavailable",
+        "weights_loaded": false,
+        "kernels_warmed": false,
+        "reason": "Verified remote raw-video encoder is not configured; no local vision fallback."
+      }
+    },
+    "local_weights_loaded": true,
+    "readiness_scope": "local_weights_only",
+    "remote_verified": false,
+    "kernels_warmed": false,
+    "elapsed_ms": 7918.805
+  },
+  "memory_prepared": {
+    "rss_mb": 1133.516,
+    "lifetime_peak_rss_mb": 2736.516,
+    "mps_current_mb": 2689.15,
+    "mps_driver_mb": 2696.453
+  },
+  "local_required_service_ms": [
+    3203.175,
+    967.799,
+    956.268,
+    967.194,
+    967.814
+  ],
+  "memory_after": {
+    "rss_mb": 1591.375,
+    "lifetime_peak_rss_mb": 2736.516,
+    "mps_current_mb": 2689.15,
+    "mps_driver_mb": 3800.828
+  },
+  "shutdown": {
+    "status": "closed",
+    "active_jobs": 0,
+    "active_prepares": 0,
+    "cleanup_in_progress": false
+  },
+  "sampled_peak_rss_mb": 2687.297,
+  "limitations": [
+    "No remote vision, replacement fusion or live capture measured. These are local technical timings, not full pipeline throughput or predictive-quality validation.",
+    "Five repetitions of one fixed generated speech fixture; insufficient sample count or input diversity for a production p95.",
+    "Preparation loads weights only; first-forward compilation is measured in trial1.",
+    "Emotion runs independently; wait for completion outside required-path timing only between benchmark trials."
+  ]
+}

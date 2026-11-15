@@ -1,0 +1,1057 @@
+{
+  "format": "sunhacks-ensemble-v2",
+  "class_1_meaning": "deceptive (label 1 = Real-Life Trials 'Deceptive' folder)",
+  "feature_version": "v3-fixed-lag-motion",
+  "aggregation": "tuned_dasheng = mean of the 5 fold models' probabilities; xgb_digest = one model refit on all 121 clips; p = sum_i weights[i] * sigmoid(platt_A[i] * logit(p_i) + platt_B[i])",
+  "dasheng_folds": {
+    "fold0.pt": {
+      "sha256": "4739628e4a4d5e97339257baaf1484cb21c5c74600218424f06cebb67ec8b11f",
+      "size": 609001,
+      "config": {
+        "backbone": "dasheng",
+        "eff_batch": 8,
+        "head_dropout": 0.3,
+        "label_smoothing": 0.05,
+        "lora_blocks": 4,
+        "lora_dropout": 0.1,
+        "lora_r": 8,
+        "lr_head": 0.001,
+        "lr_lora": 0.0002,
+        "max_epochs": 16,
+        "micro_batch": 0,
+        "min_epochs": 4,
+        "patience": 4,
+        "seed": 0,
+        "tag": "r8_last4_lr2e-4",
+        "weight_decay": 0.01
+      },
+      "state_schema": {
+        "lora": {
+          "model.encoder.blocks.8.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          }
+        },
+        "head": {
+          "norm.weight": {
+            "shape": [
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "norm.bias": {
+            "shape": [
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "score.weight": {
+            "shape": [
+              1,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "score.bias": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float32"
+          },
+          "out.weight": {
+            "shape": [
+              1,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "out.bias": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float32"
+          }
+        }
+      }
+    },
+    "fold1.pt": {
+      "sha256": "ab8d2c688b86c7ff16cab0eac59024997b5b18c7843df05756ee2ff25331bc6c",
+      "size": 609001,
+      "config": {
+        "backbone": "dasheng",
+        "eff_batch": 8,
+        "head_dropout": 0.3,
+        "label_smoothing": 0.05,
+        "lora_blocks": 4,
+        "lora_dropout": 0.1,
+        "lora_r": 8,
+        "lr_head": 0.001,
+        "lr_lora": 0.0002,
+        "max_epochs": 16,
+        "micro_batch": 0,
+        "min_epochs": 4,
+        "patience": 4,
+        "seed": 0,
+        "tag": "r8_last4_lr2e-4",
+        "weight_decay": 0.01
+      },
+      "state_schema": {
+        "lora": {
+          "model.encoder.blocks.8.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          }
+        },
+        "head": {
+          "norm.weight": {
+            "shape": [
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "norm.bias": {
+            "shape": [
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "score.weight": {
+            "shape": [
+              1,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "score.bias": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float32"
+          },
+          "out.weight": {
+            "shape": [
+              1,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "out.bias": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float32"
+          }
+        }
+      }
+    },
+    "fold2.pt": {
+      "sha256": "450bed6e4dc915561fd9403c597e9a65cec0af2c9ebed9b2935197d34e0f69d8",
+      "size": 609001,
+      "config": {
+        "backbone": "dasheng",
+        "eff_batch": 8,
+        "head_dropout": 0.3,
+        "label_smoothing": 0.05,
+        "lora_blocks": 4,
+        "lora_dropout": 0.1,
+        "lora_r": 8,
+        "lr_head": 0.001,
+        "lr_lora": 0.0002,
+        "max_epochs": 16,
+        "micro_batch": 0,
+        "min_epochs": 4,
+        "patience": 4,
+        "seed": 0,
+        "tag": "r8_last4_lr2e-4",
+        "weight_decay": 0.01
+      },
+      "state_schema": {
+        "lora": {
+          "model.encoder.blocks.8.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          }
+        },
+        "head": {
+          "norm.weight": {
+            "shape": [
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "norm.bias": {
+            "shape": [
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "score.weight": {
+            "shape": [
+              1,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "score.bias": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float32"
+          },
+          "out.weight": {
+            "shape": [
+              1,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "out.bias": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float32"
+          }
+        }
+      }
+    },
+    "fold3.pt": {
+      "sha256": "0c5aec1b0854c4ca1eb6fb18e9c111b3b585525b101b6cfee8569d40d583b514",
+      "size": 609001,
+      "config": {
+        "backbone": "dasheng",
+        "eff_batch": 8,
+        "head_dropout": 0.3,
+        "label_smoothing": 0.05,
+        "lora_blocks": 4,
+        "lora_dropout": 0.1,
+        "lora_r": 8,
+        "lr_head": 0.001,
+        "lr_lora": 0.0002,
+        "max_epochs": 16,
+        "micro_batch": 0,
+        "min_epochs": 4,
+        "patience": 4,
+        "seed": 0,
+        "tag": "r8_last4_lr2e-4",
+        "weight_decay": 0.01
+      },
+      "state_schema": {
+        "lora": {
+          "model.encoder.blocks.8.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          }
+        },
+        "head": {
+          "norm.weight": {
+            "shape": [
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "norm.bias": {
+            "shape": [
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "score.weight": {
+            "shape": [
+              1,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "score.bias": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float32"
+          },
+          "out.weight": {
+            "shape": [
+              1,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "out.bias": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float32"
+          }
+        }
+      }
+    },
+    "fold4.pt": {
+      "sha256": "82b982db2da144e8a670dd461cfcc0bb1ecef862abdd2db3b9fbd7ad4e1076de",
+      "size": 609001,
+      "config": {
+        "backbone": "dasheng",
+        "eff_batch": 8,
+        "head_dropout": 0.3,
+        "label_smoothing": 0.05,
+        "lora_blocks": 4,
+        "lora_dropout": 0.1,
+        "lora_r": 8,
+        "lr_head": 0.001,
+        "lr_lora": 0.0002,
+        "max_epochs": 16,
+        "micro_batch": 0,
+        "min_epochs": 4,
+        "patience": 4,
+        "seed": 0,
+        "tag": "r8_last4_lr2e-4",
+        "weight_decay": 0.01
+      },
+      "state_schema": {
+        "lora": {
+          "model.encoder.blocks.8.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.8.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.9.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.10.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.qkv.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.qkv.lora_B.default.weight": {
+            "shape": [
+              2304,
+              8
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.proj.lora_A.default.weight": {
+            "shape": [
+              8,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "model.encoder.blocks.11.attn.proj.lora_B.default.weight": {
+            "shape": [
+              768,
+              8
+            ],
+            "dtype": "torch.float32"
+          }
+        },
+        "head": {
+          "norm.weight": {
+            "shape": [
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "norm.bias": {
+            "shape": [
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "score.weight": {
+            "shape": [
+              1,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "score.bias": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float32"
+          },
+          "out.weight": {
+            "shape": [
+              1,
+              768
+            ],
+            "dtype": "torch.float32"
+          },
+          "out.bias": {
+            "shape": [
+              1
+            ],
+            "dtype": "torch.float32"
+          }
+        }
+      }
+    }
+  },
+  "digest_model_sha256": "f501ea925d0cc2f8d15776b239d97463963f2a83e4a155303420eaed36f563c1",
+  "digest_schema_sha256": "bbed857c527031550a878e01e4be8670fcd2a169eea07a482389c4ead31b5356",
+  "branches": [
+    "tuned_dasheng",
+    "xgb_digest"
+  ],
+  "platt_A": [
+    1.2428574190344905,
+    1.5430329189543752
+  ],
+  "platt_B": [
+    0.18563188430181185,
+    0.48678425930137054
+  ],
+  "weights": [
+    0.5379349436053581,
+    0.462065056394642
+  ],
+  "threshold": 0.4238521751969923,
+  "threshold_provenance": "prior-matched: the fraction of the stacker's identity-grouped CV predictions (training data only) called deceptive equals the training class base rate; the same rule was re-fitted inside every outer fold of the nested evaluation, whose result is cv_metrics",
+  "cv_metrics": {
+    "protocol": "fully nested: outer 5-fold identity-grouped CV; inside each outer-train set an inner 5-fold identity-grouped CV re-tunes dasheng LoRA, produces digest OOF, fits the stacker and picks the threshold; outer test scored with the served aggregation",
+    "residual_selection": "Which two branches are served was chosen earlier from the 7-branch stacker on all clips; that choice is not re-made inside the outer folds.",
+    "auroc": 0.7778688524590164,
+    "auroc_ci95": [
+      0.6758388450069789,
+      0.9000066489361702
+    ],
+    "at_threshold": {
+      "threshold": 0.46004186891180376,
+      "tp_lie": 53,
+      "fn_lie": 8,
+      "tn_truth": 37,
+      "fp_truth": 23,
+      "lie_sensitivity": 0.8688524590163934,
+      "truth_specificity": 0.6166666666666667,
+      "bal_acc": 0.74275956284153,
+      "acc": 0.743801652892562,
+      "predicted_lie_fraction": 0.628099173553719,
+      "brier": 0.19476781414929636,
+      "log_loss": 0.5723008942366116,
+      "ece_10bin": 0.09354073063510743,
+      "baseline_always_truthful_acc": 0.49586776859504134,
+      "baseline_always_truthful_bal_acc": 0.5,
+      "baseline_prior_brier": 0.24998292466361588,
+      "lie_sensitivity_ci95": [
+        0.75,
+        0.9523809523809523
+      ],
+      "truth_specificity_ci95": [
+        0.4506725747744896,
+        0.8048780487804879
+      ],
+      "bal_acc_ci95": [
+        0.636499363327674,
+        0.8524394091044076
+      ]
+    },
+    "at_0.5": {
+      "threshold": 0.5,
+      "tp_lie": 46,
+      "fn_lie": 15,
+      "tn_truth": 41,
+      "fp_truth": 19,
+      "lie_sensitivity": 0.7540983606557377,
+      "truth_specificity": 0.6833333333333333,
+      "bal_acc": 0.7187158469945355,
+      "acc": 0.71900826446281,
+      "predicted_lie_fraction": 0.5371900826446281,
+      "brier": 0.19476781414929636,
+      "log_loss": 0.5723008942366116,
+      "ece_10bin": 0.09354073063510743,
+      "baseline_always_truthful_acc": 0.49586776859504134,
+      "baseline_always_truthful_bal_acc": 0.5,
+      "baseline_prior_brier": 0.24998292466361588
+    },
+    "branches_as_served": {
+      "tuned_dasheng_mean_of_fold_models": {
+        "auroc": 0.7592896174863387,
+        "auroc_ci95": [
+          0.6122681555824583,
+          0.9129242007337527
+        ]
+      },
+      "xgb_digest_full_refit": {
+        "auroc": 0.7631147540983606,
+        "auroc_ci95": [
+          0.6814247603544945,
+          0.8744662830203085
+        ]
+      }
+    },
+    "seven_second_dasheng_diagnostic": {
+      "note": "inherited whole-clip labels; central window only; not a 7 s target-domain evaluation",
+      "n_clips_longer_than_7s": 117,
+      "full": {
+        "n": 121,
+        "acc": 0.6942148760330579,
+        "bal_acc": 0.6953551912568305,
+        "log_loss": 0.5806960791586686,
+        "auroc": 0.7636612021857924,
+        "classwise": {
+          "threshold": 0.5,
+          "tp_lie": 34,
+          "fn_lie": 27,
+          "tn_truth": 50,
+          "fp_truth": 10,
+          "lie_sensitivity": 0.5573770491803278,
+          "truth_specificity": 0.8333333333333334,
+          "bal_acc": 0.6953551912568305,
+          "acc": 0.6942148760330579,
+          "predicted_lie_fraction": 0.36363636363636365,
+          "brier": 0.20035815884224295,
+          "log_loss": 0.5806960791586686,
+          "ece_10bin": 0.08749373925431514,
+          "baseline_always_truthful_acc": 0.49586776859504134,
+          "baseline_always_truthful_bal_acc": 0.5,
+          "baseline_prior_brier": 0.24998292466361588
+        },
+        "mean_prob": 0.4333940728439446
+      },
+      "7s": {
+        "n": 121,
+        "acc": 0.6611570247933884,
+        "bal_acc": 0.6627049180327869,
+        "log_loss": 0.6227221470976414,
+        "auroc": 0.73551912568306,
+        "classwise": {
+          "threshold": 0.5,
+          "tp_lie": 29,
+          "fn_lie": 32,
+          "tn_truth": 51,
+          "fp_truth": 9,
+          "lie_sensitivity": 0.47540983606557374,
+          "truth_specificity": 0.85,
+          "bal_acc": 0.6627049180327869,
+          "acc": 0.6611570247933884,
+          "predicted_lie_fraction": 0.3140495867768595,
+          "brier": 0.2186433274557411,
+          "log_loss": 0.6227221470976414,
+          "ece_10bin": 0.11228610785464337,
+          "baseline_always_truthful_acc": 0.49586776859504134,
+          "baseline_always_truthful_bal_acc": 0.5,
+          "baseline_prior_brier": 0.24998292466361588
+        },
+        "mean_prob": 0.4015704623462372
+      }
+    }
+  },
+  "code_revision": {
+    "commit": "f602eb41503491686d699920409f5826809ffae9",
+    "dirty": true
+  },
+  "caveats": [
+    "Trained on 121 courtroom clips (Real-Life Trials) with human transcripts. Webcam audio/video and Whisper transcripts are a different domain; webcam accuracy has NOT been measured.",
+    "Recording conditions alone predict the training labels with AUROC 0.67; part of the signal may be artefacts.",
+    "Probabilities are Platt-scaled on courtroom out-of-fold predictions, not calibrated for live input.",
+    "Not suitable for real-world decisions about whether a person is lying."
+  ]
+}

@@ -1,0 +1,1063 @@
+{
+  "status": "inspected_not_activated",
+  "fusion": {
+    "name": "branch1_fusion.pt",
+    "bytes": 3254993,
+    "sha256": "cdeeb2f19c51aa9c614665e9c36554e9b1efe03fca367842ee94beec95820e78",
+    "archive_uncompressed_bytes": 3244180,
+    "archive_entries": 55,
+    "container_type": "dict",
+    "contents": {
+      "network_state_dict": {
+        "projector_v.net.0.weight": {
+          "shape": [
+            256,
+            1024
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -8.367898408323526e-05,
+          "std": 0.018067143857479095,
+          "numel": 262144
+        },
+        "projector_v.net.0.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.001270914450287819,
+          "std": 0.017492711544036865,
+          "numel": 256
+        },
+        "projector_v.net.1.weight": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 1.0,
+          "std": 0.0,
+          "numel": 256
+        },
+        "projector_v.net.1.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 7.208529859781265e-05,
+          "std": 0.003594178007915616,
+          "numel": 256
+        },
+        "projector_v.net.3.weight": {
+          "shape": [
+            256,
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -5.76208985876292e-05,
+          "std": 0.03598201274871826,
+          "numel": 65536
+        },
+        "projector_v.net.3.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.0029249265789985657,
+          "std": 0.03536302596330643,
+          "numel": 256
+        },
+        "projector_v.net.4.weight": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 1.0,
+          "std": 0.0,
+          "numel": 256
+        },
+        "projector_v.net.4.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 0.0009910393273457885,
+          "std": 0.003202653955668211,
+          "numel": 256
+        },
+        "projector_a.net.0.weight": {
+          "shape": [
+            256,
+            768
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -3.565985753084533e-05,
+          "std": 0.02085655927658081,
+          "numel": 196608
+        },
+        "projector_a.net.0.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 9.730039164423943e-05,
+          "std": 0.020859159529209137,
+          "numel": 256
+        },
+        "projector_a.net.1.weight": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 1.0,
+          "std": 0.0,
+          "numel": 256
+        },
+        "projector_a.net.1.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 1.1570751667022705e-05,
+          "std": 0.0018024893943220377,
+          "numel": 256
+        },
+        "projector_a.net.3.weight": {
+          "shape": [
+            256,
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.0002032443881034851,
+          "std": 0.036198362708091736,
+          "numel": 65536
+        },
+        "projector_a.net.3.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 0.0013978630304336548,
+          "std": 0.035498373210430145,
+          "numel": 256
+        },
+        "projector_a.net.4.weight": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 1.0,
+          "std": 0.0,
+          "numel": 256
+        },
+        "projector_a.net.4.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.0002668069791980088,
+          "std": 0.0026233813259750605,
+          "numel": 256
+        },
+        "projector_l.net.0.weight": {
+          "shape": [
+            256,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.0004432408604770899,
+          "std": 0.05097503215074539,
+          "numel": 32768
+        },
+        "projector_l.net.0.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 0.0020382702350616455,
+          "std": 0.050791312009096146,
+          "numel": 256
+        },
+        "projector_l.net.1.weight": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 1.0,
+          "std": 0.0,
+          "numel": 256
+        },
+        "projector_l.net.1.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 0.00034619495272636414,
+          "std": 0.003084518015384674,
+          "numel": 256
+        },
+        "projector_l.net.3.weight": {
+          "shape": [
+            256,
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -1.8716864360612817e-05,
+          "std": 0.036136697977781296,
+          "numel": 65536
+        },
+        "projector_l.net.3.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 0.0004948731511831284,
+          "std": 0.03518892079591751,
+          "numel": 256
+        },
+        "projector_l.net.4.weight": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 1.0,
+          "std": 0.0,
+          "numel": 256
+        },
+        "projector_l.net.4.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 0.0009401561692357063,
+          "std": 0.0031319588888436556,
+          "numel": 256
+        },
+        "dare.gamma_d": {
+          "shape": [],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 1.0,
+          "std": 0,
+          "numel": 1
+        },
+        "dare.w_s.weight": {
+          "shape": [
+            1,
+            512
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.0031166337430477142,
+          "std": 0.02690403163433075,
+          "numel": 512
+        },
+        "dare.w_s.bias": {
+          "shape": [
+            1
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 0.0155029296875,
+          "std": 0,
+          "numel": 1
+        },
+        "mlp_disc.0.weight": {
+          "shape": [
+            256,
+            1024
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 4.1332859836984426e-05,
+          "std": 0.018098905682563782,
+          "numel": 262144
+        },
+        "mlp_disc.0.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.002033377066254616,
+          "std": 0.018598809838294983,
+          "numel": 256
+        },
+        "mlp_disc.1.weight": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 1.0,
+          "std": 0.0,
+          "numel": 256
+        },
+        "mlp_disc.1.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.0006133336573839188,
+          "std": 0.0015386058948934078,
+          "numel": 256
+        },
+        "mlp_disc.3.weight": {
+          "shape": [
+            256,
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 4.1074861655943096e-05,
+          "std": 0.03606927767395973,
+          "numel": 65536
+        },
+        "mlp_disc.3.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 0.0034392662346363068,
+          "std": 0.03665328770875931,
+          "numel": 256
+        },
+        "mlp_disc.4.weight": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 1.0,
+          "std": 0.0,
+          "numel": 256
+        },
+        "mlp_disc.4.bias": {
+          "shape": [
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -5.453533958643675e-05,
+          "std": 0.0021493632812052965,
+          "numel": 256
+        },
+        "w_r.weight": {
+          "shape": [
+            3,
+            1024
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.00016894521832000464,
+          "std": 0.01821775548160076,
+          "numel": 3072
+        },
+        "w_r.bias": {
+          "shape": [
+            3
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 0.011627197265625,
+          "std": 0.015012260526418686,
+          "numel": 3
+        },
+        "head_fused.weight": {
+          "shape": [
+            1,
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.003290305845439434,
+          "std": 0.0377105176448822,
+          "numel": 256
+        },
+        "head_fused.bias": {
+          "shape": [
+            1
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 0.0240478515625,
+          "std": 0,
+          "numel": 1
+        },
+        "head_v.weight": {
+          "shape": [
+            1,
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.002011522650718689,
+          "std": 0.03581110015511513,
+          "numel": 256
+        },
+        "head_v.bias": {
+          "shape": [
+            1
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.0625,
+          "std": 0,
+          "numel": 1
+        },
+        "head_a.weight": {
+          "shape": [
+            1,
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 0.0019745975732803345,
+          "std": 0.03559000790119171,
+          "numel": 256
+        },
+        "head_a.bias": {
+          "shape": [
+            1
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.059814453125,
+          "std": 0,
+          "numel": 1
+        },
+        "head_l.weight": {
+          "shape": [
+            1,
+            256
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.0009682467207312584,
+          "std": 0.03474971652030945,
+          "numel": 256
+        },
+        "head_l.bias": {
+          "shape": [
+            1
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.03271484375,
+          "std": 0,
+          "numel": 1
+        }
+      },
+      "adapter_state_dict": {
+        "0.weight": {
+          "shape": [
+            768,
+            768
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -7.141693458834197e-06,
+          "std": 0.02085532248020172,
+          "numel": 589824
+        },
+        "0.bias": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.0004947719280607998,
+          "std": 0.021065307781100273,
+          "numel": 768
+        },
+        "1.weight": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": 1.0,
+          "std": 0.0,
+          "numel": 768
+        },
+        "1.bias": {
+          "shape": [
+            768
+          ],
+          "dtype": "torch.bfloat16",
+          "finite": true,
+          "mean": -0.0001940729416674003,
+          "std": 0.0015757086221128702,
+          "numel": 768
+        }
+      }
+    }
+  },
+  "dasheng": {
+    "uploaded_bytes": 341807392,
+    "uploaded_sha256": "adaa439ebec13933501242364a29b7912c2695d0354061b278c873438b2736c3",
+    "official_base_sha256": "adaa439ebec13933501242364a29b7912c2695d0354061b278c873438b2736c3",
+    "identical_to_official_base": true,
+    "tensor_count": 155,
+    "metadata": {
+      "format": "pt"
+    },
+    "shapes": {
+      "encoder.blocks.0.attn.proj.bias": [
+        768
+      ],
+      "encoder.blocks.0.attn.proj.weight": [
+        768,
+        768
+      ],
+      "encoder.blocks.0.attn.qkv.bias": [
+        2304
+      ],
+      "encoder.blocks.0.attn.qkv.weight": [
+        2304,
+        768
+      ],
+      "encoder.blocks.0.mlp.fc1.bias": [
+        3072
+      ],
+      "encoder.blocks.0.mlp.fc1.weight": [
+        3072,
+        768
+      ],
+      "encoder.blocks.0.mlp.fc2.bias": [
+        768
+      ],
+      "encoder.blocks.0.mlp.fc2.weight": [
+        768,
+        3072
+      ],
+      "encoder.blocks.0.norm1.bias": [
+        768
+      ],
+      "encoder.blocks.0.norm1.weight": [
+        768
+      ],
+      "encoder.blocks.0.norm2.bias": [
+        768
+      ],
+      "encoder.blocks.0.norm2.weight": [
+        768
+      ],
+      "encoder.blocks.1.attn.proj.bias": [
+        768
+      ],
+      "encoder.blocks.1.attn.proj.weight": [
+        768,
+        768
+      ],
+      "encoder.blocks.1.attn.qkv.bias": [
+        2304
+      ],
+      "encoder.blocks.1.attn.qkv.weight": [
+        2304,
+        768
+      ],
+      "encoder.blocks.1.mlp.fc1.bias": [
+        3072
+      ],
+      "encoder.blocks.1.mlp.fc1.weight": [
+        3072,
+        768
+      ],
+      "encoder.blocks.1.mlp.fc2.bias": [
+        768
+      ],
+      "encoder.blocks.1.mlp.fc2.weight": [
+        768,
+        3072
+      ],
+      "encoder.blocks.1.norm1.bias": [
+        768
+      ],
+      "encoder.blocks.1.norm1.weight": [
+        768
+      ],
+      "encoder.blocks.1.norm2.bias": [
+        768
+      ],
+      "encoder.blocks.1.norm2.weight": [
+        768
+      ],
+      "encoder.blocks.10.attn.proj.bias": [
+        768
+      ],
+      "encoder.blocks.10.attn.proj.weight": [
+        768,
+        768
+      ],
+      "encoder.blocks.10.attn.qkv.bias": [
+        2304
+      ],
+      "encoder.blocks.10.attn.qkv.weight": [
+        2304,
+        768
+      ],
+      "encoder.blocks.10.mlp.fc1.bias": [
+        3072
+      ],
+      "encoder.blocks.10.mlp.fc1.weight": [
+        3072,
+        768
+      ],
+      "encoder.blocks.10.mlp.fc2.bias": [
+        768
+      ],
+      "encoder.blocks.10.mlp.fc2.weight": [
+        768,
+        3072
+      ],
+      "encoder.blocks.10.norm1.bias": [
+        768
+      ],
+      "encoder.blocks.10.norm1.weight": [
+        768
+      ],
+      "encoder.blocks.10.norm2.bias": [
+        768
+      ],
+      "encoder.blocks.10.norm2.weight": [
+        768
+      ],
+      "encoder.blocks.11.attn.proj.bias": [
+        768
+      ],
+      "encoder.blocks.11.attn.proj.weight": [
+        768,
+        768
+      ],
+      "encoder.blocks.11.attn.qkv.bias": [
+        2304
+      ],
+      "encoder.blocks.11.attn.qkv.weight": [
+        2304,
+        768
+      ],
+      "encoder.blocks.11.mlp.fc1.bias": [
+        3072
+      ],
+      "encoder.blocks.11.mlp.fc1.weight": [
+        3072,
+        768
+      ],
+      "encoder.blocks.11.mlp.fc2.bias": [
+        768
+      ],
+      "encoder.blocks.11.mlp.fc2.weight": [
+        768,
+        3072
+      ],
+      "encoder.blocks.11.norm1.bias": [
+        768
+      ],
+      "encoder.blocks.11.norm1.weight": [
+        768
+      ],
+      "encoder.blocks.11.norm2.bias": [
+        768
+      ],
+      "encoder.blocks.11.norm2.weight": [
+        768
+      ],
+      "encoder.blocks.2.attn.proj.bias": [
+        768
+      ],
+      "encoder.blocks.2.attn.proj.weight": [
+        768,
+        768
+      ],
+      "encoder.blocks.2.attn.qkv.bias": [
+        2304
+      ],
+      "encoder.blocks.2.attn.qkv.weight": [
+        2304,
+        768
+      ],
+      "encoder.blocks.2.mlp.fc1.bias": [
+        3072
+      ],
+      "encoder.blocks.2.mlp.fc1.weight": [
+        3072,
+        768
+      ],
+      "encoder.blocks.2.mlp.fc2.bias": [
+        768
+      ],
+      "encoder.blocks.2.mlp.fc2.weight": [
+        768,
+        3072
+      ],
+      "encoder.blocks.2.norm1.bias": [
+        768
+      ],
+      "encoder.blocks.2.norm1.weight": [
+        768
+      ],
+      "encoder.blocks.2.norm2.bias": [
+        768
+      ],
+      "encoder.blocks.2.norm2.weight": [
+        768
+      ],
+      "encoder.blocks.3.attn.proj.bias": [
+        768
+      ],
+      "encoder.blocks.3.attn.proj.weight": [
+        768,
+        768
+      ],
+      "encoder.blocks.3.attn.qkv.bias": [
+        2304
+      ],
+      "encoder.blocks.3.attn.qkv.weight": [
+        2304,
+        768
+      ],
+      "encoder.blocks.3.mlp.fc1.bias": [
+        3072
+      ],
+      "encoder.blocks.3.mlp.fc1.weight": [
+        3072,
+        768
+      ],
+      "encoder.blocks.3.mlp.fc2.bias": [
+        768
+      ],
+      "encoder.blocks.3.mlp.fc2.weight": [
+        768,
+        3072
+      ],
+      "encoder.blocks.3.norm1.bias": [
+        768
+      ],
+      "encoder.blocks.3.norm1.weight": [
+        768
+      ],
+      "encoder.blocks.3.norm2.bias": [
+        768
+      ],
+      "encoder.blocks.3.norm2.weight": [
+        768
+      ],
+      "encoder.blocks.4.attn.proj.bias": [
+        768
+      ],
+      "encoder.blocks.4.attn.proj.weight": [
+        768,
+        768
+      ],
+      "encoder.blocks.4.attn.qkv.bias": [
+        2304
+      ],
+      "encoder.blocks.4.attn.qkv.weight": [
+        2304,
+        768
+      ],
+      "encoder.blocks.4.mlp.fc1.bias": [
+        3072
+      ],
+      "encoder.blocks.4.mlp.fc1.weight": [
+        3072,
+        768
+      ],
+      "encoder.blocks.4.mlp.fc2.bias": [
+        768
+      ],
+      "encoder.blocks.4.mlp.fc2.weight": [
+        768,
+        3072
+      ],
+      "encoder.blocks.4.norm1.bias": [
+        768
+      ],
+      "encoder.blocks.4.norm1.weight": [
+        768
+      ],
+      "encoder.blocks.4.norm2.bias": [
+        768
+      ],
+      "encoder.blocks.4.norm2.weight": [
+        768
+      ],
+      "encoder.blocks.5.attn.proj.bias": [
+        768
+      ],
+      "encoder.blocks.5.attn.proj.weight": [
+        768,
+        768
+      ],
+      "encoder.blocks.5.attn.qkv.bias": [
+        2304
+      ],
+      "encoder.blocks.5.attn.qkv.weight": [
+        2304,
+        768
+      ],
+      "encoder.blocks.5.mlp.fc1.bias": [
+        3072
+      ],
+      "encoder.blocks.5.mlp.fc1.weight": [
+        3072,
+        768
+      ],
+      "encoder.blocks.5.mlp.fc2.bias": [
+        768
+      ],
+      "encoder.blocks.5.mlp.fc2.weight": [
+        768,
+        3072
+      ],
+      "encoder.blocks.5.norm1.bias": [
+        768
+      ],
+      "encoder.blocks.5.norm1.weight": [
+        768
+      ],
+      "encoder.blocks.5.norm2.bias": [
+        768
+      ],
+      "encoder.blocks.5.norm2.weight": [
+        768
+      ],
+      "encoder.blocks.6.attn.proj.bias": [
+        768
+      ],
+      "encoder.blocks.6.attn.proj.weight": [
+        768,
+        768
+      ],
+      "encoder.blocks.6.attn.qkv.bias": [
+        2304
+      ],
+      "encoder.blocks.6.attn.qkv.weight": [
+        2304,
+        768
+      ],
+      "encoder.blocks.6.mlp.fc1.bias": [
+        3072
+      ],
+      "encoder.blocks.6.mlp.fc1.weight": [
+        3072,
+        768
+      ],
+      "encoder.blocks.6.mlp.fc2.bias": [
+        768
+      ],
+      "encoder.blocks.6.mlp.fc2.weight": [
+        768,
+        3072
+      ],
+      "encoder.blocks.6.norm1.bias": [
+        768
+      ],
+      "encoder.blocks.6.norm1.weight": [
+        768
+      ],
+      "encoder.blocks.6.norm2.bias": [
+        768
+      ],
+      "encoder.blocks.6.norm2.weight": [
+        768
+      ],
+      "encoder.blocks.7.attn.proj.bias": [
+        768
+      ],
+      "encoder.blocks.7.attn.proj.weight": [
+        768,
+        768
+      ],
+      "encoder.blocks.7.attn.qkv.bias": [
+        2304
+      ],
+      "encoder.blocks.7.attn.qkv.weight": [
+        2304,
+        768
+      ],
+      "encoder.blocks.7.mlp.fc1.bias": [
+        3072
+      ],
+      "encoder.blocks.7.mlp.fc1.weight": [
+        3072,
+        768
+      ],
+      "encoder.blocks.7.mlp.fc2.bias": [
+        768
+      ],
+      "encoder.blocks.7.mlp.fc2.weight": [
+        768,
+        3072
+      ],
+      "encoder.blocks.7.norm1.bias": [
+        768
+      ],
+      "encoder.blocks.7.norm1.weight": [
+        768
+      ],
+      "encoder.blocks.7.norm2.bias": [
+        768
+      ],
+      "encoder.blocks.7.norm2.weight": [
+        768
+      ],
+      "encoder.blocks.8.attn.proj.bias": [
+        768
+      ],
+      "encoder.blocks.8.attn.proj.weight": [
+        768,
+        768
+      ],
+      "encoder.blocks.8.attn.qkv.bias": [
+        2304
+      ],
+      "encoder.blocks.8.attn.qkv.weight": [
+        2304,
+        768
+      ],
+      "encoder.blocks.8.mlp.fc1.bias": [
+        3072
+      ],
+      "encoder.blocks.8.mlp.fc1.weight": [
+        3072,
+        768
+      ],
+      "encoder.blocks.8.mlp.fc2.bias": [
+        768
+      ],
+      "encoder.blocks.8.mlp.fc2.weight": [
+        768,
+        3072
+      ],
+      "encoder.blocks.8.norm1.bias": [
+        768
+      ],
+      "encoder.blocks.8.norm1.weight": [
+        768
+      ],
+      "encoder.blocks.8.norm2.bias": [
+        768
+      ],
+      "encoder.blocks.8.norm2.weight": [
+        768
+      ],
+      "encoder.blocks.9.attn.proj.bias": [
+        768
+      ],
+      "encoder.blocks.9.attn.proj.weight": [
+        768,
+        768
+      ],
+      "encoder.blocks.9.attn.qkv.bias": [
+        2304
+      ],
+      "encoder.blocks.9.attn.qkv.weight": [
+        2304,
+        768
+      ],
+      "encoder.blocks.9.mlp.fc1.bias": [
+        3072
+      ],
+      "encoder.blocks.9.mlp.fc1.weight": [
+        3072,
+        768
+      ],
+      "encoder.blocks.9.mlp.fc2.bias": [
+        768
+      ],
+      "encoder.blocks.9.mlp.fc2.weight": [
+        768,
+        3072
+      ],
+      "encoder.blocks.9.norm1.bias": [
+        768
+      ],
+      "encoder.blocks.9.norm1.weight": [
+        768
+      ],
+      "encoder.blocks.9.norm2.bias": [
+        768
+      ],
+      "encoder.blocks.9.norm2.weight": [
+        768
+      ],
+      "encoder.freq_pos_embed": [
+        1,
+        768,
+        1,
+        1
+      ],
+      "encoder.init_bn.1.bias": [
+        64
+      ],
+      "encoder.init_bn.1.num_batches_tracked": [],
+      "encoder.init_bn.1.running_mean": [
+        64
+      ],
+      "encoder.init_bn.1.running_var": [
+        64
+      ],
+      "encoder.init_bn.1.weight": [
+        64
+      ],
+      "encoder.norm.bias": [
+        768
+      ],
+      "encoder.norm.weight": [
+        768
+      ],
+      "encoder.patch_embed.proj.bias": [
+        768
+      ],
+      "encoder.patch_embed.proj.weight": [
+        768,
+        1,
+        64,
+        4
+      ],
+      "encoder.time_pos_embed": [
+        1,
+        768,
+        1,
+        252
+      ]
+    }
+  },
+  "missing": [
+    "fusion module class and forward code",
+    "matching feature extraction and preprocessing code",
+    "training base checkpoints and encoder adapter provenance",
+    "class mapping and inference threshold",
+    "branch2_xgboost.json",
+    "ordered 250-feature schema and baseline normalization",
+    "ensemble_platt_meta.json"
+  ],
+  "live_head_inference_performed": false,
+  "remote_connection_performed": false
+}

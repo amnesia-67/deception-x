@@ -1,0 +1,426 @@
+{
+ "backbone": "emotion2vec",
+ "calibration": {
+  "A": 0.08253568731723218,
+  "B": -0.03961577048184548,
+  "method": "Platt: sigmoid(A * logit(raw) + B), fitted on the 120 validation clips (also used for selection, so optimistic)"
+ },
+ "caveats": [
+  "Labels are participant self-reports, not verified.",
+  "Familiar-people test = new recordings of the 4 training people; only the P5 rows measure an unseen person, and that is ONE person (n=50).",
+  "A single global cutoff can give a new person nearly the same verdict for every answer; prefer the session baseline (src.pilot_webcam.SessionBaseline) and see metrics for both.",
+  "Not suitable for any real-world decision about whether a person is lying."
+ ],
+ "code_revision": {
+  "commit": "ea13ab97fa983e8dddd79ddb9142102c3d15493d",
+  "dirty": true,
+  "modified_tracked_files": [
+   "scripts/pilot_finetune.py",
+   "scripts/served_source_record.py",
+   "src/pilot_webcam.py",
+   "src/v2_socket_server.py",
+   "tests/test_pilot_webcam.py"
+  ],
+  "source_tree_scope": "tracked main.py, run_v2_socket.py and *.py/*.sh/*.ps1 under src/, scripts/, third_party/; CRLF->LF; src.provenance.code_hash",
+  "source_tree_sha256": "faa1e4e044060bcef151ace30defb80b4ceab7dd9fa4829fb947a30df22d26eb",
+  "untracked_source_files": {
+   "scripts/pilot_all.py": "f1d521d41ede387b719799ff9d329b338de26ccf477d2ea44a3f0abaa09082b2",
+   "scripts/pilot_final.py": "aaaa86f0e376bfda71d9f35dd72db192974c0c5a7a171041b52ceba9c3843a4e"
+  }
+ },
+ "folds": {
+  "fold0.pt": {
+   "config": {
+    "backbone": "emotion2vec",
+    "eff_batch": 8,
+    "head_dropout": 0.3,
+    "label_smoothing": 0.05,
+    "lora_blocks": 4,
+    "lora_dropout": 0.1,
+    "lora_r": 8,
+    "lr_head": 0.001,
+    "lr_lora": 0.0002,
+    "max_epochs": 16,
+    "micro_batch": 0,
+    "min_epochs": 4,
+    "patience": 4,
+    "seed": 0,
+    "tag": "r8_last4_lr2e-4",
+    "weight_decay": 0.01
+   },
+   "sha256": "45ad793c95695b72ef1d50c39a6f651c62eabceb26c656feabb7f847739b77d1",
+   "size": 809577,
+   "state_schema": {
+    "head": {
+     "norm.bias": {
+      "dtype": "torch.float32",
+      "shape": [
+       1024
+      ]
+     },
+     "norm.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       1024
+      ]
+     },
+     "out.bias": {
+      "dtype": "torch.float32",
+      "shape": [
+       1
+      ]
+     },
+     "out.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       1,
+       1024
+      ]
+     },
+     "score.bias": {
+      "dtype": "torch.float32",
+      "shape": [
+       1
+      ]
+     },
+     "score.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       1,
+       1024
+      ]
+     }
+    },
+    "lora": {
+     "model.blocks.4.attn.proj.lora_A.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       8,
+       1024
+      ]
+     },
+     "model.blocks.4.attn.proj.lora_B.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       1024,
+       8
+      ]
+     },
+     "model.blocks.4.attn.qkv.lora_A.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       8,
+       1024
+      ]
+     },
+     "model.blocks.4.attn.qkv.lora_B.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       3072,
+       8
+      ]
+     },
+     "model.blocks.5.attn.proj.lora_A.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       8,
+       1024
+      ]
+     },
+     "model.blocks.5.attn.proj.lora_B.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       1024,
+       8
+      ]
+     },
+     "model.blocks.5.attn.qkv.lora_A.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       8,
+       1024
+      ]
+     },
+     "model.blocks.5.attn.qkv.lora_B.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       3072,
+       8
+      ]
+     },
+     "model.blocks.6.attn.proj.lora_A.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       8,
+       1024
+      ]
+     },
+     "model.blocks.6.attn.proj.lora_B.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       1024,
+       8
+      ]
+     },
+     "model.blocks.6.attn.qkv.lora_A.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       8,
+       1024
+      ]
+     },
+     "model.blocks.6.attn.qkv.lora_B.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       3072,
+       8
+      ]
+     },
+     "model.blocks.7.attn.proj.lora_A.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       8,
+       1024
+      ]
+     },
+     "model.blocks.7.attn.proj.lora_B.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       1024,
+       8
+      ]
+     },
+     "model.blocks.7.attn.qkv.lora_A.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       8,
+       1024
+      ]
+     },
+     "model.blocks.7.attn.qkv.lora_B.default.weight": {
+      "dtype": "torch.float32",
+      "shape": [
+       3072,
+       8
+      ]
+     }
+    }
+   }
+  }
+ },
+ "format": "sunhacks-pilot-webcam-v1",
+ "metrics": {
+  "P5: unseen person (50)": {
+   "auroc": 0.5224,
+   "auroc_ci95": [
+    0.359994391025641,
+    0.6800138888888888
+   ],
+   "global": {
+    "acc": 0.5,
+    "bal_acc": 0.5,
+    "called_lie": 0.32,
+    "lies_caught": "8/25",
+    "n_with_verdict": 50,
+    "truths_passed": "17/25"
+   },
+   "n": 50,
+   "session_baseline_causal": {
+    "acc": 0.44680851063829785,
+    "bal_acc": 0.45,
+    "called_lie": 0.5531914893617021,
+    "lies_caught": "11/22",
+    "n_with_verdict": 47,
+    "truths_passed": "10/25"
+   },
+   "session_baseline_transductive": {
+    "acc": 0.48,
+    "bal_acc": 0.48,
+    "called_lie": 0.5,
+    "lies_caught": "12/25",
+    "n_with_verdict": 50,
+    "truths_passed": "12/25"
+   },
+   "within_person_auroc": 0.5224
+  },
+  "test: all 4 familiar people": {
+   "auroc": 0.6521875,
+   "auroc_ci95": [
+    0.5238080357142857,
+    0.7680749852842875
+   ],
+   "global": {
+    "acc": 0.575,
+    "bal_acc": 0.575,
+    "called_lie": 0.5,
+    "lies_caught": "23/40",
+    "n_with_verdict": 80,
+    "truths_passed": "23/40"
+   },
+   "n": 80,
+   "session_baseline_causal": {
+    "acc": 0.5882352941176471,
+    "bal_acc": 0.5833333333333333,
+    "called_lie": 0.5882352941176471,
+    "lies_caught": "24/36",
+    "n_with_verdict": 68,
+    "truths_passed": "16/32"
+   },
+   "session_baseline_transductive": {
+    "acc": 0.6,
+    "bal_acc": 0.6,
+    "called_lie": 0.5,
+    "lies_caught": "24/40",
+    "n_with_verdict": 80,
+    "truths_passed": "24/40"
+   },
+   "within_person_auroc": 0.665
+  },
+  "test: new 40 (clean)": {
+   "auroc": 0.775,
+   "auroc_ci95": [
+    0.6165413533834586,
+    0.9175020604395604
+   ],
+   "global": {
+    "acc": 0.675,
+    "bal_acc": 0.675,
+    "called_lie": 0.625,
+    "lies_caught": "16/20",
+    "n_with_verdict": 40,
+    "truths_passed": "11/20"
+   },
+   "n": 40,
+   "session_baseline_causal": {
+    "acc": 0.7857142857142857,
+    "bal_acc": 0.7857142857142857,
+    "called_lie": 0.42857142857142855,
+    "lies_caught": "10/14",
+    "n_with_verdict": 28,
+    "truths_passed": "12/14"
+   },
+   "session_baseline_transductive": {
+    "acc": 0.8,
+    "bal_acc": 0.8,
+    "called_lie": 0.5,
+    "lies_caught": "16/20",
+    "n_with_verdict": 40,
+    "truths_passed": "16/20"
+   },
+   "within_person_auroc": 0.7900000000000001
+  },
+  "test: previous 40 (used before)": {
+   "auroc": 0.5725,
+   "auroc_ci95": [
+    0.37373737373737376,
+    0.7530114348370927
+   ],
+   "global": {
+    "acc": 0.475,
+    "bal_acc": 0.475,
+    "called_lie": 0.375,
+    "lies_caught": "7/20",
+    "n_with_verdict": 40,
+    "truths_passed": "12/20"
+   },
+   "n": 40,
+   "session_baseline_causal": {
+    "acc": 0.42857142857142855,
+    "bal_acc": 0.42708333333333337,
+    "called_lie": 0.5,
+    "lies_caught": "7/16",
+    "n_with_verdict": 28,
+    "truths_passed": "5/12"
+   },
+   "session_baseline_transductive": {
+    "acc": 0.55,
+    "bal_acc": 0.55,
+    "called_lie": 0.5,
+    "lies_caught": "11/20",
+    "n_with_verdict": 40,
+    "truths_passed": "11/20"
+   },
+   "within_person_auroc": 0.5700000000000001
+  },
+  "validation (selection; optimistic)": {
+   "auroc": 0.6195833333333334,
+   "auroc_ci95": [
+    0.5160313275049603,
+    0.7239616256251735
+   ],
+   "global": {
+    "acc": 0.5833333333333334,
+    "bal_acc": 0.5833333333333334,
+    "called_lie": 0.5,
+    "lies_caught": "35/60",
+    "n_with_verdict": 120,
+    "truths_passed": "35/60"
+   },
+   "n": 120,
+   "session_baseline_causal": {
+    "acc": 0.5833333333333334,
+    "bal_acc": 0.5826758147512865,
+    "called_lie": 0.5370370370370371,
+    "lies_caught": "34/55",
+    "n_with_verdict": 108,
+    "truths_passed": "29/53"
+   },
+   "session_baseline_transductive": {
+    "acc": 0.6,
+    "bal_acc": 0.6,
+    "called_lie": 0.5,
+    "lies_caught": "36/60",
+    "n_with_verdict": 120,
+    "truths_passed": "36/60"
+   },
+   "within_person_auroc": 0.6377777777777778
+  }
+ },
+ "model": "emotion2vec_lora_webcam_pilot",
+ "profile": "webcam_pilot",
+ "reproduction": {
+  "numerics": "CUDA bf16 autocast, TF32 matmul on (as trained and selected)",
+  "serving_numerics": {
+   "prob_max_abs_diff": {
+    "test": 0.0,
+    "unseen": 0.0,
+    "val": 0.0
+   },
+   "setting": "CUDA bf16 autocast with TF32 matmul OFF (as PilotAudioScorer / the server run); the metrics above use TF32 ON (as trained and selected)",
+   "verdict_changes_at_threshold": {
+    "test": "0/80",
+    "unseen": "0/50",
+    "val": "0/120"
+   }
+  },
+  "validation_prob_max_abs_diff_reloaded_vs_selected": 0.0
+ },
+ "selection": {
+  "attempts": [
+   {
+    "epoch": 9,
+    "tag": "r8_last4_lr2e-4",
+    "val_pooled_auroc": 0.6195833333333334,
+    "val_within_person_auroc": 0.6377777777777778
+   }
+  ],
+  "best_epoch": 9,
+  "chosen_config": "r8_last4_lr2e-4",
+  "criterion": "validation within-person AUROC (condition and ladder step)"
+ },
+ "threshold": 0.5003727168968048,
+ "threshold_provenance": "prior-matched on validation: share called deceptive = training base rate (the served rule, fitted on validation only)",
+ "trained_on": {
+  "condition": "pairwise",
+  "condition_meaning": "same-person (lie, truth) pair ranking loss",
+  "dataset": "sunhacks-webcam-pilot-850-v3-2026-11-15 (850 x 7 s webcam clips, 5 declared people; labels self-reported by participants)",
+  "rule": "trained on the 4 familiar people's train rows; condition, config, epoch, branch combination, calibration and cutoff chosen on their validation rows only; their test rows and all 50 P5 clips (never trained on or used for any choice) scored once",
+  "test_clips": 80,
+  "train_clips": 600,
+  "unseen_person_test": {
+   "clips": 50,
+   "person": "P5"
+  },
+  "validation_clips": 120
+ }
+}

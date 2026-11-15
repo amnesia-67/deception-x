@@ -1,0 +1,13 @@
+{
+  "test": "official_local_emotion_model_load_only",
+  "status": "pass",
+  "elapsed_seconds": 3.2027186659979634,
+  "parameter_count": 162140185,
+  "peak_process_rss_bytes": 1771634688,
+  "device": "cpu",
+  "inference_run": false,
+  "strict_inference_state_match": true,
+  "removed_unused_pretraining_decoder": true,
+  "hub_lookup_bypassed": true,
+  "checkpoint_revision": "6c303ba987b86b93193de93e34bb2b077a6bedc4"
+}

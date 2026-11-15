@@ -1,0 +1,127 @@
+{
+  "mediapipe-blazeface": {
+    "url": "https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/latest/blaze_face_short_range.tflite",
+    "size": 229746,
+    "md5_b64": "o91uwxclKQdwuXzsDL+UyQ=="
+  },
+  "dasheng-base": {
+    "config.json": "git-blob sha1 c9758b09cd25 matches Hub",
+    "configuration_dasheng.py": "git-blob sha1 0b9e8e436411 matches Hub",
+    "feature_extraction_dasheng.py": "git-blob sha1 a3d2312d79fa matches Hub",
+    "modeling_dasheng.py": "git-blob sha1 69c85473c3f0 matches Hub",
+    "preprocessor_config.json": "git-blob sha1 fa0bb8851b31 matches Hub",
+    "model.safetensors": "sha256 adaa439ebec13933... matches Hub LFS oid"
+  },
+  "vjepa2-vitl-fpc64-256": {
+    "repo": "facebook/vjepa2-vitl-fpc64-256",
+    "revision": "b3c1679b7c34d3255ef3547f27c7b226aefab26f",
+    "files": {
+      "config.json": {
+        "size": 785,
+        "check": "git-blob sha1 668b8313f1fb matches Hub"
+      },
+      "video_preprocessor_config.json": {
+        "size": 1298,
+        "check": "git-blob sha1 c5dd15b27643 matches Hub"
+      },
+      "model.safetensors": {
+        "size": 1303947864,
+        "check": "sha256 25466aef85727d16... matches Hub LFS oid"
+      }
+    }
+  },
+  "qwen3-embedding-0.6b": {
+    "repo": "Qwen/Qwen3-Embedding-0.6B",
+    "revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3",
+    "files": {
+      "config.json": {
+        "size": 727,
+        "check": "git-blob sha1 cef2749ee936 matches Hub"
+      },
+      "tokenizer.json": {
+        "size": 11423705,
+        "check": "sha256 def76fb086971c78... matches Hub LFS oid"
+      },
+      "tokenizer_config.json": {
+        "size": 9706,
+        "check": "git-blob sha1 7345216a0785 matches Hub"
+      },
+      "vocab.json": {
+        "size": 2776833,
+        "check": "git-blob sha1 4783fe10ac3a matches Hub"
+      },
+      "merges.txt": {
+        "size": 1671853,
+        "check": "git-blob sha1 31349551d90c matches Hub"
+      },
+      "model.safetensors": {
+        "size": 1191586416,
+        "check": "sha256 0437e45c94563b09... matches Hub LFS oid"
+      }
+    }
+  },
+  "emotion2vec_plus_large-config": {
+    "repo": "emotion2vec/emotion2vec_plus_large",
+    "revision": "6c303ba987b86b93193de93e34bb2b077a6bedc4",
+    "files": {
+      "config.yaml": {
+        "size": 5552,
+        "check": "git-blob sha1 62bb0fb68307 matches Hub"
+      },
+      "tokens.txt": {
+        "size": 119,
+        "check": "git-blob sha1 e5a8dfffb083 matches Hub"
+      }
+    }
+  },
+  "vjepa2_1-vitb-384": {
+    "source_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitb_dist_vitG_384.pt",
+    "hub_revision": null,
+    "checkpoint_key": "ema_encoder",
+    "source_size_bytes": 1664223428,
+    "bytes_fetched": 347956846,
+    "num_tensors": 158,
+    "num_params": 86833152,
+    "verification": "zip CRC-32 checked for every fetched entry; storage numel checked",
+    "output_sha256": "5fb693d326248720e33466289a09464f98049a05045b7b640913ddac0562d21e",
+    "fetch_seconds": 23.9
+  },
+  "emotion2vec_plus_large": {
+    "source_url": "https://huggingface.co/emotion2vec/emotion2vec_plus_large/resolve/6c303ba987b86b93193de93e34bb2b077a6bedc4/model.pt",
+    "hub_revision": "6c303ba987b86b93193de93e34bb2b077a6bedc4",
+    "checkpoint_key": "model",
+    "source_size_bytes": 1945790254,
+    "bytes_fetched": 650112822,
+    "num_tensors": 185,
+    "num_params": 162140185,
+    "verification": "zip CRC-32 checked for every fetched entry; storage numel checked",
+    "output_sha256": "8f9e72908b91a65d5b3fd4020056bf6638988c0fa1c136fb1d709570efbf3d41",
+    "fetch_seconds": 93.9
+  },
+  "vjepa2_1-vitl-384": {
+    "source": "huggingface re-upload, cross-verified (see verification)",
+    "source_url": "https://huggingface.co/mnmly/vjepa2.1-vit-large-384/resolve/2594eca8e13354b2ac4e8ed806561e4d6d8a98e8/model.safetensors",
+    "official_source_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitl_dist_vitG_384.pt",
+    "checkpoint_key": "ema_encoder",
+    "num_tensors": 302,
+    "num_params": 304680960,
+    "output_sha256": "3f0ae79eeed94cb8bc6c62040cdc09243461a919fa30890f1cc7412669c7f656",
+    "seconds": 68.0,
+    "official_reverification": "bit-identical to Meta's official checkpoint",
+    "verification_checks": [
+      "canary_vitb",
+      "primary_vitl",
+      "independent_vitl",
+      "architecture"
+    ],
+    "official_reverification_detail": {
+      "url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitl_dist_vitG_384.pt",
+      "checkpoint_key": "ema_encoder",
+      "tensors_compared": 302,
+      "method": "range-fetched ema_encoder subtree under verified TLS, CRC-checked, compared tensor by tensor (torch.equal and dtype) with models/vjepa2_1-vitl-384/encoder.safetensors",
+      "date_utc": "2026-11-12",
+      "mismatched_tensors": 0,
+      "note": "run by an automatic watcher once Meta's renewed certificate (DigiCert, valid to 2027-04-25) was served"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "source_repository": "amnesia-67/sunhacks-2026",
+  "source_revision": "9c11432c953dcbe653d637dcd2f2814ba7590d57",
+  "model_sha256": "ae232e41824d4cdde4742d8a8e6c0db04d92c0b123133a35449675456d95c3ec",
+  "schema_sha256": "85779f9ddb30a42af7a7157642e34d7fcf7c5ebe58c35473ccc74932dcfd3bce",
+  "xgboost_version": "3.4.1",
+  "device": "cpu",
+  "feature_count": 89,
+  "embedded_feature_names": null,
+  "external_schema_feature_count_match": true,
+  "feature_order_provenance": "Pinned companion schema; model does not embed feature names",
+  "objective": "binary:logistic",
+  "trees": 400,
+  "load_ms": 8.579,
+  "fixture_prediction_ms": [
+    0.163,
+    0.056,
+    0.047,
+    0.038,
+    0.055
+  ],
+  "fixture_type": "all-zero generated numeric vector, serialization/forward smoke only",
+  "prediction_finite_and_in_range": true,
+  "live_features_ready": false,
+  "missing_live_groups": [
+    "emotion probabilities",
+    "face crops and box motion",
+    "33 frozen-Qwen intent similarities",
+    "matching voice/transcript extraction"
+  ],
+  "limits": [
+    "No person data, no socket call, no training and no dataset used.",
+    "No task validity or full-pipeline timing established by this smoke test.",
+    "The trained real-data digest uses89 named fields, not the previous250-field synthetic schema."
+  ]
+}

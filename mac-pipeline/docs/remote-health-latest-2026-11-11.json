@@ -1,0 +1,64 @@
+{
+  "host": "192.168.0.224",
+  "port": 5002,
+  "reachable": true,
+  "request_kind": "metadata_only_ping",
+  "participant_data_sent": false,
+  "encoder_verified": false,
+  "status": "needs_encoder_protocol",
+  "service_kind": "unknown_pong_service",
+  "fusion_head_loaded": null,
+  "reason": "The pong does not advertise a verifiable raw-video encoder contract.",
+  "advertised_models": [
+    "v2_tabular_xgboost",
+    "vjepa2_vitl_lora_5fold"
+  ],
+  "health": {
+    "status": "ok",
+    "message": "pong",
+    "model": "v2_tabular_xgboost",
+    "branch": 2,
+    "device": "cuda",
+    "features_expected": 89,
+    "trained_on": "Real-Life Trials (Perez-Rosas et al. 2015), 121 real courtroom clips, 61 deceptive / 60 truthful",
+    "jepa_loaded": true,
+    "jepa": {
+      "model": "vjepa2_vitl_lora_5fold",
+      "folds": 5,
+      "adapter_shapes": [
+        [
+          8,
+          4
+        ],
+        [
+          16,
+          8
+        ]
+      ],
+      "cv_metrics": {
+        "protocol": "5-fold StratifiedGroupKFold over manually reviewed identity groups; identity-balanced inner split for early stopping / retries; chosen config refit on all outer-train clips; no test-fold selection",
+        "auroc": 0.46830601092896174,
+        "auroc_ci95": [
+          0.3622363077953151,
+          0.6404683916577383
+        ],
+        "accuracy": 0.512396694214876,
+        "per_fold_auroc": [
+          0.41203703703703703,
+          0.696969696969697,
+          0.28030303030303033,
+          0.446969696969697,
+          0.7083333333333334
+        ]
+      },
+      "caveat": "V-JEPA 2 scored AUROC 0.468 (95% CI 0.36-0.64) on unseen people - chance level. Its verdicts are not evidence of deception."
+    },
+    "models": [
+      "v2_tabular_xgboost",
+      "vjepa2_vitl_lora_5fold"
+    ],
+    "timestamp": 1794439604.0408106
+  },
+  "response_bytes": 1047,
+  "elapsed_ms": 12.636
+}

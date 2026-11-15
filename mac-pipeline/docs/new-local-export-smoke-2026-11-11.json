@@ -1,0 +1,89 @@
+{
+  "fixture": "Generated non-person checkerboard/gradient/moving rectangle plus generated TTS and synthetic silence; no sensors",
+  "source_revision": "2daf067e11fdca2d47351243a9780026115077b1",
+  "remote_client_constructed": false,
+  "external_network_used": false,
+  "participant_media_used": false,
+  "locality": "Mac only",
+  "limits": [
+    "Local component compatibility smoke test only. No V-JEPA loaded or contacted.",
+    "Generated scene has no face and would be rejected by the live showcase quality gate.",
+    "No predictive accuracy, L performance or full live-pipeline success is established."
+  ],
+  "prepare": {
+    "local_weights_loaded": true,
+    "elapsed_ms": 10033.834,
+    "components": {
+      "asr": {
+        "status": "ready",
+        "feature_count": null
+      },
+      "dasheng": {
+        "status": "ready",
+        "feature_count": null
+      },
+      "faces": {
+        "status": "ready",
+        "feature_count": null
+      },
+      "digest": {
+        "status": "ready",
+        "feature_count": 88
+      },
+      "text": {
+        "status": "ready",
+        "feature_count": null
+      },
+      "emotion": {
+        "status": "ready",
+        "feature_count": null
+      }
+    }
+  },
+  "inference": {
+    "service_ms": 1429.133,
+    "branch_status": {
+      "vision": "error",
+      "dasheng": "trained",
+      "text": "base",
+      "emotion": "base",
+      "tabular": "trained_classifier",
+      "stack": "trained_classifier",
+      "fusion": "unavailable"
+    },
+    "feature_count": 88,
+    "feature_version": "v3-fixed-lag-motion",
+    "threshold": 0.4238521751969923,
+    "threshold_provenance": "prior-matched: the fraction of the stacker's identity-grouped CV predictions (training data only) called deceptive equals the training class base rate; the same rule was re-fitted inside every outer fold of the nested evaluation, whose result is cv_metrics",
+    "score_finite": true,
+    "asr_source": "local_asr",
+    "asr_source_window_id": 101,
+    "video_expected_unavailable": true,
+    "jobs": {
+      "vision": {
+        "status": "error",
+        "reason": "RuntimeError: Video-only client is unavailable"
+      },
+      "dasheng": {
+        "status": "complete"
+      },
+      "semantic": {
+        "status": "complete"
+      },
+      "emotion": {
+        "status": "complete"
+      },
+      "face": {
+        "status": "complete"
+      }
+    }
+  },
+  "memory": {
+    "parent_rss_mb": 1821.484,
+    "parent_peak_rss_mb": 2523.422,
+    "mps_driver_mb": 3809.859,
+    "accounting_note": "RSS and MPS allocations overlap in unified memory; do not sum as a precise total."
+  },
+  "cleanup_status": "closed",
+  "cleanup_done": true
+}

@@ -1,0 +1,39 @@
+{
+  "capture_fps": 30,
+  "sample_fps": 24,
+  "frames_per_window": 64,
+  "hop_seconds": 1.3333333333333333,
+  "camera_device": 0,
+  "audio_device": null,
+  "models": {
+    "vision": {
+      "path": "",
+      "source_path": "",
+      "device": "mps"
+    },
+    "dasheng": {
+      "path": "",
+      "device": "cpu"
+    },
+    "emotion": {
+      "path": "",
+      "device": "cpu"
+    },
+    "text": {
+      "path": "",
+      "device": "mps",
+      "output_dim": 1024
+    },
+    "asr": {
+      "path": "",
+      "device": "cpu"
+    }
+  },
+  "claim_check": {
+    "enabled": false,
+    "allow_visual": true,
+    "provider": "openrouter",
+    "model": "nace-ai/drex-max",
+    "deadline_seconds": 5.0
+  }
+}

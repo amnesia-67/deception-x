@@ -1,0 +1,21 @@
+{
+  "status": "available",
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "sent_keyframes": 0,
+  "input_mode": "text",
+  "thinking": "disabled",
+  "elapsed_ms": 1593.831,
+  "summary": "The provided input describes an API connection smoke test for a local experimental multimodal pipeline, with camera and microphone availability noted and an explicit statement that no participant data or images were sent.",
+  "observations": [
+    "The stated purpose is a connectivity smoke test, not an assessment of any person.",
+    "Local camera and microphone availability is reported as an observation.",
+    "The input explicitly states that no participant data or images were transmitted."
+  ],
+  "limitations": [
+    "No transcript, image, or signal data was provided, so no pipeline behavior can be verified.",
+    "Encoder embeddings, if any, would not constitute task probabilities or evidence of any trait.",
+    "No calibrated or task-relevant signals are present to support any substantive conclusion.",
+    "The description is self-reported and cannot be independently confirmed from the given content."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "source": "Reported 5339358 stage2 OOF metrics, not a new deployment evaluation",
+  "label_counts": {
+    "deceptive_1": 61,
+    "truthful_0": 60
+  },
+  "reconstruction": "Unique integer TP/TN solution matching full-precision accuracy and balanced accuracy",
+  "classifiers": {
+    "tuned_vjepa2": {
+      "TP_lie": 11,
+      "FN_lie": 50,
+      "TN_truth": 51,
+      "FP_truth": 9,
+      "lie_sensitivity": 0.18032786885245902,
+      "truth_specificity": 0.85,
+      "predicted_lie_fraction": 0.1652892561983471
+    },
+    "tuned_vjepa2_1": {
+      "TP_lie": 27,
+      "FN_lie": 34,
+      "TN_truth": 36,
+      "FP_truth": 24,
+      "lie_sensitivity": 0.4426229508196721,
+      "truth_specificity": 0.6,
+      "predicted_lie_fraction": 0.4214876033057851
+    },
+    "tuned_dasheng": {
+      "TP_lie": 34,
+      "FN_lie": 27,
+      "TN_truth": 50,
+      "FP_truth": 10,
+      "lie_sensitivity": 0.5573770491803278,
+      "truth_specificity": 0.8333333333333334,
+      "predicted_lie_fraction": 0.36363636363636365
+    },
+    "tuned_emotion2vec": {
+      "TP_lie": 27,
+      "FN_lie": 34,
+      "TN_truth": 27,
+      "FP_truth": 33,
+      "lie_sensitivity": 0.4426229508196721,
+      "truth_specificity": 0.45,
+      "predicted_lie_fraction": 0.49586776859504134
+    },
+    "tuned_qwen3": {
+      "TP_lie": 30,
+      "FN_lie": 31,
+      "TN_truth": 36,
+      "FP_truth": 24,
+      "lie_sensitivity": 0.4918032786885246,
+      "truth_specificity": 0.6,
+      "predicted_lie_fraction": 0.4462809917355372
+    },
+    "xgb_digest": {
+      "TP_lie": 36,
+      "FN_lie": 25,
+      "TN_truth": 50,
+      "FP_truth": 10,
+      "lie_sensitivity": 0.5901639344262295,
+      "truth_specificity": 0.8333333333333334,
+      "predicted_lie_fraction": 0.38016528925619836
+    },
+    "fusion_redadare": {
+      "TP_lie": 25,
+      "FN_lie": 36,
+      "TN_truth": 50,
+      "FP_truth": 10,
+      "lie_sensitivity": 0.4098360655737705,
+      "truth_specificity": 0.8333333333333334,
+      "predicted_lie_fraction": 0.2892561983471074
+    },
+    "ensemble_stacked": {
+      "TP_lie": 31,
+      "FN_lie": 30,
+      "TN_truth": 42,
+      "FP_truth": 18,
+      "lie_sensitivity": 0.5081967213114754,
+      "truth_specificity": 0.7,
+      "predicted_lie_fraction": 0.4049586776859504
+    },
+    "ensemble_mean": {
+      "TP_lie": 23,
+      "FN_lie": 38,
+      "TN_truth": 52,
+      "FP_truth": 8,
+      "lie_sensitivity": 0.3770491803278688,
+      "truth_specificity": 0.8666666666666667,
+      "predicted_lie_fraction": 0.256198347107438
+    }
+  }
+}

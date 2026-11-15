@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>SunHacks · Local Multimodal Workbench</title>
+<style>
+:root{--bg:#0a0e13;--panel:#111820;--panel2:#151e28;--line:#273341;--text:#edf3f9;--muted:#94a5b9;--green:#9de5b4;--blue:#a8caff;--amber:#f5ca81;--red:#ffa7a2;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;color:var(--text);background:var(--bg);font:14px/1.5 var(--sans)}button,input,textarea{font:inherit}button{cursor:pointer;border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:var(--text);padding:10px 15px;font-weight:600;transition:background .15s,border-color .15s}button:hover:not(:disabled){background:#213044;border-color:#617a97}button:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--blue);outline-offset:4px}button:disabled{opacity:.4;cursor:not-allowed}button.primary{background:var(--green);color:#10241a;border-color:var(--green)}button.primary:hover:not(:disabled){background:#c0f1cf}button.danger{color:var(--red)}.shell{max-width:1440px;margin:auto;padding:30px 36px 24px}.top{display:flex;justify-content:space-between;align-items:center;gap:24px;padding-bottom:23px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px}.mark{width:35px;height:35px;border-radius:10px;background:var(--green);color:#10241a;display:grid;place-items:center}.eyebrow{font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}h1{font-size:18px;letter-spacing:-.02em;margin:1px 0 0;font-weight:600}h2{font-size:15px;margin:0;font-weight:600}h3{font-size:13px;margin:0;font-weight:600}.statusline{display:flex;gap:10px;align-items:center}.dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block;margin-right:7px}.badge{display:inline-flex;align-items:center;white-space:nowrap;border:1px solid var(--line);border-radius:5px;padding:3px 7px;font:10px var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);background:#151e28}.badge.good{color:var(--green);border-color:#355c44;background:#14251c}.badge.warn{color:var(--amber);border-color:#675034;background:#292116}.badge.bad{color:var(--red);border-color:#634039;background:#2a1c1a}.muted{color:var(--muted)}.mono{font-family:var(--mono)}.intro{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:28px 0 23px}.intro h2{font-size:28px;letter-spacing:-.035em;font-weight:550}.intro p{margin:7px 0 0;color:var(--muted);max-width:670px}.controls{display:flex;gap:8px;flex-wrap:wrap}.banner{border:1px solid #4c3c28;background:#211c15;color:#e7cba1;border-radius:9px;padding:12px 15px;display:flex;gap:12px;align-items:center;margin-bottom:18px;font-size:12px}.banner strong{font:11px var(--mono);white-space:nowrap;letter-spacing:.03em}.banner.error{background:#281c1d;border-color:#644144;color:var(--red)}.banner[hidden]{display:none}.banner.subtle{border-color:var(--line);background:#101820;color:var(--muted)}.telemetry{display:grid;grid-template-columns:repeat(7,1fr);border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-bottom:22px;background:var(--panel)}.stat{padding:18px 18px 16px;border-right:1px solid var(--line)}.stat:last-child{border:0}.stat .label{display:flex;gap:5px;align-items:center;font-size:11px;color:var(--muted)}.hint{width:13px;height:13px;display:inline-grid;place-items:center;border:1px solid #455364;border-radius:50%;font:9px var(--mono);cursor:help}.stat .value{font:25px var(--mono);letter-spacing:-.06em;margin-top:7px;white-space:nowrap}.stat .unit{font-size:11px;letter-spacing:0;color:var(--muted);padding-left:5px}.stat .detail{font:10px var(--mono);color:var(--muted);margin-top:5px;min-height:15px}.grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(290px,1fr);gap:20px}.card{border:1px solid var(--line);border-radius:11px;background:var(--panel);overflow:hidden}.card+.card{margin-top:20px}.cardhead{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line)}.cardhead .small{font:10px var(--mono);color:var(--muted)}.cardbody{padding:18px 20px}.pipeline{display:flex;align-items:stretch;gap:8px}.node{flex:1;min-width:0;border:1px solid var(--line);border-radius:7px;padding:12px;background:#0e151d}.node .num{font:10px var(--mono);color:var(--green);margin-bottom:12px}.node strong{font-size:12px;display:block}.node small{display:block;font-size:10px;color:var(--muted);margin-top:4px}.arrow{display:grid;place-items:center;font-size:17px;color:#526980}.noteline{font-size:11px;color:var(--muted);margin-top:14px}.models{display:grid;grid-template-columns:1fr 1fr;gap:10px}.model{border:1px solid var(--line);border-radius:8px;padding:14px;background:#0e151d;min-width:0}.modeltop{display:flex;align-items:start;justify-content:space-between;gap:6px}.model .family{font:9px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}.model h3{font-size:12px}.model .modelid{font:10px/1.5 var(--mono);color:var(--muted);word-break:break-word;margin:9px 0}.model .reason{font-size:11px;color:var(--muted);margin-top:10px;overflow-wrap:anywhere}.model .output{font:11px var(--mono);color:var(--blue);margin-top:8px}.model .timing{font:10px var(--mono);color:var(--muted);margin-top:4px}.headrows{margin-top:15px;border-top:1px solid var(--line);padding-top:4px}.headrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0 6px}.headrow .left{font-size:12px}.headrow .left small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.device{display:flex;align-items:start;justify-content:space-between;gap:15px;margin-bottom:16px}.device:last-of-type{margin-bottom:0}.device small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.device .icon{display:grid;place-items:center;width:32px;height:32px;border:1px solid var(--line);border-radius:6px;flex-shrink:0;color:var(--blue);margin-right:10px}.device .name{display:flex;align-items:center}.divider{border-top:1px solid var(--line);margin:18px 0}.baseline{display:flex;justify-content:space-between;align-items:center;gap:12px}.baseline small{font-size:11px;display:block;color:var(--muted);margin-top:4px}.baseline button{padding:7px 10px;font-size:11px;flex-shrink:0}.progress{height:3px;background:#26303c;border-radius:3px;margin-top:14px;overflow:hidden}.progress span{display:block;height:100%;background:var(--green);width:0;transition:width .4s}.empty{border:1px dashed #324151;border-radius:7px;padding:18px;color:var(--muted);font-size:12px}.empty strong{color:var(--text);display:block;font-size:12px;margin-bottom:5px;font-weight:500}.kv{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-bottom:1px solid #202c38;font-size:11px}.kv:last-child{border:0}.kv .k{color:var(--muted)}.kv .v{font-family:var(--mono);text-align:right;overflow-wrap:anywhere;min-width:0}.fullbutton{width:100%;margin-top:16px;font-size:12px}.textarea{display:block;width:100%;background:#0d141c;color:var(--text);border:1px solid #314053;border-radius:7px;padding:12px;resize:vertical;min-height:112px;font-size:12px;line-height:1.6}.textfooter{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px}.textfooter button{font-size:11px;padding:7px 12px}.textfooter span{font:10px var(--mono);color:var(--muted)}.captions{font-size:11px;color:var(--muted);margin-bottom:12px}.diagnostic-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.diagnostic-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.methodline{font-size:10px;line-height:1.55;color:var(--muted);margin-top:11px}.evidence{margin-top:20px}.evidence pre{background:#0b121a;border:1px solid var(--line);border-radius:7px;padding:15px;font:11px/1.7 var(--mono);color:#b7c8dc;max-height:260px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin:0}.evidence summary{cursor:pointer;font:11px var(--mono);color:var(--muted);padding:0 0 12px}.bottom{display:flex;justify-content:space-between;gap:16px;margin-top:22px;color:#73869c;font:10px var(--mono);border-top:1px solid var(--line);padding-top:17px}.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);max-width:min(90vw,600px);background:#233548;border:1px solid #5c7899;border-radius:8px;padding:12px 20px;box-shadow:0 6px 30px #0008;font-size:12px;z-index:5}.toast[hidden]{display:none}a{color:var(--blue)}svg{flex-shrink:0}@media(max-width:1120px){.shell{padding:22px}.telemetry{grid-template-columns:repeat(3,1fr)}.stat:nth-child(3n){border-right:0}.stat:nth-child(-n+6){border-bottom:1px solid var(--line)}.intro{align-items:flex-start;flex-direction:column}.grid{grid-template-columns:1.45fr 1fr}.pipeline{flex-wrap:wrap}.node{min-width:40%}.arrow{display:none}}@media(max-width:790px){.grid{grid-template-columns:1fr}.top{align-items:flex-start}.statusline{flex-wrap:wrap;justify-content:flex-end}.intro h2{font-size:24px}.pipeline{flex-wrap:nowrap}.node{min-width:0}.arrow{display:none}.bottom{flex-direction:column;gap:5px}.banner{align-items:start;flex-direction:column;gap:4px}}@media(max-width:480px){.shell{padding:16px}.top .eyebrow{font-size:9px}h1{font-size:14px}.telemetry{grid-template-columns:1fr 1fr}.stat:nth-child(n){border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.stat:nth-child(2n){border-right:0}.stat:nth-last-child(-n+1){border-bottom:0}.stat:last-child{grid-column:1/-1;border-right:0}.models,.diagnostic-grid{grid-template-columns:1fr}.pipeline{display:grid;grid-template-columns:1fr 1fr}.controls{width:100%}.controls button{flex:1;font-size:11px;padding:10px}.cardhead,.cardbody{padding:15px}.stat .value{font-size:23px}.statusline #sessionTag{display:none}}
+.fusion-card{margin-bottom:22px;border-color:#725834}.fusion-card[hidden]{display:none}.fusion-warning{margin:0 0 17px;color:var(--amber);font-size:13px;font-weight:600}.fusion-columns{display:grid;grid-template-columns:1.05fr 1fr 1fr;gap:25px}.fusion-score{font:42px/1.2 var(--mono);letter-spacing:-.055em;color:var(--amber);margin:7px 0}.fusion-footnote{margin-top:14px;font-size:11px;color:var(--muted);overflow-wrap:anywhere}.fusion-column{min-width:0}.fusion-column h3{margin-bottom:7px}.fusion-column .kv{gap:12px}.fusion-summary{margin-top:15px;color:var(--muted);font-size:11px;line-height:1.6}.fusion-limits{font-size:11px;color:var(--muted);padding-left:18px;margin:12px 0 0}.fusion-limits:empty{display:none}@media(max-width:790px){.fusion-columns{grid-template-columns:1fr 1fr;gap:20px}.fusion-column:first-child{grid-column:1/-1}}@media(max-width:480px){.fusion-columns{grid-template-columns:1fr}.fusion-column:first-child{grid-column:auto}.fusion-score{font-size:36px}.fusion-card .cardhead{align-items:flex-start;flex-wrap:wrap}}
+.runtime-card{margin-bottom:22px}.runtime-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px}.runtime-intro{font-size:12px;color:var(--muted);margin:0 0 12px}.runtime-components{display:grid;grid-template-columns:1fr 1fr;gap:8px}.runtime-component{padding:10px;border:1px solid var(--line);border-radius:7px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px}.runtime-component .badge{font-size:9px}.runtime-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}.runtime-actions button{font-size:12px}.runtime-actions small{font-size:11px;color:var(--muted)}.runtime-progress{margin-top:10px;color:var(--blue);font-size:11px;min-height:17px}.runtime-remote{border-left:1px solid var(--line);padding-left:24px}.runtime-remote .kv{padding-top:0}.runtime-reason{font-size:12px;color:var(--amber);margin:12px 0 0}.runtime-remote .methodline{margin-top:8px}@media(max-width:790px){.runtime-grid{grid-template-columns:1fr;gap:18px}.runtime-remote{border-left:0;border-top:1px solid var(--line);padding:16px 0 0}}@media(max-width:480px){.runtime-components{grid-template-columns:1fr}}
+.answer-card{margin-bottom:22px;border-color:#3d5a65}.answer-card[hidden],.stack-card[hidden]{display:none}.answer-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(250px,1fr);gap:28px}.answer-time{font:40px/1.2 var(--mono);letter-spacing:-.055em;margin:8px 0;color:var(--green)}.answer-time small{font-size:13px;color:var(--muted);letter-spacing:0;margin-left:6px}.answer-guide{font-size:12px;color:var(--muted);margin:8px 0 0}.answer-action{margin-top:16px}.answer-action button{width:100%}.answer-privacy{font-size:11px;color:var(--muted);line-height:1.6;border-left:1px solid var(--line);padding-left:25px}.answer-privacy strong{color:var(--text);font-size:12px;display:block;margin-bottom:7px}.answer-privacy p{margin:0 0 10px}.answer-feedback{color:var(--blue);font-size:12px;min-height:20px}.stack-card{margin-bottom:22px;border-color:#557a65}.stack-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:30px}.stack-score{color:var(--green)}.stack-sources{font-size:11px;color:var(--muted);margin-top:15px}.stack-warning{font-size:12px;color:var(--amber);margin:0 0 15px}.stack-columns h3{margin-bottom:7px}@media(max-width:790px){.answer-grid{grid-template-columns:1fr;gap:18px}.answer-privacy{border-left:0;border-top:1px solid var(--line);padding:16px 0 0}}@media(max-width:480px){.stack-columns{grid-template-columns:1fr;gap:22px}.answer-time{font-size:34px}}
+.hr{margin:-4px 0 16px 42px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:#0e151d}.hr[hidden]{display:none}.hr-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.hr-title{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600}.hr-heart{color:var(--red);display:inline-grid;transform-origin:center}.hr-heart.beat{animation:hrbeat 1s ease-in-out infinite}@keyframes hrbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.25)}30%{transform:scale(.95)}}.hr-value{font:26px/1.1 var(--mono);letter-spacing:-.05em;margin-top:6px;display:flex;align-items:baseline;gap:6px}.hr-value.dim{color:var(--muted)}.hr-value .unit{font-size:11px;letter-spacing:0;color:var(--muted)}.hr-spark{display:block;width:100%;height:28px;margin-top:6px}.hr-spark polyline{fill:none;stroke:var(--red);stroke-width:1.5;vector-effect:non-scaling-stroke;stroke-linejoin:round}.hr-detail{font:10px var(--mono);color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
+.session-controls{position:sticky;top:0;z-index:20;background:var(--bg);padding:12px 0;margin-bottom:18px;border-bottom:1px solid var(--line);box-shadow:0 8px 16px #0a0e13cc}.session-controls #stopBtn{min-width:145px}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="top">
+    <div class="brand"><div class="mark" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2M5 19l2-2M17 7l2-2" stroke="currentColor" stroke-width="1.6"/></svg></div><div><div class="eyebrow">SunHacks / local inference</div><h1>Multimodal workbench</h1></div></div>
+    <div class="statusline"><span id="connectionTag" class="badge"><span class="dot"></span>Connecting</span><span class="badge mono" id="sessionTag">No session</span></div>
+  </header>
+  <section class="intro">
+    <div><div class="eyebrow">Capture → align → encode → inspect</div><h2>Every signal. On its own clock.</h2><p>Inspect timestamped video, audio and text through the local pipeline. Keep model readiness and measured performance visible.</p></div>
+  </section>
+    <div class="controls session-controls"><button type="button" id="demoBtn" class="primary">Start demo</button><button type="button" id="liveBtn" disabled>Start camera &amp; mic</button><button type="button" id="stopBtn" class="danger">Stop</button></div>
+  <div id="errorBanner" class="banner error" role="alert" hidden><strong>CONNECTION ERROR</strong><span id="errorText"></span></div>
+  <div id="modeBanner" class="banner subtle" role="status"><strong id="modeLabel">SESSION STOPPED</strong><span id="modeText">Choose a synthetic demo, or start local camera and microphone capture.</span></div>
+  <section class="card" id="showcaseModels" aria-labelledby="showcaseModelsTitle">
+    <div class="cardhead"><h2 id="showcaseModelsTitle">Showcase models</h2><span class="small">NOT SHOWN ON THE SHOWCASE PAGE</span></div>
+    <div class="cardbody">
+      <label class="headrow" for="gpuVideoToggle"><span class="left">Use V-JEPA 2.1 ViT-L on the GPU socket<small>Off: local models only. The camera still supplies local face features. Only changes between tests.</small></span><input id="gpuVideoToggle" type="checkbox" disabled></label>
+      <label class="headrow" for="claimCheckToggle"><span class="left">Check transcript and photos with Drex Max via OpenRouter<small>Sends the recognized transcript and two camera photos to OpenRouter and DeepInfra. No raw audio or embeddings. Applies from the next answer.</small></span><input id="claimCheckToggle" type="checkbox" disabled></label>
+      <div class="methodline" id="showcaseModelsNote" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+  <section class="card" id="datasetRecorder" aria-labelledby="datasetTitle">
+    <div class="cardhead"><h2 id="datasetTitle">Record labeled data</h2><span class="badge" id="datasetStatus">Ready</span></div>
+    <div class="cardbody">
+      <p class="captions">Record one seven-second statement, then label what you actually said. Saves camera video and microphone audio locally. No models, GPU or API calls run during collection.</p>
+      <div style="display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin:16px 0">
+        <label class="small" for="datasetParticipant">Participant code<br><input id="datasetParticipant" maxlength="64" pattern="[A-Za-z0-9][A-Za-z0-9_-]{0,63}" style="padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text)"></label>
+        <button type="button" id="datasetNewParticipant">New participant</button>
+        <button type="button" class="primary" id="datasetStart">Add new data · record 7 sec</button>
+        <button type="button" class="danger" id="datasetDiscard" disabled>Cancel / discard</button>
+        <button type="button" id="datasetReconnectMic">Reconnect microphone</button>
+      </div>
+      <div class="answer-time"><span id="datasetTimer">7.0</span><small>seconds</small></div>
+      <div class="small">Reconnect refreshes the device connection and performs a brief local microphone check. No audio is saved.</div>
+      <div id="datasetMessage" class="noteline" role="status" aria-live="polite">Keep the same code for the same person, even across sessions. Aim for similar numbers of truths and lies.</div>
+      <div id="datasetLabelPanel" hidden>
+        <video id="datasetPreview" controls preload="metadata" playsinline style="display:block;width:min(100%,560px);border-radius:10px;margin-top:16px"></video>
+        <label for="datasetStatement" class="small" style="display:block;margin-top:12px">Exact statement / prompt (optional; entered manually)</label>
+        <textarea id="datasetStatement" class="textarea" maxlength="4000" placeholder="Optional transcript or prompt to accompany this clip."></textarea>
+        <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap"><button type="button" id="datasetTruth" class="primary">Save as Truth</button><button type="button" id="datasetLie">Save as Lie</button></div>
+      </div>
+      <div id="datasetCounts" class="noteline"></div>
+      <div class="noteline">Split target: 75% training · 15% validation · 10% test, randomized by participant. Every recording of one person stays together; ratios are approximate with few participants. Labels are self-reported, not verified by a model.</div>
+      <div id="datasetRoot" class="small" style="overflow-wrap:anywhere;margin-top:10px"></div>
+    </div>
+  </section>
+  <section class="card runtime-card" id="runtimePanel" aria-labelledby="runtimeTitle" hidden>
+    <div class="cardhead"><h2 id="runtimeTitle">Startup readiness</h2><span class="badge" id="runtimeStatus">Not prepared</span></div>
+    <div class="cardbody runtime-grid">
+      <div>
+        <p class="runtime-intro" id="runtimeLocalNote">Load local model weights before a capture session.</p>
+        <div class="runtime-components" id="runtimeComponents"></div>
+        <div class="runtime-actions"><button type="button" id="prepareBtn" disabled>Prepare local models</button><small>Camera and microphone stay off.</small></div>
+        <div class="runtime-progress" id="runtimeProgress" role="status" aria-live="polite"></div>
+      </div>
+      <div class="runtime-remote">
+        <div class="kv"><span class="k">GPU video service</span><span class="badge warn" id="remoteStatus">Unverified</span></div>
+        <div class="methodline mono" id="remoteAddress"></div>
+        <p class="runtime-reason" id="runtimeReason">Live inference requires a verified video service and compatible trained weights.</p>
+        <div class="methodline" id="artifactReason">Awaiting model verification.</div>
+        <div class="methodline" id="visionContractNote" hidden></div>
+      </div>
+    </div>
+  </section>
+  <section class="card answer-card" id="answerPanel" aria-labelledby="answerPanelTitle" hidden>
+    <div class="cardhead"><h2 id="answerPanelTitle">One answer at a time</h2><span class="badge" id="answerStatus">Ready to capture</span></div>
+    <div class="cardbody answer-grid">
+      <div>
+        <div class="eyebrow">Answer duration</div>
+        <div class="answer-time"><span id="answerElapsed">0.0</span><small>seconds</small></div>
+        <div class="answer-feedback" id="answerFeedback" role="status" aria-live="polite">Start an answer when the models are ready.</div>
+        <p class="answer-guide" id="answerGuide">Speak for about 6–7 seconds, then finish. Capture stops before analysis begins.</p>
+        <div class="methodline" id="answerFrameCount">5–30 seconds per answer.</div>
+        <div class="answer-action"><button type="button" class="primary" id="finishAnswerBtn" disabled>Finish answer &amp; analyze</button></div>
+      </div>
+      <div class="answer-privacy"><strong>Where your answer is processed</strong><p>Only video frames go to your friend’s GPU service. Transcription, audio and text models, behavioral features and the ensemble run on this Mac.</p><p>Recognized words and diagnostics are not sent to an explanation service. The showcase offers a separate Drex contradiction check that sends recognized words and two photos through OpenRouter when selected.</p><div class="methodline">A 6–7 second answer keeps more motion detail in the model’s 64-frame input. Longer answers spread those frames over more time.</div></div>
+    </div>
+  </section>
+  <section class="card stack-card" id="stackPanel" aria-labelledby="stackPanelTitle" hidden>
+    <div class="cardhead"><h2 id="stackPanelTitle">Experimental ensemble output</h2><span class="badge warn" id="stackStatus">Awaiting completed answer</span></div>
+    <div class="cardbody">
+      <p id="stackWarning" class="stack-warning">Uncalibrated model output. It does not establish whether someone is lying.</p>
+      <div class="stack-columns">
+        <div><div class="eyebrow">Raw class-1 score · 0 to 1</div><div id="stackRawScore" class="fusion-score stack-score">—</div><div class="captions">A score for the trained classification target. This is not a calibrated probability about a person.</div><div class="kv"><span class="k">Local ensemble latency</span><span class="v" id="stackTime">Not measured</span></div><div class="stack-sources" id="stackReason">Finish an answer to inspect the model output.</div></div>
+        <div><h3>Classifier inputs</h3><div class="kv"><span class="k">Dasheng audio classifier</span><span class="v" id="stackAudioScore">—</span></div><div class="kv"><span class="k">Behavioral digest classifier</span><span class="v" id="stackDigestScore">—</span></div><div id="stackExplanation" class="methodline">The ensemble combines these classifier outputs locally. V-JEPA video features are shown independently and do not enter this score.</div><div id="stackWeights" class="headrows"></div></div>
+      </div>
+    </div>
+  </section>
+  <section class="card fusion-card" id="fusionPanel" aria-labelledby="fusionPanelTitle" hidden>
+    <div class="cardhead"><h2 id="fusionPanelTitle">Experimental fusion output</h2><span class="badge warn" id="fusionPanelStatus">Awaiting real input</span></div>
+    <div class="cardbody">
+      <p class="fusion-warning" id="fusionWarning">Trained on generated features; not validated on real people.</p>
+      <div class="fusion-columns">
+        <div class="fusion-column"><div class="eyebrow">Raw class-1 score · 0 to 1</div><div id="fusionRawScore" class="fusion-score">—</div><div class="captions" id="fusionScoreCaption">Numeric output for the synthetic training target. This is not an honesty judgment or a calibrated human probability.</div><div class="kv"><span class="k">Small fusion head</span><span class="v" id="fusionHeadTime">—</span></div><div class="methodline">Full capture and encoder timing appears separately below.</div></div>
+        <div class="fusion-column"><h3>Modality gates</h3><div class="kv"><span class="k">Video input weight</span><span class="v" id="fusionGateVisual">—</span></div><div class="kv"><span class="k">Audio input weight</span><span class="v" id="fusionGateAudio">—</span></div><div class="kv"><span class="k">Text input weight</span><span class="v" id="fusionGateText">—</span></div><div class="methodline">Normalized model weights for its three inputs. These weights do not measure confidence in a person.</div></div>
+        <div class="fusion-column"><h3>Feature distances</h3><div class="kv"><span class="k">Video–audio</span><span class="v" id="fusionDistanceVA">—</span></div><div class="kv"><span class="k">Video–text</span><span class="v" id="fusionDistanceVL">—</span></div><div class="kv"><span class="k">Audio–text</span><span class="v" id="fusionDistanceAL">—</span></div><div class="methodline">Cosine distances in the projected feature space, from 0 to 2. Their meaning on real recordings has not been validated.</div></div>
+      </div>
+      <div class="fusion-footnote" id="fusionInputNote">Waiting for actual video, audio and text encoder features.</div>
+      <div class="fusion-summary" id="fusionOutputReason"></div>
+      <ul class="fusion-limits" id="fusionOutputLimits"></ul>
+    </div>
+  </section>
+  <section class="telemetry" aria-label="Timing and resource measurements">
+    <div class="stat"><div class="label">Camera capture <span class="hint" title="Observed unique camera frames received per second. A device's requested rate is not a measurement." tabindex="0">i</span></div><div class="value"><span id="captureFps">—</span><span class="unit">fps</span></div><div class="detail" id="captureDetail">Requested: 30 fps</div></div>
+    <div class="stat"><div class="label"><span id="sampleLabel">Window sampling</span> <span id="sampleHint" class="hint" title="Target spacing of the 64 timestamps selected for one video window. It is independent of encoder speed." tabindex="0">i</span></div><div class="value"><span id="sampleFps">24</span><span class="unit">fps</span></div><div class="detail" id="sampleDetail">64 frames · 2.63 s span</div></div>
+    <div class="stat"><div class="label">Unique frames processed <span class="hint" title="Measured distinct source frames consumed by completed inference windows per second. Overlapping frames are counted once." tabindex="0">i</span></div><div class="value"><span id="uniqueFps">—</span><span class="unit">fps</span></div><div class="detail" id="uniqueDetail">Waiting for a completed window</div></div>
+    <div class="stat"><div class="label">Fresh inference updates <span class="hint" title="Completed windows per second over the trailing 30 seconds, or since session start if shorter. This is not camera frame rate." tabindex="0">i</span></div><div class="value"><span id="updateRate">—</span><span class="unit">/ sec</span></div><div class="detail" id="updateDetail">0 completed · 0 dropped</div></div>
+    <div class="stat"><div class="label">Window latency <span class="hint" title="Measured processing time for the latest completed window, excluding the time needed to capture the clip." tabindex="0">i</span></div><div class="value"><span id="latency">—</span><span class="unit">ms</span></div><div class="detail" id="latencyDetail">Queue: 0 windows</div></div>
+    <div class="stat"><div class="label">Latest result age <span class="hint" title="Elapsed time since the last source frame of the displayed result. This includes processing and waiting; stale results remain explicitly old." tabindex="0">i</span></div><div class="value"><span id="resultAge">—</span><span class="unit">sec</span></div><div class="detail" id="resultAgeDetail">No result available</div></div>
+    <div class="stat"><div class="label">Process peak memory <span class="hint" title="Peak resident memory reported by the server process. This is not a complete measure of all system or GPU memory." tabindex="0">i</span></div><div class="value"><span id="memory">—</span><span class="unit">MB</span></div><div class="detail" id="memoryDetail">Server process RSS</div></div>
+  </section>
+  <div class="grid">
+    <div>
+      <section class="card"><div class="cardhead"><h2 id="pipelineTitle">Local pipeline</h2><span class="small">TRAINED CLASSIFIER</span></div><div class="cardbody"><div class="pipeline"><div class="node"><div class="num">01 / CAPTURE</div><strong>Camera + microphone</strong><small>Monotonic timestamps<br>Bounded buffers</small></div><span class="arrow" aria-hidden="true">›</span><div class="node"><div class="num">02 / ALIGN</div><strong id="alignmentTitle">Overlapping windows</strong><small id="alignmentDetail">64 frames per clip<br>Matching audio interval</small></div><span class="arrow" aria-hidden="true">›</span><div class="node"><div class="num">03 / ENCODE</div><strong><span id="encoderTitle">Four fixed models</span></strong><small id="encodeDetail">Local base / adapters<br>Explicit missing data</small></div><span class="arrow" aria-hidden="true">›</span><div class="node"><div class="num">04 / INSPECT</div><strong>Evidence + readiness</strong><small>Trained heads required<br>Versioned scoring rule</small></div></div><div class="noteline" id="coverageNote">Window sampling preserves motion inside each processed clip. It does not establish continuous coverage or real-time inference.</div><div class="noteline" id="windowNote">No completed window. Capture rate, sampling rate and inference throughput are separate measurements.</div></div></section>
+      <section class="card"><div class="cardhead"><h2>Model interfaces</h2><span class="badge" id="modelMode">Waiting</span></div><div class="cardbody"><div class="models" id="models"></div><div class="headrows"><div class="headrow"><div class="left"><span id="fusionRowTitle">Fusion head</span><small id="fusionReason">Awaiting teammate artifact</small></div><span id="fusionStatus" class="badge warn">Missing</span></div><div class="headrow"><div class="left"><span id="tabularRowTitle">Tabular model / calibration</span><small id="tabularReason">Awaiting trained model and matching feature schema</small></div><span id="tabularStatus" class="badge warn">Missing</span></div></div><div class="noteline">Base embeddings are representations, not calibrated predictions. Loaded heads remain experimental and require independent validation. This workbench does not establish whether someone is lying.</div></div></section>
+      <section class="card"><div class="cardhead"><h2>Window diagnostics</h2><span class="small" id="featureCount">NO WINDOW</span></div><div class="cardbody"><div id="features"><div class="empty"><strong>Waiting for aligned input</strong>Observed signal diagnostics will appear here. Unavailable measurements remain missing.</div></div><details class="evidence"><summary>Inspect latest window JSON</summary><pre id="evidence">No completed window.</pre></details></div></section>
+    </div>
+    <div>
+      <section class="card"><div class="cardhead"><h2>Capture devices</h2><span class="small" id="deviceMode">INACTIVE</span></div><div class="cardbody"><div class="device"><div class="name"><div class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/></svg></div><div><h3>Camera</h3><small id="cameraDetail">Not started · target 30 fps</small></div></div><span id="cameraStatus" class="badge">Stopped</span></div><div class="hr" id="heartRatePanel" role="status" aria-live="polite" aria-label="Heart rate estimate from the camera" hidden><div class="hr-top"><span class="hr-title"><span class="hr-heart" id="heartRateIcon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.6 1.2 4.4 2.6.8-1.4 2.3-2.6 4.4-2.6 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z"/></svg></span>Heart rate <span class="hint" title="Remote photoplethysmography (rPPG): pulse estimated from subtle skin-colour changes in the camera image over a rolling 10-second window. Display only; it is not an input to any lie/truth score. Not a medical measurement." tabindex="0">i</span></span><span id="heartRateQuality" class="badge warn">Acquiring</span></div><div class="hr-value dim" id="heartRateValue"><span id="heartRateBpm">—</span><span class="unit">bpm</span></div><svg class="hr-spark" id="heartRateSpark" viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline id="heartRatePulse" points=""/></svg><div class="hr-detail" id="heartRateDetail">Hold still, face the camera.</div></div><div class="device"><div class="name"><div class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M6 10v2a6 6 0 0 0 12 0v-2M12 18v3m-3 0h6"/></svg></div><div><h3>Microphone</h3><small id="audioDetail">Not started · 16 kHz mono input contract</small></div></div><span id="audioStatus" class="badge">Stopped</span></div><div class="divider"></div><div class="baseline"><div><h3>Baseline diagnostics</h3><small id="calibrationText">15-second reference. Signal checks only.</small></div><button type="button" id="calibrateBtn">Calibrate</button></div><div class="progress" aria-hidden="true"><span id="calibrationProgress"></span></div><div class="noteline"><span id="capturePrivacy">Live capture stays in memory. Starting live mode activates this Mac’s camera and microphone; macOS permission may be required.</span></div></div></section>
+      <section class="card"><div class="cardhead"><h2>Transcript input</h2><span class="badge" id="transcriptStatus">Manual</span></div><div class="cardbody"><div class="captions" id="transcriptCaption">Qwen receives text. If local ASR is unavailable, enter a verbatim transcript for the current session.</div><label class="eyebrow" for="transcript" style="display:block;margin-bottom:8px" id="transcriptLabel">Manual transcript</label><textarea class="textarea" id="transcript" maxlength="8000" placeholder="Enter the spoken words, including pauses or disfluencies when relevant. No transcript is inferred from embeddings."></textarea><div class="textfooter"><span id="transcriptCount">0 / 8000 characters</span><button type="button" id="transcriptBtn">Use transcript</button></div><div id="activeTranscript" class="noteline">No transcript attached.</div></div></section>
+    </div>
+  </div>
+  <section class="card"><div class="cardhead"><h2>Drex input inspection</h2><button type="button" id="claimInputsBtn" disabled>Review Drex inputs</button></div><div class="cardbody">
+    <div class="noteline">Review the exact transcript and two photos from the last completed check. Held in memory until the next test, stop or reset. Reviewing makes no extra API call.</div>
+    <div id="claimInputSummary" class="noteline">No completed check to inspect.</div>
+    <div id="claimInputTranscript" class="noteline"></div>
+    <div id="claimInputImages" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px"></div>
+    <div id="claimInputHash" class="small" style="overflow-wrap:anywhere;margin-top:12px"></div>
+  </div></section>
+  <footer class="bottom"><span id="footerSession">SESSION — / 00:00</span><span>LOCAL FIRST · NO TRAINING · OPT-IN DATA COLLECTION</span></footer>
+</main>
+<div id="toast" class="toast" role="status" hidden></div>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const defs = [
+  {key:'vision',family:'VIDEO',title:'V-JEPA 2.1 ViT-L',id:'facebookresearch / vjepa2_1_vit_large_384',input:'64 RGB frames · 384 × 384'},
+  {key:'dasheng',family:'AUDIO · GENERAL',title:'Dasheng base',id:'mispeech/dasheng-base',input:'16 kHz mono → mel features'},
+  {key:'emotion',family:'AUDIO · SPEECH',title:'emotion2vec plus large',id:'iic/emotion2vec_plus_large',input:'16 kHz mono waveform'},
+  {key:'text',family:'TEXT',title:'Qwen3-Embedding 0.6B',id:'Qwen/Qwen3-Embedding-0.6B',input:'Transcript → tokenized text'}
+];
+let state = null, fetching = false, busy = false, toastTimer, actionError = '', stopBusy = false;
+let claimInputKey='', claimInputBusy=false;
+const statusTone = status => /^(ready|ok|running|available|complete|completed|live|base|loaded|success|active|capturing)$/i.test(String(status)) ? 'good' : /error|fail|unavailable|unreachable|denied|invalid|timeout/i.test(String(status)) ? 'bad' : /demo|mock|missing|pending|partial|degraded|synthetic|warming|blocked|disabled|offline|retraining|preparing|not_prepared|unverified|finishing|processing/i.test(String(status)) ? 'warn' : '';
+const str = value => typeof value === 'string' ? value : value == null ? '—' : typeof value === 'object' ? JSON.stringify(value) : String(value);
+function badge(el, value, tone) { el.textContent = str(value).replaceAll('_',' '); el.className = 'badge ' + (tone || statusTone(value)); }
+function number(value, digits=1) { return typeof value === 'number' && Number.isFinite(value) ? value.toLocaleString(undefined,{minimumFractionDigits:digits,maximumFractionDigits:digits}) : '—'; }
+function toast(text) { $('toast').textContent=text; $('toast').hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{$('toast').hidden=true;},4500); }
+function err(text) { $('errorText').textContent=text; $('errorBanner').hidden=false; }
+function modelCard(def, branch, teammateHead=false) {
+  const node=document.createElement('article'); node.className='model';
+  const top=document.createElement('div'); top.className='modeltop';
+  const title=document.createElement('div'); const family=document.createElement('div'); family.className='family'; family.textContent=def.family;
+  const heading=document.createElement('h3'); heading.textContent=def.title; title.append(family,heading);
+  const tag=document.createElement('span'); badge(tag,branch?.status || 'Waiting'); top.append(title,tag);
+  const id=document.createElement('div'); id.className='modelid'; id.textContent=branch?.model_id || def.id;
+  const input=document.createElement('div'); input.className='muted'; input.style.fontSize='10px'; input.textContent=def.input;
+  const output=document.createElement('div'); output.className='output'; output.textContent=branch?.embedding_shape ? 'Output ['+(Array.isArray(branch.embedding_shape)?branch.embedding_shape.join(', '):str(branch.embedding_shape))+']' : 'Output —';
+  const time=document.createElement('div'); time.className='timing'; time.textContent=branch?.elapsed_ms != null ? number(branch.elapsed_ms)+' ms measured' : 'Latency not measured';
+  const reason=document.createElement('div'); reason.className='reason'; reason.textContent=(branch?.reason || branch?.error || (branch ? 'No additional status.' : 'No window has reached this interface.'))+(teammateHead&&def.key==='emotion'?' This encoder is not an input to the exported teammate fusion head.':'');
+  node.append(top,id,input,output,time,reason); return node;
+}
+function featureRows(features) {
+  const dest=$('features'); dest.replaceChildren();
+  if (!features || !Object.keys(features).length) { const box=document.createElement('div'); box.className='empty'; box.textContent='No signal diagnostics available for this window.'; dest.append(box); $('featureCount').textContent='NO MEASUREMENTS'; return; }
+  const group=document.createElement('div'); group.className='diagnostic-grid'; let count=0;
+  const row=(section,label,value,digits,unit='',scale=1)=>{const line=document.createElement('div');line.className='kv';const k=document.createElement('span');k.className='k';k.textContent=label;const v=document.createElement('span');v.className='v';v.textContent=typeof value==='number'&&Number.isFinite(value)?number(value*scale,digits)+unit:'—';line.append(k,v);section.append(line);if(typeof value==='number')count++;};
+  const section=(title,status)=>{const el=document.createElement('section');const head=document.createElement('div');head.className='diagnostic-head';const name=document.createElement('h3');name.textContent=title;const tag=document.createElement('span');badge(tag,status||'Missing');head.append(name,tag);el.append(head);group.append(el);return el;};
+  const audio=features.audio||{}, video=features.video||{};
+  const a=section('Audio signal',audio.status);row(a,'RMS level',audio.rms_dbfs,1,' dBFS');row(a,'Peak level',audio.peak_dbfs,1,' dBFS');row(a,'Clipped samples',audio.clipping_fraction,3,'%',100);row(a,'Activity proxy',audio.activity_fraction_proxy,1,'%',100);row(a,'Observed audio',audio.duration_seconds,2,' sec');
+  const am=document.createElement('div');am.className='methodline';am.textContent=audio.status==='missing'?'Audio missing for this interval. Missing samples are not treated as silence.':'Per-window PCM diagnostics. '+(audio.activity_method||'Activity uses a 20 ms RMS threshold; it is not speech recognition or a trained VAD.')+(typeof audio.activity_threshold_dbfs==='number'?' Threshold: '+number(audio.activity_threshold_dbfs,0)+' dBFS.':'')+' Clipping: absolute amplitude ≥ 0.999.';a.append(am);
+  const v=section('Video signal',video.status);row(v,'Mean brightness',video.brightness_mean,1,'%',100);row(v,'Frame difference',video.mean_absolute_frame_difference,2,'%',100);row(v,'Sampled frames',video.frames,0);
+  const vm=document.createElement('div');vm.className='methodline';vm.textContent=video.status==='missing'?'No valid video frames for this interval.':'Mean RGB intensity and mean absolute difference between adjacent sampled frames, as % of the 8-bit range. Difference depends on sampling and camera movement. '+(video.interpretation||'Image diagnostics only; no facial or physiological interpretation.');v.append(vm);
+  dest.append(group);$('featureCount').textContent=count+' DIAGNOSTICS';
+}
+function pendingArtifact(deployment) {
+  const pending={
+    awaiting_retrained_weights:{label:'Replacement weights pending',headLabel:'Replacement pending',warning:'Awaiting retrained weights. Previous artifacts are excluded from live inference.',reason:'Replacement trained weights are pending. Previous artifacts are excluded from live inference.'},
+    awaiting_deployment_export:{label:'Deployment export pending',headLabel:'Export pending',warning:'Training is reported complete. Deployment weights are awaiting export and verification.',reason:'Awaiting exported weights, matching input contracts and deployment verification.'},
+    awaiting_remote_verification:{label:'Verification pending',headLabel:'Verification pending',warning:'The reported trained models are awaiting deployment verification.',reason:'The trained models and GPU video service must be verified together before a live test.'}
+  };
+  return Object.hasOwn(pending,deployment.artifacts_status)?pending[deployment.artifacts_status]:null;
+}
+const splitVideoMode = runtime => runtime?.mode==='split_local_video';
+const remoteVideoMode = runtime => runtime?.mode==='remote_fast'||splitVideoMode(runtime);
+const validScore = value => typeof value==='number'&&Number.isFinite(value)&&value>=0&&value<=1;
+function answerControls(s) {
+  const split=splitVideoMode(s.runtime), answer=s.answer||{}, status=answer.status||'idle';
+  $('answerPanel').hidden=!split||s.mode==='demo';
+  if(!split||s.mode==='demo')return;
+  const elapsed=typeof answer.elapsed_seconds==='number'&&Number.isFinite(answer.elapsed_seconds)?Math.max(0,answer.elapsed_seconds):0;
+  const minimum=typeof answer.min_seconds==='number'&&Number.isFinite(answer.min_seconds)?Math.max(0,answer.min_seconds):5;
+  const maximum=typeof answer.max_seconds==='number'&&Number.isFinite(answer.max_seconds)?answer.max_seconds:30;
+  const capturing=status==='capturing';
+  badge($('answerStatus'),{idle:'Ready to capture',capturing:'Capturing answer',finishing:'Finishing capture',processing:'Analyzing answer',complete:'Answer complete',error:'Answer failed'}[status]||status);
+  $('answerElapsed').textContent=number(elapsed,1);
+  const feedback={idle:'Start an answer when the models are ready.',capturing:elapsed<minimum||(answer.source_frames||0)<128?'Keep speaking. You can finish after '+number(minimum,0)+' seconds.':'Ready to finish. Click below when your answer is complete.',finishing:'Stopping the camera and microphone before analysis…',processing:'Capture has stopped. The models are analyzing this answer.',complete:'Analysis is complete. Inspect the output or start another answer.',error:'This answer could not be analyzed. Check the error, then start again.'};
+  $('answerFeedback').textContent=answer.reason||feedback[status]||'Waiting for answer status.';
+  $('answerGuide').textContent='Speak for about 6–7 seconds, then finish. Capture stops before analysis begins.';
+  $('answerFrameCount').textContent=number(minimum,0)+'–'+number(maximum,0)+' seconds per answer'+(typeof answer.source_frames==='number'?' · '+number(answer.source_frames,0)+' source frames captured':'')+'.';
+  $('finishAnswerBtn').disabled=busy||!capturing||elapsed<minimum||(answer.source_frames||0)<128;
+  $('finishAnswerBtn').textContent=capturing&&elapsed<minimum?'Finish available in '+number(Math.max(0,minimum-elapsed),1)+' s':'Finish answer & analyze';
+}
+function stackOutput(stack,branches,deployment,latest,mode,currentAnswerReady=true) {
+  const pilot=deployment.classifier_profile==='webcam_pilot';
+  const enabled=pilot||['rlt-dasheng-digest-stack-v1','rlt-dasheng-digest-stack-v2'].includes(deployment.classifier_architecture);
+  $('stackPanel').hidden=!enabled;
+  if(!enabled)return false;
+  $('stackPanelTitle').textContent=pilot?'Experimental webcam-pilot audio output':'Experimental ensemble output';
+  $('stackWarning').textContent=pilot?'Selected model: one Dasheng checkpoint tuned on the webcam pilot. Its validation-fit calibration does not establish reliable deception detection.':'Uncalibrated model output. It does not establish whether someone is lying.';
+  $('stackExplanation').textContent=pilot?'Only the webcam-pilot Dasheng score supplies this model verdict. The digest and GPU video are diagnostic outputs and do not enter it.':'The ensemble combines these classifier outputs locally. V-JEPA video features are shown independently and do not enter this score.';
+  const artifact=pendingArtifact(deployment), hasScore=currentAnswerReady&&!artifact&&mode!=='demo'&&!latest.mock&&stack.status==='trained_classifier'&&validScore(stack.raw_score);
+  badge($('stackStatus'),artifact?artifact.label:hasScore?'Trained classifier · uncalibrated':mode==='demo'?'Mock input · classifier not run':currentAnswerReady?(stack.status||'Awaiting completed answer'):'Awaiting completed answer','warn');
+  $('stackRawScore').textContent=hasScore?number(stack.raw_score,3):'—';
+  $('stackTime').textContent=hasScore&&typeof stack.elapsed_ms==='number'?number(stack.elapsed_ms,1)+' ms':'Not measured';
+  $('stackReason').textContent=artifact?(deployment.artifact_reason||artifact.reason):stack.reason||'Finish an answer to inspect the model output. Independent validation is required before interpreting a score.';
+  for(const [key,id] of [['dasheng','stackAudioScore'],['tabular','stackDigestScore']])$(''+id).textContent=hasScore&&validScore(branches[key]?.raw_score)?number(branches[key].raw_score,3):'—';
+  const weights=hasScore&&stack.weights&&typeof stack.weights==='object'&&!Array.isArray(stack.weights)?Object.entries(stack.weights).filter(([,value])=>typeof value==='number'&&Number.isFinite(value)).slice(0,12):[];
+  $('stackWeights').replaceChildren(...weights.map(([key,value])=>{const row=document.createElement('div');row.className='kv';const label=document.createElement('span');label.className='k';label.textContent=key.replaceAll('_',' ')+' weight';const output=document.createElement('span');output.className='v';output.textContent=number(value,3);row.append(label,output);return row;}));
+  return true;
+}
+function runtimeReadiness(runtime, deployment, running) {
+  const configured=runtime&&typeof runtime==='object'; $('runtimePanel').hidden=!configured||!remoteVideoMode(runtime);
+  if(!configured)return;
+  const remote=runtime.remote||{}, components=runtime.components||{}, preparing=runtime.status==='preparing';
+  const labels={asr:'Local transcription',dasheng:'Dasheng audio',text:'Qwen text',emotion:'Emotion2vec audio',...(splitVideoMode(runtime)?{faces:'Face feature extractor',digest:'Local digest + ensemble'}:{})};
+  const rows=[];
+  for(const [key,label] of Object.entries(labels)){
+    const item=components[key]||{}; const row=document.createElement('div');row.className='runtime-component';
+    const title=document.createElement('span');title.textContent=label;
+    const tag=document.createElement('span');badge(tag,item.status||'Not loaded');
+    row.append(title,tag);if(item.reason)row.title=str(item.reason);rows.push(row);
+  }
+  $('runtimeComponents').replaceChildren(...rows);
+  badge($('runtimeStatus'),runtime.local_weights_loaded?'Local weights loaded':runtime.status||'Not prepared');
+  $('runtimeLocalNote').textContent=splitVideoMode(runtime)?(runtime.local_weights_loaded?(deployment.classifier_profile==='webcam_pilot'?'Selected: webcam-pilot Dasheng audio model. Other local models and GPU video remain diagnostic. ':'')+'Local model weights are loaded and retained between answers. End-to-end latency is measured after you finish an answer.':'Prepare the local models and video service before an answer. Camera and microphone stay off during preparation.'):(runtime.local_weights_loaded?'Local weights are retained between windows. The first forward pass and end-to-end speed still need measurement.':'Load local model weights before capture. Preparation checks loading; it does not measure inference speed.');
+  $('prepareBtn').textContent=preparing?'Preparing local models…':runtime.local_weights_loaded?'Check local readiness':'Prepare local models';
+  $('prepareBtn').disabled=busy||running||preparing;
+  const active=Object.entries(components).filter(([,value])=>value&&['loading','preparing'].includes(value.status)).map(([key])=>labels[key]||key);
+  $('runtimeProgress').textContent=preparing?(active.length?'Loading '+active.join(', ')+'…':'Preparing local model weights…'):runtime.kernels_warmed===false&&runtime.local_weights_loaded?'Weights loaded. First inference is still pending.':'';
+  badge($('remoteStatus'),remote.status==='offline_by_user'?'Offline · retraining':remote.status||'Unverified',remote.status==='offline_by_user'?'warn':undefined);
+  $('remoteAddress').textContent=remote.host?str(remote.host)+(remote.port?':'+str(remote.port):''):'';
+  $('runtimeReason').textContent=runtime.reason||remote.reason||(runtime.live_ready?'Live inference is ready.':'Live inference is waiting for a verified video service.');
+  const artifact=pendingArtifact(deployment);
+  $('artifactReason').textContent=deployment.artifact_reason||artifact?.reason||'Compatible model identity and input contracts must be verified before live inference.';
+  const requested=deployment.requested_vision, reported=deployment.reported_vision;
+  $('visionContractNote').hidden=!reported;
+  $('visionContractNote').textContent=reported?[(requested?'Requested: '+str(requested):''),'Reported training model: '+str(reported),deployment.vision_choice_accepted?(splitVideoMode(runtime)&&runtime.live_ready?'Temporary ViT-B choice accepted; model identity and manifest checked.':'Temporary ViT-B choice accepted; deployment compatibility remains unverified.'):requested&&requested!==reported?'Model compatibility is unverified.':''].filter(Boolean).join(' · '):'';
+}
+function fusionOutput(fusion, deployment, latest, mode) {
+  const artifact=pendingArtifact(deployment), awaitingReplacement=Boolean(artifact);
+  const enabled=awaitingReplacement||deployment.fusion_architecture==='friend-reda-dare-synthetic-v1'||fusion.architecture==='friend-reda-dare-synthetic-v1'||fusion.training_domain==='generated_synthetic_features';
+  $('fusionPanel').hidden=!enabled;
+  if(!enabled)return false;
+  const hasScore=!awaitingReplacement&&fusion.status==='synthetic_trained'&&typeof fusion.raw_score==='number'&&Number.isFinite(fusion.raw_score)&&fusion.raw_score>=0&&fusion.raw_score<=1;
+  $('fusionWarning').textContent=artifact?artifact.warning:'Trained on generated features; not validated on real people.';
+  $('fusionScoreCaption').textContent=artifact?'No score is shown until the trained artifacts and their input contracts are verified. This workbench does not establish whether someone is lying.':'Numeric output for the synthetic training target. This is not an honesty judgment or a calibrated human probability.';
+  badge($('fusionPanelStatus'),artifact?artifact.label:hasScore?'Synthetic-trained · unvalidated':mode==='demo'?'Mock input · head not run':fusion.status||'Awaiting real input','warn');
+  $('fusionRawScore').textContent=hasScore?number(fusion.raw_score,3):'—';
+  $('fusionHeadTime').textContent=hasScore&&typeof fusion.elapsed_ms==='number'?number(fusion.elapsed_ms,1)+' ms':'Not measured';
+  const gates=hasScore?fusion.modality_gates||{}:{};
+  for(const [field,id] of [['visual','fusionGateVisual'],['audio','fusionGateAudio'],['text','fusionGateText']])$(id).textContent=number(gates[field],3);
+  const distances=hasScore?fusion.feature_distances||{}:{};
+  for(const [field,id] of [['D_va','fusionDistanceVA'],['D_vl','fusionDistanceVL'],['D_al','fusionDistanceAL']])$(id).textContent=number(distances[field],3);
+  const prefix=hasScore&&latest.window?'Window '+str(latest.window.id)+(mode==='stopped'?' · capture stopped · last completed result. ':' · real captured inputs. '):mode==='demo'?'Current input is synthetic; the teammate head does not run on mock embeddings. ':'Waiting for actual encoder features. ';
+  $('fusionInputNote').textContent=awaitingReplacement?'The deployed model’s preprocessing and input contract must match its training before a new live test.':prefix+'The exported head uses V-JEPA tubelet features, adapted Dasheng audio and the first 128 Qwen dimensions. Emotion2vec is shown separately and is not an input to this head.';
+  $('fusionOutputReason').textContent=awaitingReplacement?(deployment.artifact_reason||artifact.reason):fusion.reason||'No head output yet. Live integration checks execution; real-world predictive quality is unverified.';
+  const limits=awaitingReplacement?[]:Array.isArray(fusion.limitations)?fusion.limitations:[];
+  $('fusionOutputLimits').replaceChildren(...limits.map(value=>{const li=document.createElement('li');li.textContent=str(value);return li;}));
+  return !awaitingReplacement;
+}
+function render(s) {
+  state=s; const config=s.config||{}, metrics=s.metrics||{}, latest=s.latest||{}, capture=s.capture||{}, camera=capture.camera||{}, audio=capture.audio||{}; const mode=s.mode||'stopped'; const demo=mode==='demo'; const running=mode!=='stopped'; const split=splitVideoMode(s.runtime), answer=s.answer||{}, answerActive=['capturing','finishing','processing'].includes(answer.status), answerCapturing=answer.status==='capturing';
+  badge($('connectionTag'),'Connected','good'); $('connectionTag').prepend(Object.assign(document.createElement('span'),{className:'dot'}));
+  $('sessionTag').textContent=s.session_id ? str(s.session_id).slice(0,12) : 'No session';
+  $('modeBanner').className='banner '+(demo?'':'subtle'); $('modeLabel').textContent=demo?'SYNTHETIC DEMO':mode==='live'?'LIVE LOCAL CAPTURE':'SESSION STOPPED';
+  $('modeText').textContent=demo?'Input is synthetic. Mock branches are marked below; these timings do not measure base-model inference.':mode==='live'?'Camera and audio availability are reported independently. Missing inputs stay missing; no synthetic substitution.':'Choose a synthetic demo, or start local camera and microphone capture.';
+  const fps=config.sample_fps||24, frames=config.frames_per_window||64;
+  $('captureFps').textContent=number(camera.observed_fps); $('captureDetail').textContent=(demo?'Synthetic source · ':'Requested: ')+(config.capture_fps||30)+' fps';
+  $('sampleFps').textContent=number(fps,0); $('sampleDetail').textContent=frames+' frames · '+number((frames-1)/fps,2)+' s span';
+  $('uniqueFps').textContent=number(metrics.unique_frames_per_second); $('uniqueDetail').textContent=demo?'Synthetic / mock workload':running?'Distinct frames over session time':'Waiting for a completed window';
+  $('updateRate').textContent=number(metrics.inference_updates_per_second,2); $('updateDetail').textContent=(metrics.completed_windows||0)+' completed · '+(metrics.dropped_windows||0)+' dropped';
+  $('latency').textContent=number(metrics.window_latency_ms,0); $('latencyDetail').textContent='Queue: '+(metrics.queue_depth||0)+' · stage: '+(metrics.processing_stage||'waiting');
+  $('resultAge').textContent=number(metrics.current_result_age_seconds??metrics.result_age_seconds,1); $('resultAgeDetail').textContent=metrics.current_result_age_seconds!=null?'Since latest source frame':metrics.result_age_seconds!=null?'Capture → completion age':'No result available';
+  $('memory').textContent=number(metrics.process_peak_rss_mb,0); $('memoryDetail').textContent='Server process peak RSS';
+  $('modelMode').textContent=demo?'DEMO / MOCKS':split&&s.runtime?.remote_video_enabled===false?'LOCAL MODELS':remoteVideoMode(s.runtime)?'LOCAL + GPU VIDEO':'LOCAL INTERFACES'; $('modelMode').className='badge '+(demo?'warn':'');
+  const branches=latest.branches||{}, deployment=s.deployment||{}; runtimeReadiness(s.runtime,deployment,split?answerActive:running); answerControls(s); const stacked=stackOutput(branches.stack||{},branches,deployment,latest,mode,!split||answer.status==='complete'); const teammateHead=!stacked&&fusionOutput(branches.fusion||{},deployment,latest,mode); const modelDefinitions=defs.map(d=>d.key==='dasheng'&&deployment.classifier_profile==='webcam_pilot'?{...d,title:'Dasheng · webcam-pilot tuned',input:'One selected audio model · 16 kHz mono'}:d.key==='dasheng'&&deployment.classifier_architecture==='rlt-dasheng-digest-stack-v1'?{...d,title:'Tuned Dasheng · 5 folds'}:split&&['emotion','text'].includes(d.key)?{...d,title:d.title+' · frozen base'}:d.key==='vision'&&remoteVideoMode(s.runtime)?{...d,title:split?(s.runtime?.remote_video_enabled===false?'V-JEPA 2.1 ViT-L · disabled':'V-JEPA 2.1 ViT-L classifier'):'V-JEPA video encoder',id:branches.vision?.model_id||s.runtime.remote?.model_id||s.runtime.remote?.advertised_video_model||'Awaiting verified remote checkpoint',input:split?(s.runtime?.remote_video_enabled===false?'GPU video disabled · local face features still active':'Video only on GPU · two64-frame views'):'Timestamped RGB frames · input contract awaiting verification'}:d); $('models').replaceChildren(...modelDefinitions.map(d=>modelCard(d,branches[d.key],teammateHead)));
+  $('pipelineTitle').textContent=remoteVideoMode(s.runtime)?'Capture and inference':'Local pipeline'; $('encodeDetail').textContent=split&&s.runtime?.remote_video_enabled===false?'Mac audio, text and face features':remoteVideoMode(s.runtime)?'Mac audio + text · GPU video':'Local base / adapters · explicit missing data';
+  $('alignmentTitle').textContent=split?'One complete answer':'Overlapping windows'; $('alignmentDetail').textContent=split?'Capture stops before analysis · matching audio interval':'64 frames per clip · matching audio interval'; $('encoderTitle').textContent=split?(s.runtime?.remote_video_enabled===false?'Local models · GPU video off':'Local models + GPU video'):'Four fixed models';
+  $('fusionRowTitle').textContent=stacked?'Local ensemble':'Fusion head'; $('tabularRowTitle').textContent=stacked?'Behavioral digest classifier':'Tabular model / calibration';
+  if(stacked)$('fusionPanel').hidden=true;
+  if(!running&&remoteVideoMode(s.runtime)&&!s.runtime.live_ready)$('modeText').textContent=s.runtime.remote?.status==='offline_by_user'?'The GPU video service is offline while replacement models train. Prepare local models or use the synthetic demo.':'Live inference is waiting for a verified video service and compatible weights. Local preparation and the synthetic demo remain available.';
+  for(const key of ['fusion','tabular']) { const branch=branches[stacked&&key==='fusion'?'stack':key]||{}, artifact=pendingArtifact(deployment); badge($(key+'Status'),artifact?artifact.headLabel:branch.status||'Missing'); $(key+'Reason').textContent=artifact?(deployment.artifact_reason||artifact.reason):split&&stacked&&branch.status==='trained_classifier'?(key==='fusion'?(deployment.classifier_profile==='webcam_pilot'?'Selected webcam-pilot Dasheng model with its exported calibration and cutoff.':'Learned local stack combining Dasheng audio and the '+(deployment.classifier_architecture==='rlt-dasheng-digest-stack-v2'?'88':'89')+'-field behavioral digest.'):(deployment.classifier_profile==='webcam_pilot'?'Diagnostic classifier on the behavioral digest.':'Local classifier on the '+(deployment.classifier_architecture==='rlt-dasheng-digest-stack-v2'?'88':'89')+'-field behavioral digest.'))+(typeof branch.elapsed_ms==='number'&&Number.isFinite(branch.elapsed_ms)&&branch.elapsed_ms>=0?' · '+number(branch.elapsed_ms,1)+' ms measured':''):branch.reason||(/ready|loaded|experimental/i.test(branch.status||'')?'Trained artifact loaded · task validity and calibration require independent evaluation':'Awaiting compatible trained artifact and schema'); }
+  const visionTime=branches.vision?.elapsed_ms; const clipSpan=(frames-1)/fps; $('coverageNote').textContent=demo?'Synthetic demo throughput does not measure base-model inference or continuous camera coverage.':typeof visionTime==='number'&&visionTime>1000*clipSpan?'The latest vision pass took '+number(visionTime/1000,1)+' sec for a '+number(clipSpan,2)+' sec clip. '+number(fps,0)+' fps sampling preserves detail inside that clip; it does not provide continuous '+number(fps,0)+' fps model coverage. Overload drops pending windows.':'Window sampling preserves motion inside each processed clip. It does not establish continuous coverage or real-time inference.';
+  const window=latest.window; $('windowNote').textContent=window?'Window '+str(window.id)+' · '+number(window.start,3)+'–'+number(window.end,3)+' s · '+str(window.unique_frames)+' unique frames · within-window coverage '+(typeof window.coverage==='number'?number(window.coverage*100,1)+'%':str(window.coverage))+' · target hop '+number(config.hop_seconds,3)+' s':'No completed window. Capture rate, sampling rate and inference throughput are separate measurements.';
+  $('sampleLabel').textContent=split?'Video input sampling':'Window sampling';
+  $('sampleHint').title=split?'Effective sampling of the unique frames actually consumed by the video model, over this answer. Transported frame count and camera capture rate are separate.':'Target spacing of the 64 timestamps selected for one video window. It is independent of encoder speed.';
+  if(split){
+    const videoCompleted=branches.vision?.status==='trained_classifier'&&typeof branches.vision.elapsed_ms==='number'&&Number.isFinite(branches.vision.elapsed_ms)&&branches.vision.elapsed_ms>0;
+    $('sampleFps').textContent=number(videoCompleted?window?.effective_video_input_fps:null,1);
+    $('sampleDetail').textContent=window?(videoCompleted?str(window.native_video_unique_frames??'—')+' native frames · '+str(window.transport_frames??'—')+' sent':'Video classification unavailable'):'128-frame ViT-L cache · measured after inference';
+    $('updateDetail').textContent='One analysis per completed answer';
+    $('coverageNote').textContent=window&&!videoCompleted?'Video classification did not complete; no processed-frame rate is reported.':window?'The video model used '+str(window.native_video_unique_frames??'—')+' unique frames over '+number(window.duration_seconds,2)+' seconds: '+number(window.effective_video_input_fps,1)+' fps effective input. This is separate from camera capture rate and model processing speed.':'Capture one answer, then stop the sensors before analysis. Video is processed independently of the local ensemble score.';
+    $('windowNote').textContent=window?'Answer '+str(window.id)+' · '+number(window.duration_seconds,2)+' sec · '+str(window.transport_frames??'—')+' frames transported · '+str(window.native_video_unique_frames??'—')+' unique native video frames':'No completed answer. Aim for 6–7 seconds to preserve more motion detail.';
+    $('modeLabel').textContent=demo?'SYNTHETIC DEMO':answerCapturing?'CAPTURING ANSWER':answer.status==='finishing'?'FINISHING CAPTURE':answer.status==='processing'?'ANALYZING ANSWER':answer.status==='complete'?'ANSWER COMPLETE':answer.status==='error'?'ANSWER ERROR':'READY FOR ONE ANSWER';
+    if(!demo)$('modeText').textContent=answerCapturing?'Speak naturally, then finish your answer. Camera and microphone are active.':['finishing','processing'].includes(answer.status)?(s.runtime?.remote_video_enabled===false?'Capture stops before inference. Local models run on this Mac; GPU video is off.':'Capture stops before inference. Audio, transcription and classification run on this Mac; only video goes to the GPU.'):answer.status==='complete'?'Capture is stopped. Review this answer or start another answer.':s.runtime?.live_ready?'Start camera and microphone when you are ready. Aim for a 6–7 second answer.':s.runtime?.reason||'Prepare the local models and verify the video service before starting.';
+  }
+  $('deviceMode').textContent=demo?'SYNTHETIC':split&&['camera','audio'].some(k=>['starting','running','stopping'].includes(capture[k]?.status))&&!answerCapturing?'STOPPING':split?(answerCapturing?'CAPTURING':answer.status==='finishing'?'STOPPING':['processing','complete','error'].includes(answer.status)?'CAPTURE STOPPED':'INACTIVE'):mode==='live'?'LOCAL DEVICES':'INACTIVE'; badge($('cameraStatus'),camera.status||(demo?'Synthetic':'Stopped')); badge($('audioStatus'),audio.status||(demo?'Synthetic':'Stopped'));
+  $('cameraDetail').textContent=camera.error||camera.reason||camera.device|| (camera.observed_fps!=null?number(camera.observed_fps)+' fps observed · target '+(config.capture_fps||30)+' fps':'Not started · target '+(config.capture_fps||30)+' fps');
+  $('audioDetail').textContent=audio.error||audio.reason||[audio.device_name||audio.device, (audio.output_sample_rate||audio.sample_rate)?str(audio.output_sample_rate||audio.sample_rate)+' Hz mono':null].filter(Boolean).join(' · ')||'Not started · 16 kHz mono input contract';
+  const calibration=s.calibration||latest.calibration||{}; const pct=calibration.progress!=null?Math.min(100,Math.max(0,calibration.progress<=1?calibration.progress*100:calibration.progress)):calibration.progress_seconds!=null?Math.min(100,calibration.progress_seconds/15*100):calibration.status==='complete'?100:0;
+  $('calibrationProgress').style.width=pct+'%'; $('calibrationText').textContent=calibration.reason||calibration.message||(calibration.status?str(calibration.status).replaceAll('_',' '):'15-second reference. Signal checks only.');
+  featureRows(latest.features); $('evidence').textContent=Object.keys(latest).length?JSON.stringify(latest,null,2):'No completed window.';
+  const transcript=latest.transcript||{}, localAsr=Boolean(deployment.local_asr_configured); badge($('transcriptStatus'),transcript.source==='local_asr'?'Local ASR · '+(transcript.status||'Waiting'):transcript.status||'Manual',statusTone(transcript.status));
+  $('transcriptCaption').textContent=localAsr?'Local Whisper transcribes each captured audio window before Qwen encoding. Verify the recognized words below. Automatic ASR takes precedence over manual session text while enabled.':'Qwen receives text. If local ASR is unavailable, enter a verbatim transcript for the current session.';
+  $('transcriptLabel').textContent=localAsr?'Manual fallback text':'Manual transcript'; $('transcriptBtn').textContent=localAsr?'Save fallback text':'Use transcript';
+  $('activeTranscript').textContent=transcript.text?(transcript.source==='local_asr'?'Recognized: ':'Attached: ')+transcript.text.slice(0,1000)+(transcript.text.length>1000?'…':''):transcript.reason|| (localAsr?'Waiting for a captured window to transcribe.':'No transcript attached.');
+  renderHeartRate(s);
+  renderClaimInputs(s);
+  if(typeof renderDatasetRecorder==='function')renderDatasetRecorder(s);
+
+  const uptime=Math.max(0,Math.floor(s.uptime_seconds||0)); $('footerSession').textContent='SESSION '+(s.session_id?str(s.session_id).slice(0,12):'—')+' / '+String(Math.floor(uptime/60)).padStart(2,'0')+':'+String(uptime%60).padStart(2,'0');
+  const errors=[...(Array.isArray(s.errors)?s.errors:[]),...(actionError?[actionError]:[])]; if(errors.length) err(errors.slice(-2).map(e=>typeof e==='string'?e:str(e.message||e.reason||e)).join(' · ')); else $('errorBanner').hidden=true;
+  const remoteBlocked=remoteVideoMode(s.runtime)&&!s.runtime.live_ready; $('demoBtn').disabled=busy||demo||(split&&answerActive); $('liveBtn').textContent=split?(answer.status==='complete'||answer.status==='error'?'Start another answer':'Start camera & mic'):'Start camera & mic'; $('liveBtn').disabled=busy||(split?answerActive:mode==='live')||remoteBlocked; $('liveBtn').title=remoteBlocked?(s.runtime.reason||s.runtime.remote?.reason||'Live inference is waiting for the GPU video service and compatible weights.'):''; $('stopBtn').disabled=split&&answerCapturing?false:busy||(split?!answerActive&&!running:!running); $('stopBtn').textContent=split&&answerCapturing?'Stop & analyze':split&&['finishing','processing'].includes(answer.status)?'Cancel analysis':'Stop'; $('calibrateBtn').disabled=busy||!running||split; $('transcriptBtn').disabled=busy||!running||(split&&['finishing','processing'].includes(answer.status));
+  if(s.dataset?.active){for(const id of ['demoBtn','liveBtn','prepareBtn','finishAnswerBtn','calibrateBtn','transcriptBtn'])$(id).disabled=true;$('stopBtn').disabled=false;$('stopBtn').textContent='Discard dataset recording';}
+  $('capturePrivacy').textContent=s.dataset?.active?'Dataset collection: camera and microphone are local. Only explicitly labeled takes enter training, validation or test folders.':split?(s.runtime?.remote_video_enabled===false?'GPU video is off. Camera face features and audio are processed locally. The showcase has a separate transcript/photo contradiction-check setting.':'Capture stays in memory and stops before analysis. Only video frames are sent to the GPU service; audio is processed locally.'):'Live capture stays in memory. Starting live mode activates this Mac’s camera and microphone; macOS permission may be required.';
+}
+function renderHeartRate(s) {
+  // Display-only rPPG readout beside the camera. Never used by any score.
+  const hr=s.heart_rate||null, camera=(s.capture||{}).camera||{};
+  const cameraOn=['starting','running'].includes(camera.status)&&s.mode!=='demo';
+  const active=hr&&['acquiring','tracking','no_face'].includes(hr.status);
+  const panel=$('heartRatePanel'); panel.hidden=!(hr&&hr.status!=='disabled'&&(cameraOn||active));
+  if(panel.hidden){$('heartRateIcon').className='hr-heart';return;}
+  const tracking=hr.status==='tracking'&&typeof hr.bpm==='number'&&Number.isFinite(hr.bpm);
+  $('heartRateBpm').textContent=tracking?String(Math.round(hr.bpm)):'—';
+  $('heartRateValue').className='hr-value'+(tracking&&hr.quality_label!=='poor'?'':' dim');
+  const icon=$('heartRateIcon'); icon.className='hr-heart'+(tracking?' beat':''); icon.style.animationDuration=tracking?Math.min(1.5,Math.max(.3,60/hr.bpm)).toFixed(2)+'s':'';
+  const progress=typeof hr.progress==='number'?Math.round(hr.progress*100):0;
+  if(tracking)badge($('heartRateQuality'),{good:'Good signal',fair:'Fair signal',poor:'Weak signal'}[hr.quality_label]||'Signal',{good:'good',fair:'warn',poor:'bad'}[hr.quality_label]||'warn');
+  else badge($('heartRateQuality'),hr.status==='no_face'?'No face':!active?'Waiting for frames':'Acquiring '+progress+'%','warn');
+  const pulse=tracking&&Array.isArray(hr.pulse)?hr.pulse.filter(v=>typeof v==='number'&&Number.isFinite(v)):[];
+  $('heartRatePulse').setAttribute('points',pulse.length>1?pulse.map((v,i)=>(i*100/(pulse.length-1)).toFixed(1)+','+(12-Math.max(-1,Math.min(1,v))*10).toFixed(1)).join(' '):'');
+  const method=hr.method==='facephys'?'FacePhys on-device':'POS fallback';
+  $('heartRateDetail').textContent=tracking?method+' · quality '+number((hr.quality||0)*100,0)+'% · '+number(hr.window_seconds,1)+' s window · display only':hr.status==='no_face'?'No face found. Face the camera in even light.':'Hold still, face the camera · '+method+(hr.model?.status==='loading'?' (model loading)':'');
+}
+function currentClaimKey(s) {
+  const c=s?.latest?.claim_check;
+  return s?.mode==='live' && s?.session_id && s?.answer?.status==='complete' && c?.transmission_status==='response_received' && c?.input_sha256
+    ? JSON.stringify([s.session_id,s.latest.window?.id,c.input_sha256]) : '';
+}
+function renderClaimInputs(s) {
+  const key=currentClaimKey(s);
+  if(key!==claimInputKey){
+    claimInputKey=key;
+    $('claimInputImages').replaceChildren();$('claimInputTranscript').textContent='';$('claimInputHash').textContent='';
+    $('claimInputSummary').textContent=key?'A completed Drex check is available. Click to review its inputs.':'No matching completed check to inspect.';
+  }
+  $('claimInputsBtn').disabled=!key||claimInputBusy||busy;
+}
+async function reviewClaimInputs() {
+  const key=currentClaimKey(state);if(!key||claimInputBusy)return;
+  claimInputBusy=true;renderClaimInputs(state);
+  try {
+    const value=await api('/api/claim-inputs');
+    if(key!==currentClaimKey(state))return;
+    if(value.status!=='available')throw new Error(value.reason||'Input preview unavailable.');
+    if(JSON.stringify([value.session_id,value.source_window_id,value.input_sha256])!==key)throw new Error('The answer changed. Review the current answer instead.');
+    if(typeof value.transcript!=='string'||value.transcript.length>4000||!Array.isArray(value.images)||value.images.length!==2||value.images.some(x=>typeof x!=='string'||x.length>2800000||!/^[A-Za-z0-9+/]+={0,2}$/.test(x)))throw new Error('Invalid input preview.');
+    const photos=value.images.map((data,i)=>{const image=document.createElement('img');image.src='data:image/jpeg;base64,'+data;image.alt='Exact selected Drex photo '+(i+1);image.style.width='min(100%, 300px)';image.style.height='auto';return image;});
+    $('claimInputImages').replaceChildren(...photos);
+    $('claimInputTranscript').textContent='Exact recognized transcript: '+value.transcript;
+    $('claimInputSummary').textContent='Drex: '+str(value.claim_check?.decision_choice||value.claim_check?.status).replaceAll('_',' ')+'. Contradiction-only rule: only a contradiction overrides the behavioral result to Lie. No contradiction does not override it to Truth.';
+    $('claimInputHash').textContent='Request input SHA-256: '+value.input_sha256+' · '+str(value.claim_check?.model);
+  }catch(e){if(key===currentClaimKey(state))$('claimInputSummary').textContent=e.message;}
+  finally{claimInputBusy=false;renderClaimInputs(state);}
+}
+async function api(path,body) {
+  const controller=new AbortController(), timer=setTimeout(()=>controller.abort(),30000);
+  try { const response=await fetch(path,{method:body===undefined?'GET':'POST',headers:body===undefined?{}:{'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body),signal:controller.signal,cache:'no-store'}); const text=await response.text(); let data; try{data=JSON.parse(text);}catch{throw new Error('Server returned an unreadable response ('+response.status+').');} if(!response.ok) throw new Error(data.error||data.detail||data.reason||'Request failed ('+response.status+').'); return data; } finally { clearTimeout(timer); }
+}
+async function refresh(){if(fetching)return;fetching=true;try{render(await api('/api/state'));}catch(e){badge($('connectionTag'),'Disconnected','bad');err(e.name==='AbortError'?'Local server response timed out.':e.message);}finally{fetching=false;}}
+async function stopAction() {
+  const capturing=splitVideoMode(state?.runtime)&&state?.answer?.status==='capturing';
+  if(!capturing)return action('/api/stop',{},'Session stopped.');
+  if(stopBusy)return;
+  stopBusy=true;actionError='';
+  try{const result=await api('/api/answer/finish',{stop_now:true});if(result.error)throw new Error(result.error);toast('Capture stop requested.');await refresh();}
+  catch(e){actionError=e.name==='AbortError'?'Stop request timed out. Check camera and microphone status.':e.message;err(actionError);}
+  finally{stopBusy=false;if(state)render(state);}
+}
+async function action(path,body,message) { if(busy)return;busy=true;actionError='';document.querySelectorAll('button').forEach(b=>{if(b.id!=='stopBtn'||!splitVideoMode(state?.runtime)||state?.answer?.status!=='capturing')b.disabled=true;});try{const result=await api(path,body);if(result.error)throw new Error(result.error);toast(message);await refresh();}catch(e){actionError=e.name==='AbortError'?'Request timed out. Check the server before retrying.':e.message;err(actionError);}finally{busy=false;if(state)render(state);else document.querySelectorAll('button').forEach(b=>b.disabled=false);}}
+$('claimInputsBtn').addEventListener('click',reviewClaimInputs);
+$('finishAnswerBtn').addEventListener('click',()=>action('/api/answer/finish',{},'Answer finished. Capture stops before analysis.'));
+$('prepareBtn').addEventListener('click',()=>action('/api/prepare',{},'Local model preparation requested. Camera and microphone remain off.'));
+$('demoBtn').addEventListener('click',()=>action('/api/session',{mode:'demo'},'Synthetic demo started.'));
+$('liveBtn').addEventListener('click',()=>action('/api/session',{mode:'live'},'Local capture requested. Check device readiness.'));
+$('stopBtn').addEventListener('click',stopAction);
+$('calibrateBtn').addEventListener('click',()=>action('/api/calibrate',{},'15-second baseline diagnostics requested.'));
+$('transcriptBtn').addEventListener('click',()=>action('/api/transcript',{text:$('transcript').value},'Manual transcript attached to this session.'));
+$('transcript').addEventListener('input',()=>{$('transcriptCount').textContent=$('transcript').value.length+' / 8000 characters';});
+$('models').replaceChildren(...defs.map(d=>modelCard(d,null))); refresh(); setInterval(refresh,1000);
+</script>
+<script>
+'use strict';
+(()=>{
+ const get=id=>document.getElementById(id);
+ let data=null,requestBusy=false,lastTake='',receivedAt=0,requestError='',notice='';
+ const storageKey='sunhacks-dataset-participant-v1';
+ const freshCode=()=> 'p_'+crypto.randomUUID().replaceAll('-','').slice(0,12);
+ try{get('datasetParticipant').value=localStorage.getItem(storageKey)||freshCode();}catch{get('datasetParticipant').value=freshCode();}
+ function remember(){try{localStorage.setItem(storageKey,get('datasetParticipant').value);}catch{}}
+ remember();
+ function timer(){
+  const status=data?.status;let elapsed=data?.elapsed_seconds||0;
+  if(status==='recording')elapsed+=Math.max(0,(performance.now()-receivedAt)/1000);
+  get('datasetTimer').textContent=Math.max(0,7-Math.min(7,elapsed)).toFixed(1);
+ }
+ globalThis.renderDatasetRecorder=s=>{
+  const next=s?.dataset;if(!next)return;
+  data=next;receivedAt=performance.now();
+  const active=Boolean(next.active),pending=next.status==='awaiting_label',work=s.runtime?.lifecycle||{};
+  const blocked=['capturing','finishing','processing'].includes(s.answer?.status)||s.mode==='demo'||s.runtime?.status==='preparing'||work.active_jobs?.length||work.active_prepares||Object.values(s.capture||{}).some(v=>['starting','running','stopping'].includes(v.status));
+  get('datasetStart').disabled=requestBusy||active||Boolean(blocked)||Boolean(next.closed);
+  get('datasetReconnectMic').disabled=requestBusy||active||Boolean(blocked)||Boolean(next.closed);
+  get('datasetParticipant').disabled=requestBusy||active;get('datasetNewParticipant').disabled=requestBusy||active;
+  get('datasetDiscard').disabled=requestBusy||!active;
+  get('datasetTruth').disabled=requestBusy||!pending;get('datasetLie').disabled=requestBusy||!pending;
+  get('datasetLabelPanel').hidden=!pending;
+  get('datasetStatus').textContent=String(next.status||'idle').replaceAll('_',' ');
+  get('datasetMessage').textContent=requestError||notice||next.message||'Keep the same participant code for the same person. Choose Add new data when ready.';
+  get('datasetRoot').textContent='Saved locally: '+next.root;
+  get('datasetCounts').textContent=['train','validation','test'].map(split=>{const count=next.counts?.[split]||{};return split+': '+(count.truth||0)+' Truth / '+(count.lie||0)+' Lie';}).join(' · ');
+  if(pending&&next.take_id!==lastTake){
+   lastTake=next.take_id;get('datasetPreview').src='/api/dataset/preview?take_id='+encodeURIComponent(next.take_id);get('datasetStatement').value='';
+  }else if(!pending&&lastTake){
+   lastTake='';get('datasetPreview').pause();get('datasetPreview').removeAttribute('src');get('datasetPreview').load();get('datasetStatement').value='';
+  }
+  timer();
+ };
+ async function request(path,body){
+  if(requestBusy)return;requestBusy=true;requestError='';notice='';
+  if(state)renderDatasetRecorder(state);
+  try{const result=await api(path,body);if(path==='/api/audio/reconnect')notice=result.message||'Microphone reconnected. Try recording again.';remember();await refresh();}
+  catch(e){requestError=e.message;}
+  finally{requestBusy=false;if(state)renderDatasetRecorder(state);}
+ }
+ get('datasetStart').addEventListener('click',()=>request('/api/dataset/start',{participant_id:get('datasetParticipant').value.trim()}));
+ get('datasetNewParticipant').addEventListener('click',()=>{get('datasetParticipant').value=freshCode();remember();});
+ get('datasetParticipant').addEventListener('change',remember);
+ get('datasetReconnectMic').addEventListener('click',()=>request('/api/audio/reconnect',{}));
+ get('datasetDiscard').addEventListener('click',()=>request('/api/dataset/discard',{}));
+ for(const label of ['truth','lie'])get(label==='truth'?'datasetTruth':'datasetLie').addEventListener('click',()=>request('/api/dataset/save',{take_id:data?.take_id,label,statement:get('datasetStatement').value}));
+ setInterval(timer,100);
+ if(state)renderDatasetRecorder(state);
+})();
+</script>
+<script>
+'use strict';
+(()=>{
+ const get=id=>document.getElementById(id);
+ let snapshot=null,busy=false,polling=false,error='';
+ function render(){
+  const s=snapshot,offline=!s;
+  get('gpuVideoToggle').checked=s?.remote_video_enabled!==false;
+  get('gpuVideoToggle').disabled=offline||busy||s.can_toggle_remote_video!==true;
+  get('claimCheckToggle').checked=s?.claim_check_enabled!==false;
+  get('claimCheckToggle').disabled=offline||busy;
+  get('showcaseModelsNote').textContent=error||(offline?'Waiting for the showcase state.':s.can_toggle_remote_video!==true?'GPU video can change only when no test, capture or model preparation is running.':'');
+ }
+ async function request(path,body){
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
+  try{const response=await fetch(path,{method:body===undefined?'GET':'POST',headers:body===undefined?{}:{'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body),signal:controller.signal,cache:'no-store'});const data=await response.json();if(!response.ok)throw new Error(data.error||'Request failed ('+response.status+').');return data;}
+  finally{clearTimeout(timer);}
+ }
+ async function poll(){
+  if(polling||busy)return;polling=true;
+  try{snapshot=await request('/api/showcase');}catch{snapshot=null;}finally{polling=false;render();}
+ }
+ async function toggle(route,input){
+  if(busy)return;busy=true;error='';const enabled=input.checked===true;render();input.checked=enabled;
+  try{snapshot=await request(route,{enabled});}
+  catch(e){error=e.name==='AbortError'?'The request timed out.':e.message;}
+  finally{busy=false;render();}
+ }
+ get('gpuVideoToggle').addEventListener('change',()=>toggle('/api/showcase/video',get('gpuVideoToggle')));
+ get('claimCheckToggle').addEventListener('change',()=>toggle('/api/showcase/claim-check',get('claimCheckToggle')));
+ render();poll();setInterval(poll,1000);
+})();
+</script>
+
+</body>
+</html>

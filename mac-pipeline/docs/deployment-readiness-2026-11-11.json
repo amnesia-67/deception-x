@@ -1,0 +1,19 @@
+{
+  "github_head": "6e30a90391984e8dec392e41de1f6ddb25b3ed6d",
+  "reachable_endpoint": "192.168.0.224:5002",
+  "latest_health_ms": 12.636,
+  "running_video_label": "vjepa2_vitl_lora_5fold",
+  "required_video_family": "V-JEPA2.1",
+  "reported21_training_variant": "ViT-B",
+  "new_video_inference_executed": false,
+  "participant_data_sent": false,
+  "selected_base_setup_complete": true,
+  "project_regression_tests_passed": 280,
+  "proposed_patch_cpu_tests_passed": 20,
+  "patch_sha256": "17ad24b073a8e7e4c610259ad79f24ab9f82f7b79a1575fd7538202bebe16bd3",
+  "remaining_blockers": [
+    "Teammate must export and serve existing2.1 folds with verified manifest.",
+    "Other tuned audio/text adapters and new fusion/normalizers still need export.",
+    "A matched Mac classifier client, real-weight/GPU fixture and full latency/capture checks remain before live demo."
+  ]
+}

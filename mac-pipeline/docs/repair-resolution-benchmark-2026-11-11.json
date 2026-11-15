@@ -1,0 +1,568 @@
+{
+  "fixture": "Generated checkerboard/gradient/moving rectangle and generated speech with synthetic silence; no live capture or participant data",
+  "audio_transmitted": false,
+  "transcript_transmitted": false,
+  "participant_media_sent": false,
+  "source_revision": "53393582c2994025f2bbececc01eb7a893de1c96",
+  "trials": [
+    {
+      "edge": 640,
+      "source_shape": [
+        128,
+        360,
+        640,
+        3
+      ],
+      "service_ms": 2465.722,
+      "status": {
+        "vision": "trained_classifier",
+        "dasheng": "trained",
+        "text": "base",
+        "emotion": "base",
+        "tabular": "trained_classifier",
+        "stack": "trained_classifier",
+        "fusion": "unavailable"
+      },
+      "video": {
+        "reason": "Real tuned2.1ViT-B classifier score; uncalibrated for webcam use and not evidence of deception.",
+        "elapsed_ms": 2382.079,
+        "server_timings": {
+          "prep_ms": 490.7,
+          "inference_ms": 1276.0
+        },
+        "request_bytes": 5112052,
+        "source_frame_shape": [
+          360,
+          640,
+          3
+        ],
+        "transport_frame_shape": [
+          360,
+          640,
+          3
+        ],
+        "transport_resized": false,
+        "transport_jpeg_quality": 90,
+        "transport_jpeg_subsampling": "4:4:4",
+        "face_diagnostics": null,
+        "remote_face_diagnostics": null,
+        "transport_jpeg_huffman_optimized": true
+      },
+      "memory": {
+        "rss_parent_mb": 1834.75,
+        "rss_children_mb": 45.25,
+        "peak_parent_rss_mb": 2668.156,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3809.859
+      }
+    },
+    {
+      "edge": 960,
+      "source_shape": [
+        128,
+        540,
+        960,
+        3
+      ],
+      "service_ms": 3247.531,
+      "status": {
+        "vision": "trained_classifier",
+        "dasheng": "trained",
+        "text": "base",
+        "emotion": "base",
+        "tabular": "trained_classifier",
+        "stack": "trained_classifier",
+        "fusion": "unavailable"
+      },
+      "video": {
+        "reason": "Real tuned2.1ViT-B classifier score; uncalibrated for webcam use and not evidence of deception.",
+        "elapsed_ms": 2996.134,
+        "server_timings": {
+          "prep_ms": 755.7,
+          "inference_ms": 1155.7
+        },
+        "request_bytes": 12378396,
+        "source_frame_shape": [
+          540,
+          960,
+          3
+        ],
+        "transport_frame_shape": [
+          540,
+          960,
+          3
+        ],
+        "transport_resized": false,
+        "transport_jpeg_quality": 90,
+        "transport_jpeg_subsampling": "4:4:4",
+        "face_diagnostics": null,
+        "remote_face_diagnostics": null,
+        "transport_jpeg_huffman_optimized": true
+      },
+      "memory": {
+        "rss_parent_mb": 2297.594,
+        "rss_children_mb": 45.562,
+        "peak_parent_rss_mb": 2668.156,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3809.859
+      }
+    },
+    {
+      "edge": 640,
+      "source_shape": [
+        128,
+        360,
+        640,
+        3
+      ],
+      "service_ms": 2498.316,
+      "status": {
+        "vision": "trained_classifier",
+        "dasheng": "trained",
+        "text": "base",
+        "emotion": "base",
+        "tabular": "trained_classifier",
+        "stack": "trained_classifier",
+        "fusion": "unavailable"
+      },
+      "video": {
+        "reason": "Real tuned2.1ViT-B classifier score; uncalibrated for webcam use and not evidence of deception.",
+        "elapsed_ms": 2448.124,
+        "server_timings": {
+          "prep_ms": 443.8,
+          "inference_ms": 1140.3
+        },
+        "request_bytes": 5112052,
+        "source_frame_shape": [
+          360,
+          640,
+          3
+        ],
+        "transport_frame_shape": [
+          360,
+          640,
+          3
+        ],
+        "transport_resized": false,
+        "transport_jpeg_quality": 90,
+        "transport_jpeg_subsampling": "4:4:4",
+        "face_diagnostics": null,
+        "remote_face_diagnostics": null,
+        "transport_jpeg_huffman_optimized": true
+      },
+      "memory": {
+        "rss_parent_mb": 2377.156,
+        "rss_children_mb": 45.688,
+        "peak_parent_rss_mb": 2668.156,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3809.859
+      }
+    },
+    {
+      "edge": 960,
+      "source_shape": [
+        128,
+        540,
+        960,
+        3
+      ],
+      "service_ms": 3994.195,
+      "status": {
+        "vision": "trained_classifier",
+        "dasheng": "trained",
+        "text": "base",
+        "emotion": "base",
+        "tabular": "trained_classifier",
+        "stack": "trained_classifier",
+        "fusion": "unavailable"
+      },
+      "video": {
+        "reason": "Real tuned2.1ViT-B classifier score; uncalibrated for webcam use and not evidence of deception.",
+        "elapsed_ms": 3889.723,
+        "server_timings": {
+          "prep_ms": 882.7,
+          "inference_ms": 1156.9
+        },
+        "request_bytes": 12378396,
+        "source_frame_shape": [
+          540,
+          960,
+          3
+        ],
+        "transport_frame_shape": [
+          540,
+          960,
+          3
+        ],
+        "transport_resized": false,
+        "transport_jpeg_quality": 90,
+        "transport_jpeg_subsampling": "4:4:4",
+        "face_diagnostics": null,
+        "remote_face_diagnostics": null,
+        "transport_jpeg_huffman_optimized": true
+      },
+      "memory": {
+        "rss_parent_mb": 2586.562,
+        "rss_children_mb": 45.891,
+        "peak_parent_rss_mb": 2951.578,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3809.859
+      }
+    },
+    {
+      "edge": 640,
+      "source_shape": [
+        128,
+        360,
+        640,
+        3
+      ],
+      "service_ms": 2221.988,
+      "status": {
+        "vision": "trained_classifier",
+        "dasheng": "trained",
+        "text": "base",
+        "emotion": "base",
+        "tabular": "trained_classifier",
+        "stack": "trained_classifier",
+        "fusion": "unavailable"
+      },
+      "video": {
+        "reason": "Real tuned2.1ViT-B classifier score; uncalibrated for webcam use and not evidence of deception.",
+        "elapsed_ms": 2163.088,
+        "server_timings": {
+          "prep_ms": 511.2,
+          "inference_ms": 1154.0
+        },
+        "request_bytes": 5112052,
+        "source_frame_shape": [
+          360,
+          640,
+          3
+        ],
+        "transport_frame_shape": [
+          360,
+          640,
+          3
+        ],
+        "transport_resized": false,
+        "transport_jpeg_quality": 90,
+        "transport_jpeg_subsampling": "4:4:4",
+        "face_diagnostics": null,
+        "remote_face_diagnostics": null,
+        "transport_jpeg_huffman_optimized": true
+      },
+      "memory": {
+        "rss_parent_mb": 2445.125,
+        "rss_children_mb": 46.031,
+        "peak_parent_rss_mb": 2951.578,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3809.859
+      }
+    },
+    {
+      "edge": 960,
+      "source_shape": [
+        128,
+        540,
+        960,
+        3
+      ],
+      "service_ms": 2878.319,
+      "status": {
+        "vision": "trained_classifier",
+        "dasheng": "trained",
+        "text": "base",
+        "emotion": "base",
+        "tabular": "trained_classifier",
+        "stack": "trained_classifier",
+        "fusion": "unavailable"
+      },
+      "video": {
+        "reason": "Real tuned2.1ViT-B classifier score; uncalibrated for webcam use and not evidence of deception.",
+        "elapsed_ms": 2769.844,
+        "server_timings": {
+          "prep_ms": 748.6,
+          "inference_ms": 1138.7
+        },
+        "request_bytes": 12378396,
+        "source_frame_shape": [
+          540,
+          960,
+          3
+        ],
+        "transport_frame_shape": [
+          540,
+          960,
+          3
+        ],
+        "transport_resized": false,
+        "transport_jpeg_quality": 90,
+        "transport_jpeg_subsampling": "4:4:4",
+        "face_diagnostics": null,
+        "remote_face_diagnostics": null,
+        "transport_jpeg_huffman_optimized": true
+      },
+      "memory": {
+        "rss_parent_mb": 2646.141,
+        "rss_children_mb": 46.062,
+        "peak_parent_rss_mb": 3014.797,
+        "mps_current_mb": 2689.15,
+        "mps_driver_mb": 3809.859
+      }
+    }
+  ],
+  "memory_before": {
+    "rss_parent_mb": 206.688,
+    "rss_children_mb": 0,
+    "peak_parent_rss_mb": 206.688,
+    "mps_current_mb": 0.0,
+    "mps_driver_mb": 0.453
+  },
+  "health": {
+    "640": {
+      "status": "classifier_contract_declared",
+      "classifier_ready": true,
+      "classifier_response_validated": false,
+      "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_base_384",
+      "manifest_sha256": "d93d19e751461e4fb906ea32ddaf0a3d0c5ad774585c27103ebd1b42b64cf03d",
+      "elapsed_ms": 14.447
+    },
+    "960": {
+      "status": "classifier_contract_declared",
+      "classifier_ready": true,
+      "classifier_response_validated": false,
+      "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_base_384",
+      "manifest_sha256": "d93d19e751461e4fb906ea32ddaf0a3d0c5ad774585c27103ebd1b42b64cf03d",
+      "elapsed_ms": 15.029
+    }
+  },
+  "prepare": {
+    "status": "ready",
+    "components": {
+      "asr": {
+        "status": "ready",
+        "model_id": "openai/whisper-large-v3-turbo",
+        "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+        "kernels_warmed": false,
+        "cache_hit": false,
+        "device": "mps",
+        "dtype": "torch.float16",
+        "reason": "Official local ASR weights are resident; first-forward latency remains to be measured.",
+        "elapsed_ms": 1605.359
+      },
+      "dasheng": {
+        "status": "ready",
+        "weights_loaded": true,
+        "kernels_warmed": false,
+        "model_id": "mispeech/dasheng-base",
+        "classifier": "tuned_dasheng_lora_5fold",
+        "device": "cpu",
+        "dtype": "float32",
+        "folds": 5,
+        "manifest_sha256": "281d0f016737a9b92f3a3623a581300346303224d8adc877e078267c12531516",
+        "gpu_bf16_parity_verified": false
+      },
+      "faces": {
+        "status": "ready",
+        "model_id": "mediapipe/blaze_face_short_range",
+        "device": "cpu",
+        "weights_loaded": true,
+        "kernels_warmed": false,
+        "cache_hit": false,
+        "asset_sha256": "b4578f35940bf5a1a655214a1cce5cab13eba73c1297cd78e1a04c2380b0152f",
+        "elapsed_ms": 361.628
+      },
+      "digest": {
+        "status": "ready",
+        "weights_loaded": true,
+        "kernels_warmed": false,
+        "feature_count": 89,
+        "locality": "mac",
+        "backend": "xgboost_cpu_process",
+        "worker_pid": 66802,
+        "parent_imports_xgboost": false,
+        "worker_imports_torch": false,
+        "cache_hit": false,
+        "elapsed_ms": 455.777
+      },
+      "text": {
+        "status": "ready",
+        "weights_loaded": true,
+        "model_id": "Qwen/Qwen3-Embedding-0.6B",
+        "kernels_warmed": true,
+        "tuning": "frozen_base_for_digest",
+        "static_intents_prepared": 33
+      },
+      "emotion": {
+        "status": "ready",
+        "weights_loaded": true,
+        "model_id": "emotion2vec/emotion2vec_plus_large",
+        "kernels_warmed": false,
+        "tuning": "frozen_base_for_digest"
+      }
+    },
+    "local_weights_loaded": true,
+    "locality": {
+      "vision": "friend_gpu_video_only",
+      "asr": "mac",
+      "audio": "mac",
+      "text": "mac",
+      "emotion": "mac",
+      "digest": "mac",
+      "ensemble": "mac",
+      "audio_transmitted": false,
+      "transcript_transmitted": false
+    },
+    "remote": {
+      "status": "classifier_contract_declared",
+      "busy": false,
+      "classifier_only": true,
+      "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_base_384",
+      "participant_media_authorized": true,
+      "transport_max_frame_edge": 960,
+      "transport_codec": "jpeg",
+      "transport_jpeg_quality": 90,
+      "transport_jpeg_subsampling": "4:4:4",
+      "classifier_ready": true,
+      "classifier_response_validated": false,
+      "manifest_sha256": "d93d19e751461e4fb906ea32ddaf0a3d0c5ad774585c27103ebd1b42b64cf03d",
+      "elapsed_ms": 15.029
+    },
+    "remote_verified": false,
+    "kernels_warmed": false,
+    "static_qwen_intent_forward": true,
+    "elapsed_ms": 9347.303
+  },
+  "shutdown": {
+    "status": "closed",
+    "closed": true,
+    "cleanup_done": true,
+    "cleanup_in_progress": false,
+    "active_jobs": [],
+    "active_prepares": 0,
+    "preparation": {
+      "status": "ready",
+      "components": {
+        "asr": {
+          "status": "ready",
+          "model_id": "openai/whisper-large-v3-turbo",
+          "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+          "kernels_warmed": false,
+          "cache_hit": false,
+          "device": "mps",
+          "dtype": "torch.float16",
+          "reason": "Official local ASR weights are resident; first-forward latency remains to be measured.",
+          "elapsed_ms": 1605.359
+        },
+        "dasheng": {
+          "status": "ready",
+          "weights_loaded": true,
+          "kernels_warmed": false,
+          "model_id": "mispeech/dasheng-base",
+          "classifier": "tuned_dasheng_lora_5fold",
+          "device": "cpu",
+          "dtype": "float32",
+          "folds": 5,
+          "manifest_sha256": "281d0f016737a9b92f3a3623a581300346303224d8adc877e078267c12531516",
+          "gpu_bf16_parity_verified": false
+        },
+        "faces": {
+          "status": "ready",
+          "model_id": "mediapipe/blaze_face_short_range",
+          "device": "cpu",
+          "weights_loaded": true,
+          "kernels_warmed": false,
+          "cache_hit": false,
+          "asset_sha256": "b4578f35940bf5a1a655214a1cce5cab13eba73c1297cd78e1a04c2380b0152f",
+          "elapsed_ms": 361.628
+        },
+        "digest": {
+          "status": "ready",
+          "weights_loaded": true,
+          "kernels_warmed": false,
+          "feature_count": 89,
+          "locality": "mac",
+          "backend": "xgboost_cpu_process",
+          "worker_pid": 66802,
+          "parent_imports_xgboost": false,
+          "worker_imports_torch": false,
+          "cache_hit": false,
+          "elapsed_ms": 455.777
+        },
+        "text": {
+          "status": "ready",
+          "weights_loaded": true,
+          "model_id": "Qwen/Qwen3-Embedding-0.6B",
+          "kernels_warmed": true,
+          "tuning": "frozen_base_for_digest",
+          "static_intents_prepared": 33
+        },
+        "emotion": {
+          "status": "ready",
+          "weights_loaded": true,
+          "model_id": "emotion2vec/emotion2vec_plus_large",
+          "kernels_warmed": false,
+          "tuning": "frozen_base_for_digest"
+        }
+      },
+      "local_weights_loaded": true,
+      "locality": {
+        "vision": "friend_gpu_video_only",
+        "asr": "mac",
+        "audio": "mac",
+        "text": "mac",
+        "emotion": "mac",
+        "digest": "mac",
+        "ensemble": "mac",
+        "audio_transmitted": false,
+        "transcript_transmitted": false
+      },
+      "remote": {
+        "status": "classifier_contract_declared",
+        "busy": false,
+        "classifier_only": true,
+        "model_id": "facebookresearch/vjepa2:vjepa2_1_vit_base_384",
+        "participant_media_authorized": true,
+        "transport_max_frame_edge": 960,
+        "transport_codec": "jpeg",
+        "transport_jpeg_quality": 90,
+        "transport_jpeg_subsampling": "4:4:4",
+        "classifier_ready": true,
+        "classifier_response_validated": false,
+        "manifest_sha256": "d93d19e751461e4fb906ea32ddaf0a3d0c5ad774585c27103ebd1b42b64cf03d",
+        "elapsed_ms": 15.029
+      },
+      "remote_verified": false,
+      "kernels_warmed": false,
+      "static_qwen_intent_forward": true,
+      "elapsed_ms": 9347.303
+    },
+    "locality": {
+      "vision": "friend_gpu_video_only",
+      "asr": "mac",
+      "audio": "mac",
+      "text": "mac",
+      "emotion": "mac",
+      "digest": "mac",
+      "ensemble": "mac",
+      "audio_transmitted": false,
+      "transcript_transmitted": false
+    },
+    "cleanup_errors": []
+  },
+  "memory_after": {
+    "rss_parent_mb": 1415.453,
+    "rss_children_mb": 4.5,
+    "peak_parent_rss_mb": 3014.797,
+    "mps_current_mb": 0.0,
+    "mps_driver_mb": 9.703
+  },
+  "limits": [
+    "Generated engineering fixture, not predictive-accuracy or webcam-quality measurement.",
+    "Synthetic scene has no detected face and uses declared center fallback.",
+    "Alternating three trials per resolution does not establish p95 or sustained capacity.",
+    "JPEG payload size depends strongly on scene detail; high-detail frames can exceed16MiB and are rejected.",
+    "RSS and MPS allocations overlap in unified memory; do not sum as precise total."
+  ]
+}

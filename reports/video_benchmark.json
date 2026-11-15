@@ -1,0 +1,57 @@
+{
+ "model": "vjepa2_1_vitl_lora_5fold",
+ "manifest_sha256": "30d1f7fc8dcce8307a0193bcaab5b345500e7cc4cb6f912c1fefdaf8f8012b32",
+ "device": "NVIDIA GeForce RTX 5070",
+ "answer_seconds": 7.0,
+ "service_load_s": 17.11,
+ "runs": [
+  {
+   "capture_fps": 5.0,
+   "frames_sent": 35,
+   "request_body_mb": 1.07,
+   "model_input_unique_frames": 35,
+   "model_input_unique_fps": 5.0,
+   "first_request_s": 5.325,
+   "warm_median_s": 4.147,
+   "warm_max_s": 4.164,
+   "inference_updates_per_s": 0.241,
+   "prep_ms_last": 458.0,
+   "model_ms_last": 3689.4,
+   "torch_peak_alloc_mb": 2090,
+   "nvidia_smi_used_mb_after": 3517.0,
+   "scores_identical_across_warm_runs": true
+  },
+  {
+   "capture_fps": 15.0,
+   "frames_sent": 105,
+   "request_body_mb": 3.21,
+   "model_input_unique_frames": 105,
+   "model_input_unique_fps": 15.0,
+   "first_request_s": 4.203,
+   "warm_median_s": 4.226,
+   "warm_max_s": 4.245,
+   "inference_updates_per_s": 0.237,
+   "prep_ms_last": 520.0,
+   "model_ms_last": 3679.8,
+   "torch_peak_alloc_mb": 2090,
+   "nvidia_smi_used_mb_after": 3517.0,
+   "scores_identical_across_warm_runs": true
+  },
+  {
+   "capture_fps": 30.0,
+   "frames_sent": 210,
+   "request_body_mb": 6.43,
+   "model_input_unique_frames": 128,
+   "model_input_unique_fps": 18.29,
+   "first_request_s": 4.332,
+   "warm_median_s": 4.265,
+   "warm_max_s": 4.286,
+   "inference_updates_per_s": 0.234,
+   "prep_ms_last": 580.0,
+   "model_ms_last": 3684.6,
+   "torch_peak_alloc_mb": 2090,
+   "nvidia_smi_used_mb_after": 3509.0,
+   "scores_identical_across_warm_runs": true
+  }
+ ]
+}

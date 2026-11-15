@@ -1,0 +1,38 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+node_modules/
+.models/
+config.*.local.json
+*.log
+*.egg-info/
+
+# Participant recordings and unlabelled takes stay local.
+datasets/
+
+# Local participant-session reports and machine diagnostics are not source code.
+docs/*live*.json
+docs/camera-probe.json
+docs/capture-host.json
+docs/doctor-host.json
+# Keep model binaries and recorded media outside code commits.
+*.pt
+*.pth
+*.safetensors
+*.onnx
+*.tflite
+*.zip
+*.wav
+*.mp4
+*.mov
+*.m4a
+# Small rPPG weights (FacePhys MIT + BlazeFace Apache-2.0, ~3.5 MB) are bundled on purpose.
+!sunhacks/rppg_weights/
+!sunhacks/rppg_weights/*.onnx
+!sunhacks/rppg_weights/*.tflite

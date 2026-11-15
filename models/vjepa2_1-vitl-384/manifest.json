@@ -1,0 +1,59 @@
+{
+  "source": "huggingface re-upload, cross-verified (see verification)",
+  "source_url": "https://huggingface.co/mnmly/vjepa2.1-vit-large-384/resolve/2594eca8e13354b2ac4e8ed806561e4d6d8a98e8/model.safetensors",
+  "official_source_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitl_dist_vitG_384.pt",
+  "checkpoint_key": "ema_encoder",
+  "num_tensors": 302,
+  "num_params": 304680960,
+  "output_sha256": "3f0ae79eeed94cb8bc6c62040cdc09243461a919fa30890f1cc7412669c7f656",
+  "verification": {
+    "reason": "Meta CDN TLS certificate expired 2026-11-11 23:59:59 UTC; Meta publishes V-JEPA 2.1 nowhere else. Third-party re-upload accepted only after cross-verification (user-approved).",
+    "official_source_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitl_dist_vitG_384.pt",
+    "checkpoint_key": "ema_encoder",
+    "checks": {
+      "canary_vitb": {
+        "repo": "mnmly/vjepa2.1-vit-base-384",
+        "revision": "ee3ee8b2a67ed07ca2aa0eb1b95593e1bc16613d",
+        "file": "model.safetensors",
+        "size": 347347384,
+        "sha256": "e89509a1d64dbd117b17d5c32a1d0b1892d3698d75249e4a001cb490ca7e4017",
+        "compared_with": "models/vjepa2_1-vitb-384/encoder.safetensors",
+        "compared_sha256": "5fb693d326248720e33466289a09464f98049a05045b7b640913ddac0562d21e",
+        "result": "bit-identical"
+      },
+      "primary_vitl": {
+        "repo": "mnmly/vjepa2.1-vit-large-384",
+        "revision": "2594eca8e13354b2ac4e8ed806561e4d6d8a98e8",
+        "file": "model.safetensors",
+        "size": 1218752696,
+        "sha256": "3f0ae79eeed94cb8bc6c62040cdc09243461a919fa30890f1cc7412669c7f656"
+      },
+      "independent_vitl": {
+        "repo": "apiantonio/vjepa2.1-vit-large-384",
+        "revision": "d6cfdbdd818754f22eaa72e5320d97724765f099",
+        "file": "model.safetensors",
+        "size": 1310680864,
+        "sha256": "7691f426cfc7c70fb4e7f57c05b1db861f6a461301ecd6af6ded20843b506cf6",
+        "result": "all 302 encoder tensors equal after mapping"
+      },
+      "architecture": {
+        "tensors": 302,
+        "blocks": 24,
+        "embed_dim": 1024,
+        "heads": 16,
+        "strict_load": true
+      }
+    }
+  },
+  "seconds": 68.0,
+  "official_reverification": "bit-identical to Meta's official checkpoint",
+  "official_reverification_detail": {
+    "url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitl_dist_vitG_384.pt",
+    "checkpoint_key": "ema_encoder",
+    "tensors_compared": 302,
+    "method": "range-fetched ema_encoder subtree under verified TLS, CRC-checked, compared tensor by tensor (torch.equal and dtype) with models/vjepa2_1-vitl-384/encoder.safetensors",
+    "date_utc": "2026-11-12",
+    "mismatched_tensors": 0,
+    "note": "run by an automatic watcher once Meta's renewed certificate (DigiCert, valid to 2027-04-25) was served"
+  }
+}

@@ -1,0 +1,466 @@
+{
+  "n_clips": 121,
+  "n_identities": 57,
+  "headline": "ensemble_stacked",
+  "honesty_checks": {
+    "recording_conditions_probe": {
+      "n": 121,
+      "acc": 0.6198347107438017,
+      "bal_acc": 0.621448087431694,
+      "log_loss": 0.6554547478971228,
+      "auroc": 0.6685792349726776,
+      "auroc_ci95": [
+        0.5006653580901225,
+        0.8669849954488565
+      ],
+      "acc_ci95": [
+        0.4609812430011198,
+        0.818205996131528
+      ],
+      "n_boot": 2000,
+      "features": "src width/height, fps, duration, face-detect rate, audio level & noise floor, crop border colour"
+    },
+    "xgb_digest_permutation_null": {
+      "n_perm": 100,
+      "null_auroc_mean": 0.4964289617486339,
+      "null_auroc_p95": 0.6096584699453551,
+      "real_auroc": 0.7631147540983606,
+      "p_value": 0.009900990099009901,
+      "procedure": "identical to the real digest (400 trees, same params); grouped folds rebuilt per permutation",
+      "exchangeability_unit": "clip label across clips (see permutation_null docstring)"
+    },
+    "near_duplicate_audit": {
+      "dasheng": {
+        "n_cross_group_pairs_above": 0,
+        "threshold": 0.995,
+        "max_cross_group_cos": 0.9669984579086304,
+        "median_cross_group_cos": -0.04317194223403931,
+        "median_same_group_cos": 0.8600853681564331,
+        "top_cross_group_pairs": [
+          {
+            "cos": 0.967
+          },
+          {
+            "cos": 0.96538
+          },
+          {
+            "cos": 0.9644
+          },
+          {
+            "cos": 0.95699
+          },
+          {
+            "cos": 0.95043
+          }
+        ],
+        "top_cross_group_pairs_note": "clip names removed for the public release; cosine values kept"
+      },
+      "vjepa2_1": {
+        "n_cross_group_pairs_above": 0,
+        "threshold": 0.995,
+        "max_cross_group_cos": 0.8364519476890564,
+        "median_cross_group_cos": -0.05832115560770035,
+        "median_same_group_cos": 0.8489513397216797,
+        "top_cross_group_pairs": [
+          {
+            "cos": 0.83645
+          },
+          {
+            "cos": 0.83479
+          },
+          {
+            "cos": 0.78002
+          },
+          {
+            "cos": 0.76647
+          },
+          {
+            "cos": 0.75644
+          }
+        ],
+        "top_cross_group_pairs_note": "clip names removed for the public release; cosine values kept"
+      }
+    }
+  },
+  "branches": {
+    "tuned_vjepa2": {
+      "n": 121,
+      "acc": 0.512396694214876,
+      "bal_acc": 0.5151639344262295,
+      "log_loss": 0.7420686448004565,
+      "auroc": 0.46830601092896174,
+      "auroc_ci95": [
+        0.3622363077953151,
+        0.6404683916577383
+      ],
+      "acc_ci95": [
+        0.37361670020120724,
+        0.7024849229394684
+      ],
+      "n_boot": 2000,
+      "classwise": {
+        "threshold": 0.5,
+        "tp_lie": 11,
+        "fn_lie": 50,
+        "tn_truth": 51,
+        "fp_truth": 9,
+        "lie_sensitivity": 0.18032786885245902,
+        "truth_specificity": 0.85,
+        "bal_acc": 0.5151639344262295,
+        "acc": 0.512396694214876,
+        "predicted_lie_fraction": 0.1652892561983471,
+        "brier": 0.2728411174209971,
+        "log_loss": 0.7420686448004565,
+        "ece_10bin": 0.16177362800520279,
+        "baseline_always_truthful_acc": 0.49586776859504134,
+        "baseline_always_truthful_bal_acc": 0.5,
+        "baseline_prior_brier": 0.24998292466361588
+      }
+    },
+    "tuned_vjepa2_1": {
+      "n": 121,
+      "acc": 0.5206611570247934,
+      "bal_acc": 0.521311475409836,
+      "log_loss": 0.693911765073737,
+      "auroc": 0.5280054644808743,
+      "auroc_ci95": [
+        0.3765428592031335,
+        0.7477382141667854
+      ],
+      "acc_ci95": [
+        0.3845945945945946,
+        0.6794934640522876
+      ],
+      "n_boot": 2000,
+      "classwise": {
+        "threshold": 0.5,
+        "tp_lie": 27,
+        "fn_lie": 34,
+        "tn_truth": 36,
+        "fp_truth": 24,
+        "lie_sensitivity": 0.4426229508196721,
+        "truth_specificity": 0.6,
+        "bal_acc": 0.521311475409836,
+        "acc": 0.5206611570247934,
+        "predicted_lie_fraction": 0.4214876033057851,
+        "brier": 0.25030431321934143,
+        "log_loss": 0.693911765073737,
+        "ece_10bin": 0.05442872721361233,
+        "baseline_always_truthful_acc": 0.49586776859504134,
+        "baseline_always_truthful_bal_acc": 0.5,
+        "baseline_prior_brier": 0.24998292466361588
+      }
+    },
+    "tuned_dasheng": {
+      "n": 121,
+      "acc": 0.6942148760330579,
+      "bal_acc": 0.6953551912568305,
+      "log_loss": 0.5806960791586686,
+      "auroc": 0.7636612021857924,
+      "auroc_ci95": [
+        0.6334347494304764,
+        0.9242175871523696
+      ],
+      "acc_ci95": [
+        0.5789181286549708,
+        0.8636503928170595
+      ],
+      "n_boot": 2000,
+      "classwise": {
+        "threshold": 0.5,
+        "tp_lie": 34,
+        "fn_lie": 27,
+        "tn_truth": 50,
+        "fp_truth": 10,
+        "lie_sensitivity": 0.5573770491803278,
+        "truth_specificity": 0.8333333333333334,
+        "bal_acc": 0.6953551912568305,
+        "acc": 0.6942148760330579,
+        "predicted_lie_fraction": 0.36363636363636365,
+        "brier": 0.20035815884224295,
+        "log_loss": 0.5806960791586686,
+        "ece_10bin": 0.08749373925431514,
+        "baseline_always_truthful_acc": 0.49586776859504134,
+        "baseline_always_truthful_bal_acc": 0.5,
+        "baseline_prior_brier": 0.24998292466361588
+      }
+    },
+    "tuned_emotion2vec": {
+      "n": 121,
+      "acc": 0.4462809917355372,
+      "bal_acc": 0.44631147540983607,
+      "log_loss": 0.7282390058421345,
+      "auroc": 0.4457650273224045,
+      "auroc_ci95": [
+        0.34213546529723,
+        0.5625083556149733
+      ],
+      "acc_ci95": [
+        0.35553763440860214,
+        0.5470085470085471
+      ],
+      "n_boot": 2000,
+      "classwise": {
+        "threshold": 0.5,
+        "tp_lie": 27,
+        "fn_lie": 34,
+        "tn_truth": 27,
+        "fp_truth": 33,
+        "lie_sensitivity": 0.4426229508196721,
+        "truth_specificity": 0.45,
+        "bal_acc": 0.44631147540983607,
+        "acc": 0.4462809917355372,
+        "predicted_lie_fraction": 0.49586776859504134,
+        "brier": 0.26637120373430995,
+        "log_loss": 0.7282390058421345,
+        "ece_10bin": 0.123131294025562,
+        "baseline_always_truthful_acc": 0.49586776859504134,
+        "baseline_always_truthful_bal_acc": 0.5,
+        "baseline_prior_brier": 0.24998292466361588
+      }
+    },
+    "tuned_qwen3": {
+      "n": 121,
+      "acc": 0.5454545454545454,
+      "bal_acc": 0.5459016393442623,
+      "log_loss": 0.7213485540399196,
+      "auroc": 0.5703551912568305,
+      "auroc_ci95": [
+        0.4640842848185164,
+        0.6914616600790514
+      ],
+      "acc_ci95": [
+        0.4592503805175038,
+        0.6521853546910754
+      ],
+      "n_boot": 2000,
+      "classwise": {
+        "threshold": 0.5,
+        "tp_lie": 30,
+        "fn_lie": 31,
+        "tn_truth": 36,
+        "fp_truth": 24,
+        "lie_sensitivity": 0.4918032786885246,
+        "truth_specificity": 0.6,
+        "bal_acc": 0.5459016393442623,
+        "acc": 0.5454545454545454,
+        "predicted_lie_fraction": 0.4462809917355372,
+        "brier": 0.2559601797994558,
+        "log_loss": 0.7213485540399196,
+        "ece_10bin": 0.1432066474902038,
+        "baseline_always_truthful_acc": 0.49586776859504134,
+        "baseline_always_truthful_bal_acc": 0.5,
+        "baseline_prior_brier": 0.24998292466361588
+      }
+    },
+    "xgb_digest": {
+      "n": 121,
+      "acc": 0.6611570247933884,
+      "bal_acc": 0.6620218579234973,
+      "log_loss": 0.5930554939490001,
+      "auroc": 0.7631147540983606,
+      "auroc_ci95": [
+        0.6814247603544945,
+        0.8744662830203085
+      ],
+      "acc_ci95": [
+        0.5555394990366089,
+        0.7906976744186046
+      ],
+      "n_boot": 2000,
+      "classwise": {
+        "threshold": 0.5,
+        "tp_lie": 34,
+        "fn_lie": 27,
+        "tn_truth": 46,
+        "fp_truth": 14,
+        "lie_sensitivity": 0.5573770491803278,
+        "truth_specificity": 0.7666666666666667,
+        "bal_acc": 0.6620218579234973,
+        "acc": 0.6611570247933884,
+        "predicted_lie_fraction": 0.39669421487603307,
+        "brier": 0.20379854426023458,
+        "log_loss": 0.5930554939490001,
+        "ece_10bin": 0.10489194963342885,
+        "baseline_always_truthful_acc": 0.49586776859504134,
+        "baseline_always_truthful_bal_acc": 0.5,
+        "baseline_prior_brier": 0.24998292466361588
+      }
+    },
+    "fusion_redadare": {
+      "n": 121,
+      "acc": 0.6198347107438017,
+      "bal_acc": 0.6215846994535519,
+      "log_loss": 0.8703562497857181,
+      "auroc": 0.6948087431693989,
+      "auroc_ci95": [
+        0.5972512258908139,
+        0.8075569642918781
+      ],
+      "acc_ci95": [
+        0.4748140470674308,
+        0.7800121951219512
+      ],
+      "n_boot": 2000,
+      "classwise": {
+        "threshold": 0.5,
+        "tp_lie": 25,
+        "fn_lie": 36,
+        "tn_truth": 50,
+        "fp_truth": 10,
+        "lie_sensitivity": 0.4098360655737705,
+        "truth_specificity": 0.8333333333333334,
+        "bal_acc": 0.6215846994535519,
+        "acc": 0.6198347107438017,
+        "predicted_lie_fraction": 0.2892561983471074,
+        "brier": 0.28151881289294883,
+        "log_loss": 0.8703562497857181,
+        "ece_10bin": 0.2531984097500248,
+        "baseline_always_truthful_acc": 0.49586776859504134,
+        "baseline_always_truthful_bal_acc": 0.5,
+        "baseline_prior_brier": 0.24998292466361588
+      }
+    }
+  },
+  "feature_version": "v3-fixed-lag-motion",
+  "notes": [
+    "The 7-branch ensemble_stacked number is NOT fully nested: each outer fold's meta-model is fit on base-model OOF rows that were produced by base models trained on that outer test fold. It is kept for comparison only. The served policy is evaluated with full base+meta nesting by scripts/nested_deploy_eval.py (runs/nested_deploy/summary.json).",
+    "Accuracy uses a fixed 0.5 threshold; AUROC is threshold-free; 'classwise' gives the confusion matrix, lie sensitivity, truth specificity and calibration at 0.5."
+  ],
+  "ensemble_stacked": {
+    "n": 121,
+    "acc": 0.6363636363636364,
+    "bal_acc": 0.6372950819672132,
+    "log_loss": 0.597948697074335,
+    "auroc": 0.7237704918032788,
+    "auroc_ci95": [
+      0.6047619281614682,
+      0.9274317325800376
+    ],
+    "acc_ci95": [
+      0.49063837129054516,
+      0.831176127243543
+    ],
+    "n_boot": 2000,
+    "classwise": {
+      "threshold": 0.5,
+      "tp_lie": 32,
+      "fn_lie": 29,
+      "tn_truth": 45,
+      "fp_truth": 15,
+      "lie_sensitivity": 0.5245901639344263,
+      "truth_specificity": 0.75,
+      "bal_acc": 0.6372950819672132,
+      "acc": 0.6363636363636364,
+      "predicted_lie_fraction": 0.3884297520661157,
+      "brier": 0.20837106682876083,
+      "log_loss": 0.597948697074335,
+      "ece_10bin": 0.11254100684625853,
+      "baseline_always_truthful_acc": 0.49586776859504134,
+      "baseline_always_truthful_bal_acc": 0.5,
+      "baseline_prior_brier": 0.24998292466361588
+    },
+    "mean_weights": {
+      "tuned_vjepa2": 1.8940344245235623e-08,
+      "tuned_vjepa2_1": 1.7308849607584624e-07,
+      "tuned_dasheng": 0.5088636653273795,
+      "tuned_emotion2vec": 6.702105382259158e-08,
+      "tuned_qwen3": 4.893099062603525e-07,
+      "xgb_digest": 0.43759137308531215,
+      "fusion_redadare": 0.053544213227507895
+    }
+  },
+  "ensemble_mean": {
+    "n": 121,
+    "acc": 0.628099173553719,
+    "bal_acc": 0.6300546448087432,
+    "log_loss": 0.6248691961716496,
+    "auroc": 0.7450819672131148,
+    "auroc_ci95": [
+      0.6465920053799786,
+      0.8771904630907019
+    ],
+    "acc_ci95": [
+      0.4782540333606782,
+      0.8076923076923077
+    ],
+    "n_boot": 2000,
+    "classwise": {
+      "threshold": 0.5,
+      "tp_lie": 24,
+      "fn_lie": 37,
+      "tn_truth": 52,
+      "fp_truth": 8,
+      "lie_sensitivity": 0.39344262295081966,
+      "truth_specificity": 0.8666666666666667,
+      "bal_acc": 0.6300546448087432,
+      "acc": 0.628099173553719,
+      "predicted_lie_fraction": 0.2644628099173554,
+      "brier": 0.21767234126626328,
+      "log_loss": 0.6248691961716496,
+      "ece_10bin": 0.09889279199880435,
+      "baseline_always_truthful_acc": 0.49586776859504134,
+      "baseline_always_truthful_bal_acc": 0.5,
+      "baseline_prior_brier": 0.24998292466361588
+    }
+  },
+  "deploy_stacker": {
+    "branches": [
+      "tuned_vjepa2",
+      "tuned_vjepa2_1",
+      "tuned_dasheng",
+      "tuned_emotion2vec",
+      "tuned_qwen3",
+      "xgb_digest",
+      "fusion_redadare"
+    ],
+    "A": [
+      0.9999307488592858,
+      0.9999931540274702,
+      1.2428259271281372,
+      0.9999634954526171,
+      1.0000084527127355,
+      1.543050682482763,
+      1.0000474187921973
+    ],
+    "B": [
+      5.782930082544755e-05,
+      6.791843257201912e-05,
+      0.18564797221174953,
+      5.905694586876149e-05,
+      7.385584017416691e-05,
+      0.4867068720274399,
+      5.237229060736145e-05
+    ],
+    "w": [
+      2.658283689847673e-09,
+      2.830561697753302e-08,
+      0.5379195040448589,
+      9.517109041232302e-09,
+      1.454521116309828e-07,
+      0.46207861916927445,
+      1.6908527453640022e-06
+    ]
+  },
+  "deploy_policy": {
+    "branches": [
+      "tuned_dasheng",
+      "xgb_digest"
+    ],
+    "A": [
+      1.2428574190344905,
+      1.5430329189543752
+    ],
+    "B": [
+      0.18563188430181185,
+      0.48678425930137054
+    ],
+    "w": [
+      0.5379349436053581,
+      0.462065056394642
+    ],
+    "threshold": 0.4238521751969923,
+    "threshold_balanced_argmax_for_reference": 0.64234265031782,
+    "fit_on": "all 121 base-model OOF rows; threshold from the stacker's grouped CV"
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "dasheng": {
+    "model_id": "mispeech/dasheng-base",
+    "revision": "e0b0a27818689e59010bdd7739475e33090dff11",
+    "path": "/tmp/sunhacks-models/dasheng-base",
+    "files": [
+      {
+        "file": "README.md",
+        "bytes": 2739,
+        "sha256": "03f667e8e1d7745c71ec288ea80426235dfd0b4cfaa2de1be0f2b587a2243e28"
+      },
+      {
+        "file": "config.json",
+        "bytes": 518,
+        "sha256": "b9ff40da4167dd776cb2fe084c9a80c0fdd6568c3b995e0255b46a9d435e7b80"
+      },
+      {
+        "file": "configuration_dasheng.py",
+        "bytes": 2798,
+        "sha256": "7a524b9d37c0e0392b75bbfb0fe5e2d1f60f62a8f2c46917bb186b638580966b"
+      },
+      {
+        "file": "feature_extraction_dasheng.py",
+        "bytes": 6717,
+        "sha256": "78139c9219ff9bc48f9c5f86fb3fba9e727cb765679a92db69066d5caeb9875c"
+      },
+      {
+        "file": "model.safetensors",
+        "bytes": 341807392,
+        "sha256": "adaa439ebec13933501242364a29b7912c2695d0354061b278c873438b2736c3"
+      },
+      {
+        "file": "modeling_dasheng.py",
+        "bytes": 19639,
+        "sha256": "a7908ca04b9e3ec3c6fb04b3719d5ae180d555383cbe8ab4bd2f35be272cbe99"
+      },
+      {
+        "file": "preprocessor_config.json",
+        "bytes": 445,
+        "sha256": "16b23e7bd7eb867d288aa4cea8a9a9531f5ebb60534b14154feaaad10dc34f6c"
+      }
+    ]
+  },
+  "text": {
+    "model_id": "Qwen/Qwen3-Embedding-0.6B",
+    "revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3",
+    "path": "/tmp/sunhacks-models/qwen3-embedding-0.6b",
+    "files": [
+      {
+        "file": "1_Pooling/config.json",
+        "bytes": 313,
+        "sha256": "37bf193fa101f19101bfad9c31d3eb0f786e247b7b1e5cb7f007d730eed1ddbd"
+      },
+      {
+        "file": "README.md",
+        "bytes": 17237,
+        "sha256": "c34d9b7e5a267ad3fdd13227a253686bc90844ff4744a2a6a86c7c905e3d06f3"
+      },
+      {
+        "file": "config.json",
+        "bytes": 727,
+        "sha256": "b5bf1f51fc45be473a54718cef92448d90a1be001bf9b9a44b8c7f10a19feaa9"
+      },
+      {
+        "file": "config_sentence_transformers.json",
+        "bytes": 215,
+        "sha256": "10667c72ddb772627bf1780cb7f86af8e2ae0032b8c243c731172064105c6961"
+      },
+      {
+        "file": "generation_config.json",
+        "bytes": 117,
+        "sha256": "28396d421a2108acce96383f6a7de78008f7f1b17f807958f3c14c51dbfb65fb"
+      },
+      {
+        "file": "merges.txt",
+        "bytes": 1671853,
+        "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+      },
+      {
+        "file": "model.safetensors",
+        "bytes": 1191586416,
+        "sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd"
+      },
+      {
+        "file": "modules.json",
+        "bytes": 349,
+        "sha256": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf"
+      },
+      {
+        "file": "tokenizer.json",
+        "bytes": 11423705,
+        "sha256": "def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a"
+      },
+      {
+        "file": "tokenizer_config.json",
+        "bytes": 9706,
+        "sha256": "253153d0738ceb4c668d2eff957714dd2bea0b56de772a9fdccd96cbf517e6a0"
+      },
+      {
+        "file": "vocab.json",
+        "bytes": 2776833,
+        "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+      }
+    ]
+  },
+  "emotion": {
+    "model_id": "emotion2vec/emotion2vec_plus_large",
+    "revision": "6c303ba987b86b93193de93e34bb2b077a6bedc4",
+    "path": "/tmp/sunhacks-models/emotion2vec-plus-large",
+    "files": [
+      {
+        "file": "MODEL_LICENSE",
+        "bytes": 5306,
+        "sha256": "7dba975a2069691db4992b0592d70828b330d2f8a30a71450f4e152a554e84f8"
+      },
+      {
+        "file": "MODEL_LICENSE.source.json",
+        "bytes": 364,
+        "sha256": "a03fb4969de06f26b0772ef1bccffd7e78c2f7de041b1fb0b102e1980e42edbd"
+      },
+      {
+        "file": "README.md",
+        "bytes": 5755,
+        "sha256": "a5d484fb2712b4dfec8d9463ab9165c13343772936f92d93d59d653601081d01"
+      },
+      {
+        "file": "config.yaml",
+        "bytes": 5552,
+        "sha256": "f4fa0eb82cc78bfebb43c56d68791afb01788085a18897d20999af7bc45d51d3"
+      },
+      {
+        "file": "configuration.json",
+        "bytes": 343,
+        "sha256": "8b6a745213025c7d4565f9f074cfef1b5cd5ef76e38e2a8f7f8a3db271e735b2"
+      },
+      {
+        "file": "model.pt",
+        "bytes": 1945790254,
+        "sha256": "be501a01f26fcdc7663a062dff86af839afbaef7c4de32f5e42d7e1ad2784da4"
+      },
+      {
+        "file": "tokens.txt",
+        "bytes": 119,
+        "sha256": "866121e470057b847d7a50e9923509141fb2924392f53385a186482a1ec0fb7f"
+      }
+    ],
+    "license_source": "https://raw.githubusercontent.com/modelscope/FunASR/main/MODEL_LICENSE",
+    "runtime_source": "https://github.com/modelscope/FunASR/tree/main/funasr/models/emotion2vec",
+    "runtime": {
+      "package": "funasr",
+      "version": "1.4.24",
+      "distribution_url": "https://files.pythonhosted.org/packages/c8/15/b33a431713c940f31ad7a031bf047a02afb06ba372a7f0b638eed2c94a44/funasr-1.4.24-py3-none-any.whl",
+      "distribution_sha256": "c2678ebb77c7dfba1d85a79749ad30b441159b87d17eff901e0c6ad4ebcc06c7",
+      "torch": "2.15.0",
+      "torchaudio": "2.11.1",
+      "transformers": "5.22.2",
+      "mode": "Local YAML into built-in Emotion2vec; no Hub lookup; unused pretraining decoder removed; strict weights_only mmap checkpoint load"
+    }
+  },
+  "vision": {
+    "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitl_dist_vitG_384.pt",
+    "path": "/Users/cadenwate/Projects/sunhacks-pipeline/.models/vjepa2_1_vitl_dist_vitG_384.pt",
+    "bytes": 5151198524,
+    "sha256": "7ea9b7cb4a75d10644a8a8d42cff9e177b10dca8f02173f0eaf2b0bed82838c6",
+    "source_revision": "204698b45b3712590f06245fbfba32d3be539812",
+    "license": "MIT upstream project; Apache source carveouts"
+  }
+}

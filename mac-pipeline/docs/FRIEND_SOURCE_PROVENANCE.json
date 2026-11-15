@@ -1,0 +1,34 @@
+{
+  "repository": "https://github.com/amnesia-67/sunhacks-2026",
+  "revision": "6a16734c1af7d4a5ff24400b06849241b285d5fb",
+  "files": {
+    "models/branch2_xgboost.json": {
+      "bytes": 211223,
+      "sha256": "76eaa0cb49f66132fa53cc2660df26af9907ad4460fc26c24f43aa2c50d46e6e"
+    },
+    "models/ensemble_platt_meta.json": {
+      "bytes": 330,
+      "sha256": "989416988b55a06f97ef06df9709b8dfa6f0437ec087b81daa0082fa6c0f5791"
+    },
+    "src/multimodal_fusion.py": {
+      "bytes": 11609,
+      "sha256": "c58c6e53d8f87e80ade698c705d7fde0aafa95cd57c7c849e41e80c9b0738124"
+    },
+    "src/audio_encoder.py": {
+      "bytes": 3755,
+      "sha256": "98bca260eccbaf73751cdcf76b1a4f8a16396a35df60f9e9adcae59e6ee1c166"
+    },
+    "src/trainer.py": {
+      "bytes": 18562,
+      "sha256": "12ba66a93b2ce30c8b89863740811d61a696b5f22d5729890ebe7a84c381bad3"
+    },
+    "src/data_generator.py": {
+      "bytes": 4958,
+      "sha256": "34ad0f2576b5266299c1acf90d05346a0eae8cbe2897ffc6fc177039882f5a2c"
+    },
+    "src/feature_schema.py": {
+      "bytes": 6973,
+      "sha256": "177b7ed3760150546a59f103650c250ee56828e5ff4a5f96dd31ab7220e0f511"
+    }
+  }
+}

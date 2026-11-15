@@ -1,0 +1,87 @@
+{
+  "capture_fps": 30,
+  "sample_fps": 16,
+  "frames_per_window": 64,
+  "hop_seconds": 4,
+  "camera_device": 0,
+  "audio_device": "MacBook Air Microphone",
+  "models": {
+    "vision": {
+      "path": "",
+      "source_path": "",
+      "revision": "204698b45b3712590f06245fbfba32d3be539812",
+      "allow_reviewed_code": true,
+      "device": "mps",
+      "dtype": "float16"
+    },
+    "dasheng": {
+      "path": "",
+      "source_path": "",
+      "revision": "e0b0a27818689e59010bdd7739475e33090dff11",
+      "allow_reviewed_code": true,
+      "device": "cpu",
+      "dtype": "float32",
+      "keep_loaded": true
+    },
+    "emotion": {
+      "path": "",
+      "revision": "6c303ba987b86b93193de93e34bb2b077a6bedc4",
+      "license_reviewed": true,
+      "device": "cpu",
+      "dtype": "float32",
+      "keep_loaded": true
+    },
+    "text": {
+      "path": "",
+      "revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3",
+      "device": "mps",
+      "dtype": "float16",
+      "keep_loaded": true
+    },
+    "asr": {
+      "backend": "transformers",
+      "path": "",
+      "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+      "device": "mps",
+      "dtype": "float16",
+      "language": "english",
+      "max_new_tokens": 128,
+      "keep_loaded": true
+    },
+    "fusion": {
+      "architecture": "friend-reda-dare-synthetic-v1",
+      "source_revision": "6a16734c1af7d4a5ff24400b06849241b285d5fb",
+      "sha256": "cdeeb2f19c51aa9c614665e9c36554e9b1efe03fca367842ee94beec95820e78",
+      "path": "",
+      "disabled_reason": "Teammate withdrew the previous artifacts and is retraining on real datasets. Replacement checkpoints, source, preprocessing and independent validation must be reviewed before enabling trained outputs."
+    },
+    "tabular": {
+      "path": "",
+      "disabled_reason": "The teammate model used synthetic 250-field vectors; matching real behavioral feature extraction is not implemented."
+    },
+    "stack": {
+      "path": "",
+      "disabled_reason": "The supplied calibration used label-derived cloud scores and evaluated fitted rows; it is not valid independent calibration."
+    }
+  },
+  "deployment": {
+    "artifacts_status": "awaiting_retrained_weights",
+    "artifact_reason": "Teammate withdrew the previous artifacts and is retraining on real datasets. Replacement checkpoints, source, preprocessing and independent validation must be reviewed before enabling trained outputs."
+  },
+  "runtime_mode": "remote_fast",
+  "cpu_threads": 2,
+  "fast_runtime": {
+    "deadline_seconds": 15,
+    "emotion_enabled": true,
+    "prepare_emotion": true,
+    "prepare_on_start": false
+  },
+  "remote_vision": {
+    "host": "HOST_FROM_TEAMMATE",
+    "port": 5002,
+    "enabled": false,
+    "protocol_reviewed": false,
+    "status": "offline_by_user",
+    "reason": "Teammate service is off while replacement models train."
+  }
+}

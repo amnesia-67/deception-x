@@ -1,0 +1,112 @@
+{
+  "source_revision": "53393582c2994025f2bbececc01eb7a893de1c96",
+  "fixture": "Six-second generated speech with explicit synthetic silence;128generated non-person video frames, no live sensors",
+  "real_models_executed": true,
+  "live_sensors_used": false,
+  "no_face_fallback_fixture": true,
+  "participant_data_sent": false,
+  "audio_transmitted": false,
+  "transcript_transmitted": false,
+  "manager_called": false,
+  "local_preparation_ms": 10384.425,
+  "preparation_scope": "Local model loading and static Qwen intent embeddings; excludes dashboard remote-fixture verification.",
+  "service_scope": "Local ASR/features/classifiers plus remote video; excludes capture, sensor stopping, UI delivery and manager.",
+  "trials": [
+    {
+      "trial": 1,
+      "service_ms": 3862.634,
+      "remote_video_client_ms": 3803.537,
+      "remote_server_timings_ms": {
+        "prep_ms": 2313.7,
+        "inference_ms": 1403.4
+      },
+      "dasheng_ms": 553.291,
+      "asr_ms": 1432.573,
+      "qwen_ms": 86.678,
+      "emotion_ms": 405.773,
+      "digest_ms": 5.598,
+      "digest_missing_features": [],
+      "cache_unique_frames": 128,
+      "video_unique_model_input_frames": 64,
+      "branch_statuses": {
+        "vision": "trained_classifier",
+        "dasheng": "trained",
+        "text": "base",
+        "emotion": "base",
+        "tabular": "trained_classifier",
+        "stack": "trained_classifier",
+        "fusion": "unavailable"
+      }
+    },
+    {
+      "trial": 2,
+      "service_ms": 1686.765,
+      "remote_video_client_ms": 1646.048,
+      "remote_server_timings_ms": {
+        "prep_ms": 313.7,
+        "inference_ms": 1174.2
+      },
+      "dasheng_ms": 472.772,
+      "asr_ms": 1003.626,
+      "qwen_ms": 53.317,
+      "emotion_ms": 348.475,
+      "digest_ms": 1.368,
+      "digest_missing_features": [],
+      "cache_unique_frames": 128,
+      "video_unique_model_input_frames": 64,
+      "branch_statuses": {
+        "vision": "trained_classifier",
+        "dasheng": "trained",
+        "text": "base",
+        "emotion": "base",
+        "tabular": "trained_classifier",
+        "stack": "trained_classifier",
+        "fusion": "unavailable"
+      }
+    },
+    {
+      "trial": 3,
+      "service_ms": 1635.675,
+      "remote_video_client_ms": 1593.122,
+      "remote_server_timings_ms": {
+        "prep_ms": 291.8,
+        "inference_ms": 1142.8
+      },
+      "dasheng_ms": 462.288,
+      "asr_ms": 990.173,
+      "qwen_ms": 51.058,
+      "emotion_ms": 334.353,
+      "digest_ms": 1.271,
+      "digest_missing_features": [],
+      "cache_unique_frames": 128,
+      "video_unique_model_input_frames": 64,
+      "branch_statuses": {
+        "vision": "trained_classifier",
+        "dasheng": "trained",
+        "text": "base",
+        "emotion": "base",
+        "tabular": "trained_classifier",
+        "stack": "trained_classifier",
+        "fusion": "unavailable"
+      }
+    }
+  ],
+  "memory_MiB": {
+    "sampled_parent_peak_rss": 2640.031,
+    "parent_rss_high_water": 2693.391,
+    "last_parent_rss": 2134.719,
+    "last_mps_current": 2689.15,
+    "last_mps_driver": 3809.859,
+    "xgboost_worker_rss_included": false,
+    "sum_is_not_total_unified_memory": true
+  },
+  "shutdown_cleanup_done": true,
+  "limits": [
+    "Generated fixture engineering timings only; no captured person or predictive-quality evaluation.",
+    "CPUfp32/MPSfp16 outputs have not been compared to training GPUbf16.",
+    "Three trials are insufficient for sustained live capacity or p95.",
+    "Remote video is independent from the local learned Dasheng/digest stack.",
+    "Generated images triggered no-face fallback; live face-crop cost and quality unmeasured.",
+    "XGBoost worker RSS is not included. Parent RSS and MPS allocation overlap; do not sum into a precise unified-memory total."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "status": "base",
+  "text": "This is a local speech recognition test. The microphone and camera are ready.",
+  "language": "english",
+  "model_id": "openai/whisper-large-v3-turbo",
+  "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+  "source": "local_asr",
+  "word_timestamps": null,
+  "timestamp_granularity": "window_only",
+  "sample_rate": 16000,
+  "duration_seconds": 4.3985625,
+  "load_or_cache_ms": 3486.292,
+  "device": "mps",
+  "dtype": "torch.float16",
+  "truncated": false,
+  "inference_ms": 2688.756,
+  "reason": "Local automatic transcript; recognition may normalize or omit disfluencies. Verify against the captured speech.",
+  "limitations": [
+    "No word-level timestamps or guaranteed verbatim disfluency preservation."
+  ],
+  "elapsed_ms": 6851.479,
+  "test_input": "temporary synthesized speech; no participant recording"
+}

@@ -1,0 +1,238 @@
+{
+  "fixture": "Generated green-square diagrams and generated text only; no participant photos, transcripts or raw audio.",
+  "one_request_per_answer": true,
+  "cases": [
+    {
+      "case": "incorrect_arithmetic",
+      "status": "contradiction",
+      "expected": [
+        "contradiction"
+      ],
+      "passed": true,
+      "client_elapsed_ms": 1286.592,
+      "source_window_id": 801,
+      "kind": "multimodal",
+      "provider": "openrouter",
+      "upstream_provider": "DeepInfra",
+      "model": "nace-ai/drex-max-20261016",
+      "sent_keyframes": 2,
+      "sent_transcript": true,
+      "decision_probabilities": {
+        "contradiction": 0.9996787544439067,
+        "insufficient_evidence": 0.0001606227780466021,
+        "no_contradiction": 0.0001606227780466021
+      },
+      "reason": "Drex reported a contradiction in the recognized claim using the supplied evidence; intent is not established."
+    },
+    {
+      "case": "correct_arithmetic",
+      "status": "no_contradiction",
+      "expected": [
+        "no_contradiction"
+      ],
+      "passed": true,
+      "client_elapsed_ms": 827.611,
+      "source_window_id": 802,
+      "kind": "multimodal",
+      "provider": "openrouter",
+      "upstream_provider": "DeepInfra",
+      "model": "nace-ai/drex-max-20261016",
+      "sent_keyframes": 2,
+      "sent_transcript": true,
+      "decision_probabilities": {
+        "contradiction": 0.0006672963004790489,
+        "insufficient_evidence": 0.0005208176057761042,
+        "no_contradiction": 0.9988118860937448
+      },
+      "reason": "Drex found no supported contradiction; this does not verify truth."
+    },
+    {
+      "case": "visible_mismatch",
+      "status": "contradiction",
+      "expected": [
+        "contradiction"
+      ],
+      "passed": true,
+      "client_elapsed_ms": 1373.985,
+      "source_window_id": 803,
+      "kind": "multimodal",
+      "provider": "openrouter",
+      "upstream_provider": "DeepInfra",
+      "model": "nace-ai/drex-max-20261016",
+      "sent_keyframes": 2,
+      "sent_transcript": true,
+      "decision_probabilities": {
+        "contradiction": 0.9985558755052354,
+        "insufficient_evidence": 0.0005893735430166831,
+        "no_contradiction": 0.000854750951747925
+      },
+      "reason": "Drex reported a contradiction in the recognized claim using the supplied evidence; intent is not established."
+    },
+    {
+      "case": "visible_match",
+      "status": "no_contradiction",
+      "expected": [
+        "no_contradiction"
+      ],
+      "passed": true,
+      "client_elapsed_ms": 2540.976,
+      "source_window_id": 804,
+      "kind": "multimodal",
+      "provider": "openrouter",
+      "upstream_provider": "DeepInfra",
+      "model": "nace-ai/drex-max-20261016",
+      "sent_keyframes": 2,
+      "sent_transcript": true,
+      "decision_probabilities": {
+        "contradiction": 0.0009095025126905392,
+        "insufficient_evidence": 0.00040644096666175985,
+        "no_contradiction": 0.9986840565206477
+      },
+      "reason": "Drex found no supported contradiction; this does not verify truth."
+    },
+    {
+      "case": "unknown_personal_fact",
+      "status": "unverifiable",
+      "expected": [
+        "unverifiable"
+      ],
+      "passed": true,
+      "client_elapsed_ms": 1041.233,
+      "source_window_id": 805,
+      "kind": "multimodal",
+      "provider": "openrouter",
+      "upstream_provider": "DeepInfra",
+      "model": "nace-ai/drex-max-20261016",
+      "sent_keyframes": 2,
+      "sent_transcript": true,
+      "decision_probabilities": {
+        "contradiction": 0.0002463229866737733,
+        "insufficient_evidence": 0.9935773456583442,
+        "no_contradiction": 0.006176331354982045
+      },
+      "reason": "Drex reported insufficient evidence to evaluate the recognized claim."
+    },
+    {
+      "case": "outside_camera_view",
+      "status": "unverifiable",
+      "expected": [
+        "unverifiable"
+      ],
+      "passed": true,
+      "client_elapsed_ms": 1550.21,
+      "source_window_id": 806,
+      "kind": "multimodal",
+      "provider": "openrouter",
+      "upstream_provider": "DeepInfra",
+      "model": "nace-ai/drex-max-20261016",
+      "sent_keyframes": 2,
+      "sent_transcript": true,
+      "decision_probabilities": {
+        "contradiction": 0.0032985482761433964,
+        "insufficient_evidence": 0.9859966615042719,
+        "no_contradiction": 0.010704790219584686
+      },
+      "reason": "Drex reported insufficient evidence to evaluate the recognized claim."
+    },
+    {
+      "case": "hypothetical",
+      "status": "unverifiable",
+      "expected": [
+        "unverifiable"
+      ],
+      "passed": true,
+      "client_elapsed_ms": 1086.147,
+      "source_window_id": 807,
+      "kind": "multimodal",
+      "provider": "openrouter",
+      "upstream_provider": "DeepInfra",
+      "model": "nace-ai/drex-max-20261016",
+      "sent_keyframes": 2,
+      "sent_transcript": true,
+      "decision_probabilities": {
+        "contradiction": 0.009117197862513065,
+        "insufficient_evidence": 0.9505500465907606,
+        "no_contradiction": 0.04033275554672633
+      },
+      "reason": "Drex reported insufficient evidence to evaluate the recognized claim."
+    },
+    {
+      "case": "transcript_instruction",
+      "status": "no_contradiction",
+      "expected": [
+        "no_contradiction",
+        "unverifiable"
+      ],
+      "passed": true,
+      "client_elapsed_ms": 1197.322,
+      "source_window_id": 808,
+      "kind": "multimodal",
+      "provider": "openrouter",
+      "upstream_provider": "DeepInfra",
+      "model": "nace-ai/drex-max-20261016",
+      "sent_keyframes": 2,
+      "sent_transcript": true,
+      "decision_probabilities": {
+        "contradiction": 9.198134676737659e-05,
+        "insufficient_evidence": 7.63792330870223e-05,
+        "no_contradiction": 0.9998316394201456
+      },
+      "reason": "Drex found no supported contradiction; this does not verify truth."
+    },
+    {
+      "case": "internal_conflict",
+      "status": "contradiction",
+      "expected": [
+        "contradiction"
+      ],
+      "passed": true,
+      "client_elapsed_ms": 1749.978,
+      "source_window_id": 809,
+      "kind": "multimodal",
+      "provider": "openrouter",
+      "upstream_provider": "DeepInfra",
+      "model": "nace-ai/drex-max-20261016",
+      "sent_keyframes": 2,
+      "sent_transcript": true,
+      "decision_probabilities": {
+        "contradiction": 0.9997003486083177,
+        "insufficient_evidence": 0.0001178352734157588,
+        "no_contradiction": 0.000181816118266561
+      },
+      "reason": "Drex reported a contradiction in the recognized claim using the supplied evidence; intent is not established."
+    },
+    {
+      "case": "hidden_garment",
+      "status": "unverifiable",
+      "expected": [
+        "unverifiable"
+      ],
+      "passed": true,
+      "client_elapsed_ms": 1933.953,
+      "source_window_id": 810,
+      "kind": "multimodal",
+      "provider": "openrouter",
+      "upstream_provider": "DeepInfra",
+      "model": "nace-ai/drex-max-20261016",
+      "sent_keyframes": 2,
+      "sent_transcript": true,
+      "decision_probabilities": {
+        "contradiction": 0.3075377181677825,
+        "insufficient_evidence": 0.6881843510499824,
+        "no_contradiction": 0.004277930782234991
+      },
+      "reason": "Drex reported insufficient evidence to evaluate the recognized claim."
+    }
+  ],
+  "limits": [
+    "Small constructed engineering checks, not a representative accuracy evaluation.",
+    "No live pipeline or V-JEPA run; mandatory ViT-L blocker remains.",
+    "Client timing includes network and worker collection; not a p95 guarantee."
+  ],
+  "summary": {
+    "cases": 10,
+    "passed": 10,
+    "median_client_ms": 1330.289,
+    "max_client_ms": 2540.976
+  }
+}

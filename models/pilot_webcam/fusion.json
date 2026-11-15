@@ -1,0 +1,337 @@
+{
+ "branches": {
+  "dasheng": {
+   "logit_mean": -0.8412979125976563,
+   "logit_sd": 2.0454414630968647,
+   "manifest_sha256": "5381b13f06d70cf4ad062f23998c50429eee03cf46ac43ab4b6e9b8b58c41cd2"
+  }
+ },
+ "calibration": {
+  "A": 0.8860944354693944,
+  "B": 0.0030823037576352087
+ },
+ "caveats": [
+  "Labels are participant self-reports, not verified.",
+  "Familiar-people test = new recordings of the 4 training people; only the P5 rows measure an unseen person, and that is ONE person (n=50).",
+  "A single global cutoff can give a new person nearly the same verdict for every answer; prefer the session baseline (src.pilot_webcam.SessionBaseline) and see metrics for both.",
+  "Not suitable for any real-world decision about whether a person is lying."
+ ],
+ "format": "sunhacks-pilot-webcam-fusion-v1",
+ "metrics": {
+  "P5: unseen person (50)": {
+   "auroc": 0.5736000000000001,
+   "auroc_ci95": [
+    0.4154186795491143,
+    0.7402717652717651
+   ],
+   "global": {
+    "acc": 0.5,
+    "bal_acc": 0.5,
+    "called_lie": 0.12,
+    "lies_caught": "3/25",
+    "n_with_verdict": 50,
+    "truths_passed": "22/25"
+   },
+   "n": 50,
+   "session_baseline_causal": {
+    "acc": 0.5319148936170213,
+    "bal_acc": 0.5136363636363637,
+    "called_lie": 0.2127659574468085,
+    "lies_caught": "5/22",
+    "n_with_verdict": 47,
+    "truths_passed": "20/25"
+   },
+   "session_baseline_transductive": {
+    "acc": 0.56,
+    "bal_acc": 0.56,
+    "called_lie": 0.5,
+    "lies_caught": "14/25",
+    "n_with_verdict": 50,
+    "truths_passed": "14/25"
+   },
+   "within_person_auroc": 0.5736000000000001
+  },
+  "test: all 4 familiar people": {
+   "auroc": 0.8015625,
+   "auroc_ci95": [
+    0.6973603576036256,
+    0.8931434223145779
+   ],
+   "global": {
+    "acc": 0.7375,
+    "bal_acc": 0.7375,
+    "called_lie": 0.5375,
+    "lies_caught": "31/40",
+    "n_with_verdict": 80,
+    "truths_passed": "28/40"
+   },
+   "n": 80,
+   "session_baseline_causal": {
+    "acc": 0.7205882352941176,
+    "bal_acc": 0.7170138888888888,
+    "called_lie": 0.5735294117647058,
+    "lies_caught": "28/36",
+    "n_with_verdict": 68,
+    "truths_passed": "21/32"
+   },
+   "session_baseline_transductive": {
+    "acc": 0.725,
+    "bal_acc": 0.725,
+    "called_lie": 0.5,
+    "lies_caught": "29/40",
+    "n_with_verdict": 80,
+    "truths_passed": "29/40"
+   },
+   "within_person_auroc": 0.7849999999999999
+  },
+  "test: new 40 (clean)": {
+   "auroc": 0.8675,
+   "auroc_ci95": [
+    0.7416791133844842,
+    0.9699266917293233
+   ],
+   "global": {
+    "acc": 0.775,
+    "bal_acc": 0.775,
+    "called_lie": 0.625,
+    "lies_caught": "18/20",
+    "n_with_verdict": 40,
+    "truths_passed": "13/20"
+   },
+   "n": 40,
+   "session_baseline_causal": {
+    "acc": 0.7142857142857143,
+    "bal_acc": 0.7142857142857143,
+    "called_lie": 0.5,
+    "lies_caught": "10/14",
+    "n_with_verdict": 28,
+    "truths_passed": "10/14"
+   },
+   "session_baseline_transductive": {
+    "acc": 0.8,
+    "bal_acc": 0.8,
+    "called_lie": 0.5,
+    "lies_caught": "16/20",
+    "n_with_verdict": 40,
+    "truths_passed": "16/20"
+   },
+   "within_person_auroc": 0.85
+  },
+  "test: previous 40 (used before)": {
+   "auroc": 0.73375,
+   "auroc_ci95": [
+    0.5694346760443307,
+    0.8828286536654135
+   ],
+   "global": {
+    "acc": 0.7,
+    "bal_acc": 0.7,
+    "called_lie": 0.45,
+    "lies_caught": "13/20",
+    "n_with_verdict": 40,
+    "truths_passed": "15/20"
+   },
+   "n": 40,
+   "session_baseline_causal": {
+    "acc": 0.6071428571428571,
+    "bal_acc": 0.59375,
+    "called_lie": 0.6071428571428571,
+    "lies_caught": "11/16",
+    "n_with_verdict": 28,
+    "truths_passed": "6/12"
+   },
+   "session_baseline_transductive": {
+    "acc": 0.65,
+    "bal_acc": 0.65,
+    "called_lie": 0.5,
+    "lies_caught": "13/20",
+    "n_with_verdict": 40,
+    "truths_passed": "13/20"
+   },
+   "within_person_auroc": 0.68
+  },
+  "validation (selection; optimistic)": {
+   "auroc": 0.7238888888888889,
+   "auroc_ci95": [
+    0.630996484375,
+    0.8105037384121851
+   ],
+   "global": {
+    "acc": 0.6666666666666666,
+    "bal_acc": 0.6666666666666666,
+    "called_lie": 0.5,
+    "lies_caught": "40/60",
+    "n_with_verdict": 120,
+    "truths_passed": "40/60"
+   },
+   "n": 120,
+   "session_baseline_causal": {
+    "acc": 0.6388888888888888,
+    "bal_acc": 0.6379073756432247,
+    "called_lie": 0.5555555555555556,
+    "lies_caught": "38/55",
+    "n_with_verdict": 108,
+    "truths_passed": "31/53"
+   },
+   "session_baseline_transductive": {
+    "acc": 0.65,
+    "bal_acc": 0.65,
+    "called_lie": 0.5,
+    "lies_caught": "39/60",
+    "n_with_verdict": 120,
+    "truths_passed": "39/60"
+   },
+   "within_person_auroc": 0.7038888888888889
+  }
+ },
+ "per_person": {
+  "P1": {
+   "auroc": 0.78,
+   "centred": {
+    "bal_acc": 0.7,
+    "called_lie": 0.5,
+    "lies_caught": 0.7,
+    "truths_passed": 0.7
+   },
+   "global": {
+    "bal_acc": 0.7,
+    "called_lie": 0.5,
+    "lies_caught": 0.7,
+    "truths_passed": 0.7
+   },
+   "n": 20
+  },
+  "P2": {
+   "auroc": 0.78,
+   "centred": {
+    "bal_acc": 0.7,
+    "called_lie": 0.5,
+    "lies_caught": 0.7,
+    "truths_passed": 0.7
+   },
+   "global": {
+    "bal_acc": 0.75,
+    "called_lie": 0.45,
+    "lies_caught": 0.7,
+    "truths_passed": 0.8
+   },
+   "n": 20
+  },
+  "P3": {
+   "auroc": 0.5900000000000001,
+   "centred": {
+    "bal_acc": 0.6,
+    "called_lie": 0.5,
+    "lies_caught": 0.6,
+    "truths_passed": 0.6
+   },
+   "global": {
+    "bal_acc": 0.6,
+    "called_lie": 0.6,
+    "lies_caught": 0.7,
+    "truths_passed": 0.5
+   },
+   "n": 20
+  },
+  "P4": {
+   "auroc": 0.99,
+   "centred": {
+    "bal_acc": 0.9,
+    "called_lie": 0.5,
+    "lies_caught": 0.9,
+    "truths_passed": 0.9
+   },
+   "global": {
+    "bal_acc": 0.9,
+    "called_lie": 0.6,
+    "lies_caught": 1.0,
+    "truths_passed": 0.8
+   },
+   "n": 20
+  },
+  "P5": {
+   "auroc": 0.5736000000000001,
+   "centred": {
+    "bal_acc": 0.56,
+    "called_lie": 0.5,
+    "lies_caught": 0.56,
+    "truths_passed": 0.56
+   },
+   "global": {
+    "bal_acc": 0.5,
+    "called_lie": 0.12,
+    "lies_caught": 0.12,
+    "truths_passed": 0.88
+   },
+   "n": 50
+  }
+ },
+ "profile": "webcam_pilot",
+ "rule": "mean over branches of (raw logit - logit_mean) / logit_sd, then Platt, then cutoff",
+ "selection": {
+  "combinations": [
+   [
+    0.7039,
+    [
+     "dasheng"
+    ]
+   ],
+   [
+    0.6978,
+    [
+     "dasheng",
+     "emotion2vec"
+    ]
+   ],
+   [
+    0.6944,
+    [
+     "dasheng",
+     "emotion2vec",
+     "vjepa2_1_l"
+    ]
+   ],
+   [
+    0.6933,
+    [
+     "dasheng",
+     "vjepa2_1_l"
+    ]
+   ],
+   [
+    0.6589,
+    [
+     "emotion2vec",
+     "vjepa2_1_l"
+    ]
+   ],
+   [
+    0.6378,
+    [
+     "emotion2vec"
+    ]
+   ],
+   [
+    0.62,
+    [
+     "vjepa2_1_l"
+    ]
+   ]
+  ],
+  "criterion": "validation within-person AUROC over all branch combinations"
+ },
+ "serving_numerics": "metrics use TF32-on scores (as selected); each branch manifest's reproduction.serving_numerics gives the TF32-off differences and verdict changes",
+ "session_baseline": "src.pilot_webcam.SessionBaseline(min_answers=4) on fused_logit; metrics[...]['session_baseline_causal'] replays it in recording order",
+ "threshold": 0.4863362196463906,
+ "trained_on": {
+  "dataset": "sunhacks-webcam-pilot-850-v3-2026-11-15 (850 x 7 s webcam clips, 5 declared people; labels self-reported by participants)",
+  "rule": "trained on the 4 familiar people's train rows; condition, config, epoch, branch combination, calibration and cutoff chosen on their validation rows only; their test rows and all 50 P5 clips (never trained on or used for any choice) scored once",
+  "test_clips": 80,
+  "train_clips": 600,
+  "unseen_person_test": {
+   "clips": 50,
+   "person": "P5"
+  },
+  "validation_clips": 120
+ }
+}
