@@ -38,6 +38,7 @@ class FrozenFeatureModels:
             cfg["keep_loaded"] = True
         self.registry = registry if registry is not None else ModelRegistry(self.config)
         self.intent_embeddings = None
+        self.pilot_emotion = None
         self._lock = threading.RLock()
         self._closed = False
 
@@ -100,6 +101,14 @@ class FrozenFeatureModels:
                     components["text"].update(kernels_warmed=True, static_intents_prepared=33)
                 except Exception as exc:
                     components["text"].update(status="unavailable", reason=type(exc).__name__+": "+str(exc)[:300])
+            if self.config.get('pilot_emotion') and components.get('emotion',{}).get('status')=='ready':
+                try:
+                    if self.pilot_emotion is None:
+                        from .pilot_final import PilotEmotion
+                        wrapper=self.registry._load('emotion')[0]
+                        self.pilot_emotion=PilotEmotion(self.config['pilot_emotion']['fold_dir'],wrapper.model)
+                    components['emotion'].update(pilot_classifier='emotion2vec_lora_webcam_pilot',pilot_role='diagnostic_only')
+                except Exception as exc:components['emotion'].update(status='unavailable',reason=type(exc).__name__+': '+str(exc)[:300])
             return {"status":"ready" if all(v["status"]=="ready" for v in components.values()) else "partial",
                     "components":components,"elapsed_ms":round((time.perf_counter()-started)*1000,3),
                     "participant_data_used":False,"network_used":False}
@@ -147,7 +156,8 @@ class FrozenFeatureModels:
             if (probs.shape!=(9,) or vector.shape!=(1024,) or not np.isfinite(probs).all() or
                     not np.isfinite(vector).all() or not np.isclose(probs.sum(),1,atol=1e-4)):
                 raise ValueError("Frozen emotion2vec emitted invalid nine-class probabilities")
-            return {"status":"base","model_id":MODEL_IDS["emotion"],"tuning":"frozen_base_for_digest",
+            diagnostic=self.pilot_emotion.infer(values) if self.pilot_emotion is not None else None
+            return {"trained_classifier":diagnostic,"status":"base","model_id":MODEL_IDS["emotion"],"tuning":"frozen_base_for_digest",
                     "device":str(device),"dtype":str(dtype),"embedding_shape":[1024],
                     "_embedding":vector,"_class_probabilities":probs,
                     "class_probabilities":dict(zip(EMOTIONS,map(float,probs))),
@@ -161,4 +171,5 @@ class FrozenFeatureModels:
                 return
             self._closed = True
             self.intent_embeddings = None
+            self.pilot_emotion = None
             self.registry.close()

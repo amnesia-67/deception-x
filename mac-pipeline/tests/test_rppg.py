@@ -98,6 +98,18 @@ def test_monitor_end_to_end_states_and_72_bpm_display():
     assert state["band_hz"] == [0.7, 3.5] and state["window_seconds"] <= rppg.WINDOW_SECONDS + .1
     monitor.capture_stopped()
     assert monitor.snapshot()["status"] == "idle" and monitor.snapshot()["bpm"] is None
+    saved=monitor.snapshot()["recorded_reading"]
+    assert saved["bpm"]==state["bpm"] and saved["quality_label"]==state["quality_label"]
+    assert saved["display_only"] and len(saved["pulse"])==rppg.PULSE_POINTS
+    # The worker may clear its rolling signal after stop; retain the display.
+    with monitor._lock:monitor._reset_signal_locked(full=True)
+    assert monitor.snapshot()["recorded_reading"]==saved
+    monitor.offer_frame(frames[0],float(stamps[-1])+1)
+    assert monitor.snapshot()["recorded_reading"] is None
+    monitor.capture_stopped()
+    monitor._recorded_reading=saved
+    monitor.clear_recorded_reading()
+    assert monitor.snapshot()["recorded_reading"] is None
     monitor.close()
 
 

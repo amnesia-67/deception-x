@@ -74,7 +74,7 @@
     "vjepa_not_selected": true,
     "datasets_downloaded": false,
     "training_performed": false,
-    "installed_review_base_directory": "/Users/cadenwate/Projects/sunhacks-pipeline/.models/teammate-6e30a90-bases",
+    "installed_review_base_directory": "/Users/LOCAL_USER/Projects/sunhacks-pipeline/.models/teammate-6e30a90-bases",
     "mediapipe_reference": "https://developers.google.com/edge/mediapipe/solutions/vision/face_detector"
   }
 }

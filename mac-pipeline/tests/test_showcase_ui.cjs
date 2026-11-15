@@ -11,6 +11,7 @@ vm.createContext(context);vm.runInContext(source,context);
 context.render({...idle,model_ready:false});assert(get('mainButton').disabled);assert.equal(get('cancelButton').hidden,true);
 context.render({...idle,model_ready:false,can_prepare:true,preparing:false});assert.equal(get('mainButton').disabled,false);assert.equal(get('mainButton').dataset.route,'prepare');
 for(const extra of [{can_prepare:true},{model_ready:true,runtime:{live_ready:true}}]){context.render({...idle,...extra,runtime_blocked:true});assert(get('mainButton').disabled);assert(get('practiceButton').disabled);assert.equal(get('mainButtonText').textContent,'Waiting for V-JEPA 2.1 ViT-L');}
+context.render({...idle,stage:'result',result:{label:'inconclusive',reason:'Video transfer failed. Please try again.'}});assert.equal(get('subtitle').textContent,'Video transfer failed. Please try again.');
 context.render(idle);assert.equal(get('mainButton').dataset.route,'answer');assert.equal(get('timerValue').textContent,'7');
 context.render({...idle,remote_video_enabled:false,can_toggle_remote_video:true});assert.equal(get('mainButton').dataset.route,'answer');
 for(const [index,elapsed,title] of [[0,1,'Tell us your name.'],[1,6,'Tell us what you do.'],[2,11,'Now, make it up.']]){context.render({...idle,stage:'warmup',prompt:{index},remaining_seconds:15-elapsed});assert.equal(get('mainTitle').textContent,title);assert.equal(get('cancelButton').disabled,false);assert.equal(get('prompt'+index).dataset.state,'current');}

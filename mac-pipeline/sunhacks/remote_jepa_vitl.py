@@ -72,10 +72,17 @@ def _number(value, *, low=0, high=None):
         return False
 
 
+# The requested deployment branch adds a single-model pilot profile. The
+# running server's 61 tracked source files were reconstructed at 7426904.
+PILOT_MANIFEST_SHA256="e0910ae6d979521db7f2af25a91d22647c0be87a462cd0ff5af9f686a5fdb9f8"
+PILOT_MODEL_LABEL="vjepa2_1_vitl_lora_webcam_pilot"
+PILOT_CONTRACT={**CONTRACT,"fold_aggregation":"single model (no folds): mean of the 2 view logits"}
+REVIEWED_SOURCE_TREES=REVIEWED_SOURCE_TREES | {"1440d8435a07666eac67ea4e5ca330b2e1d043815229eeb6b877245c11431f8c","cc1d674b8d1b13bf652bc9a82e5d9c24b5a49506233f0ed9e7c078fc9d24d1d8","4457932e7e407a61620a2645155ffddf5f4414c4da7449292600022877193726"}
+
 class RemoteJepa21LClassifier:
     def __init__(self, host, port=5002, *, reviewed_source_revision=None,
                  expected_manifest_sha256=MANIFEST_SHA256,
-                 participant_media_authorized=False, timeout_seconds=15, max_frame_edge=640):
+                 participant_media_authorized=False, timeout_seconds=15, max_frame_edge=640, profile="served"):
         if type(max_frame_edge) is not int or not 64 <= max_frame_edge <= 960:
             raise ValueError("Transport max_frame_edge must be an integer within64..960")
         address = ipaddress.ip_address(host)
@@ -87,7 +94,13 @@ class RemoteJepa21LClassifier:
             raise ValueError("Total deadline must be within0.01..60seconds")
         if type(participant_media_authorized) is not bool:
             raise ValueError("participant_media_authorized must be boolean")
-        if expected_manifest_sha256 != MANIFEST_SHA256:
+        if profile not in ("served","webcam_pilot"):raise ValueError("Unknown video model profile")
+        self._profile=profile
+        self._model_label=PILOT_MODEL_LABEL if profile=="webcam_pilot" else MODEL_LABEL
+        self._contract=PILOT_CONTRACT if profile=="webcam_pilot" else CONTRACT
+        self._fold_count=1 if profile=="webcam_pilot" else 5
+        self._manifest_artifact="models/pilot_webcam/vjepa2_1_l/deploy_meta.json" if profile=="webcam_pilot" else "models/vjepa2_1_l_lora/deploy_meta.json"
+        if expected_manifest_sha256 != (PILOT_MANIFEST_SHA256 if profile=="webcam_pilot" else MANIFEST_SHA256):
             raise ValueError("This adapter supports only the exact reviewed2.1L manifest")
         self._endpoint = (str(address), port, address.version)
         self._reviewed_source = reviewed_source_revision
@@ -149,6 +162,7 @@ class RemoteJepa21LClassifier:
 
     def _exchange(self, payload, deadline, maximum=MAX_RESPONSE_BYTES):
         self._check_open()
+        if self._profile=="webcam_pilot" and payload.get("action")=="jepa_video":payload={**payload,"profile":"webcam_pilot"}
         packed = _canonical(payload).encode("utf-8") + b"\n"
         if len(packed) > MAX_REQUEST_BYTES:
             raise RemoteClassifierError("request_too_large", "Video request exceeds16MiB")
@@ -212,12 +226,12 @@ class RemoteJepa21LClassifier:
         started = time.monotonic()
         try:
             health, _, _ = self._exchange({"action": "ping"}, started + min(3,self._timeout), 65536)
-            encoder = health.get("jepa")
+            encoder = (health.get("profiles") or {}).get("webcam_pilot") if self._profile=="webcam_pilot" else health.get("jepa")
             if (health.get("status") != "ok" or health.get("jepa_loaded") is not True or
-                    not isinstance(encoder, dict) or encoder.get("model") != MODEL_LABEL or
+                    not isinstance(encoder, dict) or encoder.get("model") != self._model_label or
                     encoder.get("model_id") != MODEL_ID or type(encoder.get("folds")) is not int or
-                    encoder["folds"] != 5 or encoder.get("manifest_sha256") != self._expected_manifest or
-                    _canonical(encoder.get("contract")) != _canonical(CONTRACT)):
+                    encoder["folds"] != self._fold_count or encoder.get("manifest_sha256") != self._expected_manifest or
+                    _canonical(encoder.get("contract")) != _canonical(self._contract)):
                 raise RemoteClassifierError("identity_mismatch", "Peer does not advertise the exact reviewed V-JEPA2.1 ViT-L classifier")
             if encoder.get("device") not in ("cuda", "cuda:0"):
                 raise RemoteClassifierError("identity_mismatch", "Expected the declared CUDA video classifier")
@@ -301,27 +315,50 @@ class RemoteJepa21LClassifier:
             height,width = clip.shape[1:3]
             scale=min(1.,self._max_frame_edge/max(height,width))
             size=(max(1,round(width*scale)),max(1,round(height*scale)))
-            encoded=[]
-            encoded_bytes=0
-            for index in transport_indices:
-                frame=clip[index]
-                self._check_open()
-                self._remaining(deadline)
-                image=Image.fromarray(frame)
-                if image.size != size: image=image.resize(size,Image.Resampling.LANCZOS)
-                output=io.BytesIO()
-                image.save(output,format="JPEG",quality=90,subsampling=0,optimize=True)
-                value=base64.b64encode(output.getvalue()).decode("ascii")
-                encoded_bytes+=len(value)
-                if encoded_bytes > MAX_REQUEST_BYTES:
-                    raise RemoteClassifierError("request_too_large", "Packed frames exceed16MiB")
-                encoded.append(value)
             request_id=uuid.uuid4().hex
+            payload={"action":"jepa_video","frames":[""]*len(transport_indices),
+                     "timestamps":relative_stamps[transport_indices].tolist(),
+                     "request_id":request_id,"source_id":window_id,"client_revision":SOURCE_REVISION}
+            if self._profile=="webcam_pilot":payload["profile"]="webcam_pilot"
+            # Budget the actual NDJSON envelope too, not just JPEG bytes. Four
+            # representative frames pick a likely fitting quality/size before
+            # encoding the entire clip; a bounded retry handles uneven detail.
+            image_budget=MAX_REQUEST_BYTES-len(_canonical(payload).encode("utf-8"))-1
+            if image_budget<=0:raise RemoteClassifierError("request_too_large","Video metadata exceeds request limit")
+            quality=90
+            def encode(index):
+                self._check_open();self._remaining(deadline)
+                image=Image.fromarray(clip[index])
+                if image.size!=size:image=image.resize(size,Image.Resampling.LANCZOS)
+                output=io.BytesIO();image.save(output,format="JPEG",quality=quality,subsampling=0,optimize=False)
+                return base64.b64encode(output.getvalue()).decode("ascii")
+            sample_positions=np.unique(np.linspace(0,len(transport_indices)-1,min(4,len(transport_indices)),dtype=int))
+            estimate=max(len(encode(transport_indices[i])) for i in sample_positions)*len(transport_indices)
+            if estimate>image_budget*.94:
+                quality=80
+                estimate=max(len(encode(transport_indices[i])) for i in sample_positions)*len(transport_indices)
+            if estimate>image_budget*.94:
+                ratio=min(.9,(image_budget*.85/estimate)**.5)
+                size=(max(1,int(size[0]*ratio)),max(1,int(size[1]*ratio)))
+            for attempt in range(5):
+                encoded=[];encoded_bytes=0
+                for index in transport_indices:
+                    value=encode(index);encoded.append(value);encoded_bytes+=len(value)
+                    if encoded_bytes>image_budget:break
+                if encoded_bytes<=image_budget and len(encoded)==len(transport_indices):break
+                # Uniform resize preserves the whole selected timeline and
+                # identical geometry across frames. Never drop frames to fit.
+                expected=encoded_bytes*len(transport_indices)/len(encoded)
+                ratio=min(.8,(image_budget*.8/expected)**.5)
+                next_size=(max(1,int(size[0]*ratio)),max(1,int(size[1]*ratio)))
+                if next_size==size or attempt==4:
+                    raise RemoteClassifierError("request_too_large","Video cannot fit the socket request budget")
+                size=next_size
+            payload["frames"]=encoded
             packing_ms=(time.monotonic()-started)*1000
             self._update(status="waiting_for_classifier")
             response,request_bytes,response_bytes=self._exchange(
-                {"action":"jepa_video","frames":encoded,"timestamps":relative_stamps[transport_indices].tolist(),
-                 "request_id":request_id,"source_id":window_id,"client_revision":SOURCE_REVISION},deadline)
+                payload,deadline)
             branch=self._validate(response,len(encoded),request_id=request_id,window_id=window_id)
             if self._closed:
                 raise RemoteClassifierError("closed", "Client closed before result; discarding late score")
@@ -344,11 +381,15 @@ class RemoteJepa21LClassifier:
                 source_frame_shape=[int(height),int(width),3],transport_frame_shape=[int(size[1]),int(size[0]),3],
                 input_rgb_bytes=int(clip.nbytes),transport_max_frame_edge=self._max_frame_edge,
                 transport_resized=(int(width),int(height))!=size,transport_codec="jpeg",
-                transport_jpeg_quality=90,transport_jpeg_subsampling="4:4:4",transport_jpeg_huffman_optimized=True,
+                transport_jpeg_quality=quality,transport_jpeg_subsampling="4:4:4",transport_jpeg_huffman_optimized=False,
+                transport_budget_adapted=(quality!=90 or size!=(max(1,round(width*scale)),max(1,round(height*scale)))),
+                transport_request_limit_bytes=MAX_REQUEST_BYTES,
                 elapsed_ms=round((time.monotonic()-started)*1000,3),client_packing_ms=round(packing_ms,3),
                 request_bytes=request_bytes,response_bytes=response_bytes)
             self._publish_open({"status":"ready","last_elapsed_ms":branch["elapsed_ms"],
-                                "last_window_id":window_id,"classifier_response_validated":True})
+                                "last_window_id":window_id,"classifier_response_validated":True,
+                                "transport_jpeg_quality":quality,"transport_frame_shape":[size[1],size[0],3],
+                                "last_request_bytes":request_bytes})
             return branch
         except RemoteClassifierError as exc:
             if exc.code not in ("input_error","request_too_large"):
@@ -366,11 +407,11 @@ class RemoteJepa21LClassifier:
     def _validate(self,response,frame_count,*,request_id,window_id):
         if response.get("status") != "success":
             raise RemoteClassifierError("server_error", "Video classifier returned an error")
-        if (response.get("model") != MODEL_LABEL or response.get("model_id") != MODEL_ID or
+        if (response.get("model") != self._model_label or response.get("model_id") != MODEL_ID or
                 response.get("manifest_sha256") != self._expected_manifest or
-                response.get("classifier_only") is not True or response.get("calibrated") is not False or
+                response.get("classifier_only") is not True or (response.get("calibrated") is not False if self._profile=="served" else response.get("calibrated")!="platt_on_pilot_validation") or
                 response.get("device") not in ("cuda","cuda:0") or
-                _canonical(response.get("contract")) != _canonical(CONTRACT) or
+                _canonical(response.get("contract")) != _canonical(self._contract) or
                 type(response.get("n_frames_received")) is not int or response["n_frames_received"] != frame_count):
             raise RemoteClassifierError("identity_mismatch", "Video response differs from reviewed2.1L classifier/manifest/shape contract")
         if (response.get("request_id")!=request_id or type(response.get("source_id")) is not int or
@@ -380,35 +421,39 @@ class RemoteJepa21LClassifier:
         code=revision.get("code") if isinstance(revision,dict) else None
         artifacts=revision.get("artifacts_sha256") if isinstance(revision,dict) else None
         if (not isinstance(code,dict) or code.get("source_tree_sha256") not in REVIEWED_SOURCE_TREES or
-                not isinstance(artifacts,dict) or artifacts.get("models/vjepa2_1_l_lora/deploy_meta.json")!=MANIFEST_SHA256):
+                not isinstance(artifacts,dict) or artifacts.get(self._manifest_artifact)!=self._expected_manifest):
             raise RemoteClassifierError("identity_mismatch", "Server does not declare the reviewed source bytes and L manifest")
         score=response.get("raw_score")
         folds=response.get("per_fold_probability")
         attention=response.get("temporal_attention_32")
-        if (not _number(score,high=1) or not isinstance(folds,list) or len(folds)!=5 or
+        if (not _number(score,high=1) or not isinstance(folds,list) or len(folds)!=self._fold_count or
                 not all(_number(value,high=1) for value in folds) or
                 not isinstance(attention,list) or len(attention)!=32 or
                 not all(_number(value,high=1) for value in attention) or abs(sum(attention)-1)>.001 or
                 not _number(response.get("prep_ms")) or not _number(response.get("inference_ms")) or
                 response["inference_ms"] <= 0):
             raise RemoteClassifierError("protocol_error", "Invalid finite classifier scores, attention or timings")
+        if self._profile=="webcam_pilot" and (response.get("profile")!="webcam_pilot" or not _number(response.get("calibrated_probability"),high=1) or not _number(response.get("threshold"),high=1)):
+            raise RemoteClassifierError("identity_mismatch","Invalid pilot profile/calibration metadata")
         face=response.get("face")
         if face is not None and (not isinstance(face,dict) or
                 not _number(face.get("face_detect_rate"),high=1) or
                 type(face.get("centre_crop_fallback")) is not bool):
             raise RemoteClassifierError("protocol_error", "Invalid remote face-crop diagnostics")
-        output={"status":"trained_classifier","model":MODEL_LABEL,"model_id":MODEL_ID,
+        output={"status":"trained_classifier","model":self._model_label,"profile":self._profile,"model_id":MODEL_ID,
                 "manifest_sha256":self._expected_manifest,"reviewed_source_revision":SOURCE_REVISION,
                 "remote_source_revision_verified":False,"server_declared_source_tree_sha256":code["source_tree_sha256"],
                 "provenance_scope":"server-reported metadata; not independent remote attestation","device":response["device"],
                 "classifier_only":True,"calibrated":False,"raw_score":float(score),
                 "per_fold_scores":[float(value) for value in folds],
                 "temporal_attention_32":[float(value) for value in attention],
-                "attention_alignment":"within_view_bins_averaged_across_two_halves_and_five_folds",
+                "attention_alignment":"within_view_bins_averaged_across_two_halves_and_"+str(self._fold_count)+"_models",
                 "server_timings":{"prep_ms":float(response["prep_ms"]),"inference_ms":float(response["inference_ms"])},
                 "embedding_shape":None,"input_contract":"sunhacks-vjepa21-vitl-classifier-v1",
                 "reason":"Real tuned2.1ViT-L classifier score; uncalibrated for webcam use and not evidence of deception."}
         if face is not None:
             output["face"]={"face_detect_rate":float(face["face_detect_rate"]),
                             "centre_crop_fallback":face["centre_crop_fallback"]}
+        if self._profile=="webcam_pilot":
+            output.update(calibrated_probability=response["calibrated_probability"],threshold=response["threshold"],calibration_scope="pilot_validation_only",metrics=response.get("metrics"),caveats=response.get("caveats",[]))
         return output

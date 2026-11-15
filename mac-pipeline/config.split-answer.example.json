@@ -64,14 +64,14 @@
   "deployment": {
     "artifacts_status": "verified_webcam_pilot_audio",
     "classifier_architecture": "webcam-pilot-dasheng-v1",
-    "source_revision": "bed0f8df47688a99afc7fdb085d747c823ccf14a",
-    "artifact_reason": "Selected webcam-pilot Dasheng audio checkpoint, calibrated with its own 0.5436123431421811 cutoff. Digest and video are separate diagnostics. Webcam-pilot ViT-L export remains pending in the handoff.",
+    "source_revision": "143e924",
+    "artifact_reason": "Final 850-clip pilot: exported Dasheng fusion and cutoff. Tuned emotion2vec and video are diagnostic.",
     "requested_vision": "V-JEPA 2.1 ViT-L",
-    "reported_vision": "V-JEPA 2.1 ViT-L (reviewed source; generated GPU forward verified)",
+    "reported_vision": "V-JEPA 2.1 ViT-L webcam-pilot",
     "vision_choice_accepted": true,
     "target_vision_after_retraining": "V-JEPA 2.1 ViT-L",
     "fusion_training_domain": null,
-    "local_export_revision": "bed0f8df47688a99afc7fdb085d747c823ccf14a",
+    "local_export_revision": "143e924",
     "classifier_profile": "webcam_pilot"
   },
   "runtime_mode": "split_local_video",
@@ -88,14 +88,15 @@
     "enabled": false,
     "protocol_reviewed": true,
     "status": "disabled_for_local_webcam_pilot_audio",
-    "reason": "Local webcam-pilot audio is selected. The pilot video export is pending; existing courtroom ViT-L can be enabled separately when its socket is reachable.",
-    "advertised_video_model": "vjepa2_1_vitl_lora_5fold",
+    "reason": "Set the GPU host to its reachable LAN or Tailscale IPv4 address, then enable GPU video.",
+    "advertised_video_model": "vjepa2_1_vitl_lora_webcam_pilot",
     "participant_media_authorized": true,
     "timeout_seconds": 20,
-    "expected_manifest_sha256": "30d1f7fc8dcce8307a0193bcaab5b345500e7cc4cb6f912c1fefdaf8f8012b32",
+    "expected_manifest_sha256": "e0910ae6d979521db7f2af25a91d22647c0be87a462cd0ff5af9f686a5fdb9f8",
     "reviewed_source_revision": "488a818864684b0e0b2a2275866e996e06eaef5c",
     "max_frame_edge": 960,
-    "reviewed_source_record_revision": "fae2ad43c89c4747e0bc31f2b549147e11a09fdf"
+    "reviewed_source_record_revision": "fae2ad43c89c4747e0bc31f2b549147e11a09fdf",
+    "profile": "webcam_pilot"
   },
   "capture_mode": "whole_answer",
   "split_runtime": {
@@ -132,7 +133,16 @@
   "pilot_audio": {
     "manifest_path": "../models/pilot_webcam/dasheng/deploy_meta.json",
     "fold_dir": "../models/pilot_webcam/dasheng",
-    "source_revision": "143e924e857b2ed26a40e52b5a0bd598b7245b65",
-    "manifest_sha256": "5381b13f06d70cf4ad062f23998c50429eee03cf46ac43ab4b6e9b8b58c41cd2"
+    "source_revision": "143e924",
+    "manifest_sha256": "5381b13f06d70cf4ad062f23998c50429eee03cf46ac43ab4b6e9b8b58c41cd2",
+    "fusion_path": "../models/pilot_webcam/fusion.json"
+  },
+  "pilot_emotion": {
+    "fold_dir": "../models/pilot_webcam/emotion2vec"
+  },
+  "heart_rate": {
+    "enabled": true,
+    "method": "facephys",
+    "auto_download": false
   }
 }

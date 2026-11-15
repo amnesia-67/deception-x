@@ -90,7 +90,7 @@ class SplitRuntime:
             if self.classifier_profile=="webcam_pilot":
                 from .pilot_audio import PilotDasheng
                 pilot=self.config.get("pilot_audio",{})
-                self.dasheng=PilotDasheng(pilot["manifest_path"],pilot["fold_dir"],base_path=cfg["path"],source_path=cfg.get("source_path",cfg["path"]))
+                self.dasheng=PilotDasheng(pilot["manifest_path"],pilot["fold_dir"],base_path=cfg["path"],source_path=cfg.get("source_path",cfg["path"]),fusion_path=pilot.get("fusion_path"))
             else:self.dasheng=TunedDashengEnsemble(**kwargs)
         if self.feature_models is None:self.feature_models=FrozenFeatureModels(self.config)
         if self.faces is None:

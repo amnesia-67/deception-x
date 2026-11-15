@@ -189,7 +189,7 @@ It cannot run during capture or while an unlabeled take is pending.
 
 ## Selected webcam-pilot audio model
 
-The local launch config selects `classifier_profile: webcam_pilot`, per Caden's
+The local launch config selects `classifier_profile: webcam_pilot`, per the selected
 request. This uses the single Dasheng LoRA checkpoint from the final 850-clip
 webcam run (`scripts/pilot_final.py`), with its own validation-fit Platt scaling
 and threshold, both read from the manifest. It replaces the courtroom ensemble as
@@ -204,6 +204,16 @@ on a held-out person (P5). Parity: `fixtures/golden_v1/pilot_webcam_expected.jso
 `audio_branches.dasheng.cuda_fp32`.
 
 Only pilot audio was exported in this commit. The webcam-tuned ViT-L export is
-still pending in the handoff. Existing courtroom ViT-L can remain a separately
+available in this release. Courtroom ViT-L can remain a separately
 identified video output when the GPU socket is reachable. GPU-off local testing
 uses the same selected audio model; it does not fall back to courtroom scoring.
+
+## Integrated Mac launch (clean-history release)
+
+Use `../Start DeceptionX.command` on a configured Mac. The app includes Mochi's integrated countdown/pulse panel, retained Recorded BPM after capture, and adaptive JPEG packing under the socket's 16 MiB wire limit. All selected temporal frames and timestamps are preserved. Pulse stays local and never enters the verdict. The exact 850-clip fusion chooses Dasheng; tuned emotion2vec and V-JEPA 2.1 ViT-L remain diagnostic.
+
+To fetch the pinned adapters/calibration from this clean history without using the private archive, run `.venv/bin/python scripts/pull_pilot_models.py --gpu-host YOUR_TAILSCALE_IPV4`. Base encoders remain separately installed. The local config preserves existing base-cache paths, dataset location and API-key file; it must stay ignored. Tailscale changes only the video endpoint. Keep both peers and the remote model service on. No LAN fallback or relaxed model identity checks are used.
+
+The served root `a7cad71` was independently reconstructed from 65 source files: SHA256 `1440d8435a07666eac67ea4e5ca330b2e1d043815229eeb6b877245c11431f8c`. Checkpoint bytes match the previously tested 850-clip export; sanitized manifests/fusion have new, explicit pins. The old CPU fixture check found a Dasheng logit difference of 0.01519 versus GPU FP32 (above its supplied 0.00423 tolerance), about 0.0012 in score with the same fixture decision; exact CPU/GPU parity is not claimed.
+
+This integration carries source changes onto the new root only. It must not merge or force-push the old repository history. Local recordings, identity annotations, caches and configurations stay in the preserved original checkout. No repository visibility change is part of setup.

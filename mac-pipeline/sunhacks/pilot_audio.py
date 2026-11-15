@@ -11,7 +11,7 @@ from .local_dasheng import (TunedDashengEnsemble,LocalDashengUnavailable,_json_b
 
 MANIFEST_SHA256='5381b13f06d70cf4ad062f23998c50429eee03cf46ac43ab4b6e9b8b58c41cd2'
 FOLD_SHA256='c7577bcd3b9eaaf4904c58d21035adb5ca909375f6a50f89a74441747f4f7afa'
-SOURCE_REVISION='143e924e857b2ed26a40e52b5a0bd598b7245b65'
+SOURCE_REVISION='143e924'
 PROFILE='webcam_pilot'
 MODEL='dasheng_lora_webcam_pilot'
 
@@ -27,10 +27,12 @@ def calibrated_probability(raw,calibration):
 
 
 class PilotDasheng(TunedDashengEnsemble):
-    def __init__(self,manifest_path,fold_dir,*,base_path=None,source_path=None,model_factory=None):
+    def __init__(self,manifest_path,fold_dir,*,base_path=None,source_path=None,model_factory=None,fusion_path=None):
         raw=Path(manifest_path).read_bytes()
         if hashlib.sha256(raw).hexdigest()!=MANIFEST_SHA256:raise LocalDashengUnavailable('Pilot manifest differs from the reviewed export')
         self.manifest_sha256=MANIFEST_SHA256;self.meta=_json_bytes(raw)
+        from .pilot_final import read_fusion
+        self.fusion=read_fusion(fusion_path,MANIFEST_SHA256) if fusion_path else None
         if any(self.meta.get(k)!=v for k,v in {'format':'sunhacks-pilot-webcam-v1','profile':PROFILE,'backbone':'dasheng','model':MODEL}.items()):
             raise LocalDashengUnavailable('Wrong pilot model/profile')
         entries=self.meta.get('folds');folder=Path(fold_dir)
@@ -68,9 +70,15 @@ class PilotDasheng(TunedDashengEnsemble):
             'source_window_id':out['source_window_id'],'raw_score':p,'uncalibrated_audio_score':out['raw_score'],
             'logit':out['logit'],'threshold':float(self.meta['threshold']),
             'threshold_provenance':self.meta['threshold_provenance'],'calibrated':False,
-            'calibration_scope':'Platt fit on 31 webcam-pilot validation clips; used for selection; calibration reliability unestablished',
+            'calibration_scope':'Platt fit on 120 webcam-pilot validation clips; used for selection; calibration reliability unestablished',
             'calibration':dict(self.meta['calibration']),'used_modalities':['tuned_dasheng_webcam_pilot'],
             'not_used_modalities':['vision','xgb_digest','qwen','emotion'],'weights':{MODEL:1.},'locality':'mac',
             'cv_metrics':self.meta['metrics'],'caveats':self.meta['caveats'],'manifest_sha256':self.manifest_sha256,
             'elapsed_ms':out['elapsed_ms'],'score_semantics':'experimental_pilot_score_not_honesty_probability'}
+        if self.fusion is not None:
+            from .pilot_final import fuse
+            f=fuse(out['logit'],self.fusion)
+            out['_pilot_decision'].update(raw_score=f['probability'],threshold=f['threshold'],
+                fusion_sha256=f['fusion_sha256'],fused_logit=f['fused_logit'],
+                classifier='webcam_pilot_final_dasheng',used_modalities=['audio'])
         return out

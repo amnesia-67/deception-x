@@ -10,7 +10,7 @@ From the repository root after checking out this branch:
 ```sh
 cd mac-pipeline
 python3.12 -m venv .venv
-.venv/bin/python -m pip install -e '.[capture,models,adapters,emotion,tabular,faces,test]'
+.venv/bin/python -m pip install -e '.[capture,models,adapters,emotion,tabular,faces,rppg,test]'
 cp config.split-answer.example.json config.split-answer.local.json
 cp .env.example .env
 ./scripts/run.sh
@@ -42,23 +42,23 @@ manifest for the existing diagnostic digest; it keeps the published model
 parameters with the LF schema binding expected by the Mac. It is not new weights.
 
 The selected verdict source is the explicit webcam-pilot **single Dasheng model**,
-with its own calibration and **0.5436123431421811** threshold. The original
+with its own calibration and **0.4863362196463906** threshold. The original
 courtroom stack is available by selecting `classifier_profile: courtroom`; do not
 apply its threshold to the pilot model. Model readiness is checked on demand;
 press **Prepare local models** after assets are configured. Missing assets cause
 an explicit failure, never mock inference. The model tests that need optional
 local legacy checkpoints skip when those files are unavailable.
 
-GPU video defaults off. To enable it, set the GPU computer's reachable LAN IP/port
-in local config and use the showcase toggle. The client requires the reviewed
-V-JEPA 2.1 ViT-L model/source/manifest contract. The pilot video export is still
-pending in the current handoff; the available courtroom video is a separately
-identified diagnostic and does not enter the selected audio verdict.
+GPU video defaults off in the portable example. To enable it, set the reachable
+LAN or Tailscale IPv4/port in local config and use the dashboard toggle. The
+final webcam-pilot V-JEPA 2.1 ViT-L export is available and stays diagnostic.
+Run `scripts/pull_pilot_models.py --gpu-host YOUR_GPU_IPV4` with the Mac environment
+to fetch the pinned adapters/calibration and update the ignored local config.
 
 ## Optional contradiction check
 
-Put `OPENROUTER_API_KEY` in your local `.env` to use Drex Max. When selected in the
-showcase, that check sends the same answer's recognized transcript and two photos
+Put `OPENROUTER_API_KEY` in your local `.env` to use Drex Max. When enabled in the
+dashboard, that check sends the same answer's recognized transcript and two photos
 to OpenRouter/DeepInfra. Only a supported contradiction overrides the model label
 to Lie. No contradiction does not force Truth. Uncheck the sharing option to run
 without the API. Raw audio stays local; the separate GPU option sends video only.

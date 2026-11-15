@@ -5,6 +5,10 @@ audio and transcripts. An earlier version of this repo trained on a synthetic ge
 wrote the label into the features and reported 100% accuracy; that code, its checkpoints and
 its reports have been removed.
 
+## Mac showcase
+
+The Mac app is in [`mac-pipeline/`](mac-pipeline/README.md). On the configured Mac, launch `Start DeceptionX.command` for Mochi’s seven-second test, the recording dashboard, and the local pulse display. GPU video supports a Tailscale address on port 5002. Follow [`mac-pipeline/TEAM_SETUP.md`](mac-pipeline/TEAM_SETUP.md) for a fresh setup.
+
 ## Data
 Full list of datasets, pretrained models and the scripts that produced every result: `docs/DATASETS_AND_SCRIPTS.md`.
 

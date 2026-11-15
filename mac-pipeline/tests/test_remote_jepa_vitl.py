@@ -122,3 +122,22 @@ def test_known_eval_draft_tree_does_not_bypass_manifest_check(monkeypatch):
     stream=FakeSocket(mutate=mutate);monkeypatch.setattr(remote.socket,'socket',lambda *a:stream)
     with pytest.raises(remote.RemoteClassifierError,match='L manifest'):
         c.predict(np.zeros((128,4,8,3),np.uint8),window_id=1,timestamps=np.arange(128)/24)
+
+
+def test_detailed_camera_frames_fit_full_wire_budget_without_temporal_loss(monkeypatch):
+    import base64,io
+    from PIL import Image
+    c=client(monkeypatch);stream=FakeSocket();monkeypatch.setattr(remote.socket,'socket',lambda *a:stream)
+    # Force the real-camera failure with a smaller budget, using generated
+    # detailed RGB frames. Low-entropy black startup fixtures miss this case.
+    monkeypatch.setattr(remote,'MAX_REQUEST_BYTES',500_000)
+    clip=np.random.default_rng(42).integers(0,256,(32,192,256,3),dtype=np.uint8)
+    stamps=200+np.arange(32)/30
+    out=c.predict(clip,window_id=9,timestamps=stamps)
+    assert len(stream.requests[-1])<=remote.MAX_REQUEST_BYTES
+    assert out['request_bytes']<=remote.MAX_REQUEST_BYTES
+    assert out['transport_budget_adapted']
+    assert out['raw_source_frames']==out['source_frames_sent']==out['encoder_unique_source_frames']==32
+    assert np.allclose(stream.request['timestamps'],stamps-stamps[0])
+    sizes={Image.open(io.BytesIO(base64.b64decode(frame))).size for frame in stream.request['frames']}
+    assert sizes=={(out['transport_frame_shape'][1],out['transport_frame_shape'][0])}

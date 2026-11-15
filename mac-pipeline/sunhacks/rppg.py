@@ -388,6 +388,8 @@ class HeartRateMonitor:
         self._dropped = 0
         self._error = None
         self._reset_requested = False
+        self._recorded_reading = None
+        self._capture_generation = 0
         self._reset_signal_locked(full=True)
 
     # ---- capture-thread API -------------------------------------------------
@@ -395,6 +397,9 @@ class HeartRateMonitor:
         if not self.enabled or self._closed:
             return
         with self._wake:
+            if self._last_offer is None:
+                self._recorded_reading = None
+                self._capture_generation += 1
             if len(self._pending) == self._pending.maxlen:
                 self._dropped += 1
             self._pending.append((timestamp, rgb))
@@ -411,6 +416,12 @@ class HeartRateMonitor:
             self._last_offer = None
             self._reset_requested = True
             self._wake.notify()
+
+    def clear_recorded_reading(self) -> None:
+        """A new participant/reset must not display the previous recording."""
+        with self._lock:
+            self._recorded_reading = None
+            self._capture_generation += 1
 
     # ---- lifecycle ----------------------------------------------------------
     def close(self) -> None:
@@ -583,6 +594,7 @@ class HeartRateMonitor:
                 return
             self._last_compute = now
             samples = list(self._samples)
+            generation = self._capture_generation
         if len(samples) < 8:
             return
         data = np.asarray(samples, dtype=np.float64)
@@ -607,6 +619,8 @@ class HeartRateMonitor:
             peak = np.abs(tail).max()
             tail = tail / peak if peak > 0 else tail
         with self._lock:
+            if generation != self._capture_generation or self._reset_requested or self._last_offer is None:
+                return
             if estimate["bpm"] is not None and estimate["quality"] >= 0.15:
                 self._estimates.append(estimate["bpm"])
             shown = float(np.median(self._estimates)) if self._estimates else None
@@ -614,6 +628,11 @@ class HeartRateMonitor:
             self._result = {"bpm": shown, "bpm_raw": estimate["bpm"], "quality": estimate["quality"],
                             "snr_db": estimate["snr_db"], "method": method,
                             "pulse": [round(float(v), 3) for v in tail]}
+            if shown is not None and estimate["quality"] >= 0.15:
+                self._recorded_reading = {"bpm": round(shown, 1), "quality": round(estimate["quality"], 3),
+                    "quality_label": quality_label(estimate["quality"]), "method": method,
+                    "pulse": list(self._result["pulse"]), "window_seconds": round(float(span), 2),
+                    "display_only": True, "source": "last_valid_estimate_in_this_recording"}
 
     # ---- state ------------------------------------------------------------------
     def snapshot(self) -> dict[str, Any]:
@@ -624,6 +643,7 @@ class HeartRateMonitor:
             active = self._last_offer is not None and now - self._last_offer <= IDLE_SECONDS
             face = self._box is not None
             result = dict(self._result)
+            recorded = dict(self._recorded_reading) if self._recorded_reading is not None else None
             fps = (len(frames) - 1) / (frames[-1] - frames[0]) if len(frames) > 1 and frames[-1] > frames[0] else None
             model_status = dict(self._model_status)
             error = self._error
@@ -642,6 +662,7 @@ class HeartRateMonitor:
         return {
             "status": status,
             "display_only": True,
+            "recorded_reading": recorded if not active else None,
             "warming_up": status in ("acquiring", "no_face") or (active and span < MIN_SECONDS),
             "bpm": round(result["bpm"], 1) if live and result["bpm"] is not None else None,
             "bpm_raw": round(result["bpm_raw"], 1) if live and result["bpm_raw"] is not None else None,

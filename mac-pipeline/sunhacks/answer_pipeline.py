@@ -55,7 +55,7 @@ class AnswerPipelineMixin:
                     expected_manifest_sha256=remote.get("expected_manifest_sha256"),
                     participant_media_authorized=bool(remote.get("participant_media_authorized")),
                     timeout_seconds=remote.get("timeout_seconds",20),
-                    max_frame_edge=remote.get("max_frame_edge",640))
+                    max_frame_edge=remote.get("max_frame_edge",640),profile=remote.get("profile","served"))
             if self.fast_runtime is None:
                 self.fast_runtime=SplitRuntime(self.config,video_client=self.video_client,on_progress=self._runtime_progress)
             else:self.fast_runtime.video_client=self.video_client

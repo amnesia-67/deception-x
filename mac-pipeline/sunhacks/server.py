@@ -31,6 +31,10 @@ def make_server(pipeline, port=8765):
             self.connection.settimeout(5)
         def log_message(self,*args): pass
         def send_json(self,status,value):
+            # Pulse is presentation data only; never enter showcase scoring.
+            if (self.path=="/api/showcase" or self.path.startswith("/api/showcase/")) and isinstance(value,dict) and "model_ready" in value:
+                monitor=getattr(pipeline,"heart_rate",None)
+                value={**value,"heart_rate":monitor.snapshot() if monitor is not None else None}
             data = json.dumps(value,allow_nan=False).encode()
             self.send_response(status)
             self.send_header("Content-Type","application/json")
@@ -62,6 +66,13 @@ def make_server(pipeline, port=8765):
                 monitor=getattr(pipeline,"heart_rate",None)
                 return self.send_json(200,monitor.snapshot() if monitor is not None else {"status":"disabled","display_only":True})
             if self.path=="/api/health": return self.send_json(200,{"status":"ok","mode":pipeline.mode})
+            assets={"/assets/mochi.png":("mochi.png","image/png"),"/assets/mochi.css":("mochi.css","text/css; charset=utf-8"),"/assets/mochi.js":("mochi.js","text/javascript; charset=utf-8")}
+            if self.path in assets:
+                name,mime=assets[self.path]
+                data=Path(__file__).with_name("static").joinpath(name).read_bytes()
+                self.send_response(200);self.send_header("Content-Type",mime)
+                self.send_header("Content-Length",str(len(data)));self.send_header("X-Content-Type-Options","nosniff")
+                self.send_header("Cache-Control","no-cache");self.end_headers();self.wfile.write(data);return
             pages={"/":"showcase.html","/showcase":"showcase.html","/showcase.html":"showcase.html",
                    "/dashboard":"index.html","/index.html":"index.html"}
             if self.path not in pages:return self.send_json(404,{"error":"Not found"})

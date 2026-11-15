@@ -27,7 +27,7 @@ sunhacks = "sunhacks.__main__:main"
 include = ["sunhacks*"]
 
 [tool.setuptools.package-data]
-sunhacks = ["static/*.html", "models_manifest.json", "vendor/*.json", "rppg_weights/*"]
+sunhacks = ["static/*.html", "static/*.css", "static/*.js", "static/*.png", "static/*.txt", "models_manifest.json", "vendor/*.json", "rppg_weights/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

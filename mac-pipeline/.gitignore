@@ -36,3 +36,5 @@ docs/doctor-host.json
 !sunhacks/rppg_weights/
 !sunhacks/rppg_weights/*.onnx
 !sunhacks/rppg_weights/*.tflite
+
+.runtime/

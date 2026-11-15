@@ -1,0 +1,22 @@
+{
+  "release_root": "a7cad71f019894461a7fb17edd027fd9f7007c3d",
+  "served_source_sha256": "1440d8435a07666eac67ea4e5ca330b2e1d043815229eeb6b877245c11431f8c",
+  "source_files_verified": 65,
+  "checkpoint_bytes_match_previous_850_export": true,
+  "python_checks": {
+    "passed": 884,
+    "skipped": 2
+  },
+  "ui_checks_passed": 7,
+  "live_ready": true,
+  "connection": "tailscale",
+  "video_check": {
+    "status": "verified_fixture",
+    "elapsed_ms": 2401.088,
+    "manifest_sha256": "e0910ae6d979521db7f2af25a91d22647c0be87a462cd0ff5af9f686a5fdb9f8",
+    "participant_data_sent": false
+  },
+  "participant_media_used": false,
+  "private_endpoint_omitted": true,
+  "repository_visibility_changed": false
+}

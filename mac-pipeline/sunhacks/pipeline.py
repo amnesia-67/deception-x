@@ -152,6 +152,8 @@ class Pipeline(AnswerPipelineMixin,ClaimPipelineMixin):
                     value=getattr(self,name,None)
                     if value is not None:getattr(value,field).clear()
                 if hasattr(self,"answer_frames"):self.answer_frames.clear()
+                monitor=getattr(self,"heart_rate",None)
+                if monitor is not None:monitor.clear_recorded_reading()
                 while True:
                     try:self.work.get_nowait()
                     except queue.Empty:break

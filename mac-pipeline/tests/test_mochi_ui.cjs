@@ -1,0 +1,20 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
+const nodes=new Map();const el=id=>{if(!nodes.has(id))nodes.set(id,{dataset:{},hidden:true,textContent:'',offsetWidth:1,events:{},addEventListener(k,v){this.events[k]=v;},setAttribute(k,v){this[k]=v;}});return nodes.get(id);};
+el('mochiCompanion').dataset.context='showcase';let later;
+const ctx={document:{getElementById:el},Date,setTimeout(fn){later=fn;return 1;},clearTimeout(){}};
+vm.createContext(ctx);vm.runInContext(fs.readFileSync(path.join(__dirname,'../sunhacks/static/mochi.js'),'utf8'),ctx);
+const u=s=>ctx.Mochi.update(s);
+u({stage:'idle',model_ready:true,can_prepare:true});assert.equal(el('mochiCompanion').dataset.mood,'idle');assert.doesNotMatch(el('mochiMessage').textContent,/connection check/);
+u({stage:'recording',remaining_seconds:2.2});assert.equal(el('mochiCompanion').dataset.mood,'recording');assert.match(el('mochiMessage').textContent,/3 seconds/);
+u({stage:'processing'});assert.match(el('mochiMessage').textContent,/stopped/);
+u({stage:'warmup',prompt:{body:'Your school'}});assert.equal(el('mochiMessage').textContent,'Your school');
+u({stage:'result'});assert.doesNotMatch(el('mochiMessage').textContent,/truthful|lying|you lied/i);
+u({kind:'dashboard',dataset:{active:true,status:'recording',elapsed_seconds:5,duration_seconds:7}});assert.match(el('mochiMessage').textContent,/2 seconds/);
+u({kind:'dashboard',dataset:{active:true,status:'awaiting_label'}});assert.match(el('mochiMessage').textContent,/Choose its label/);assert.notEqual(el('mochiCompanion').dataset.mood,'recording');
+el('mochiHelpButton').events.click();assert.equal(el('mochiHelp').hidden,false);assert.equal(el('mochiHelpButton')['aria-expanded'],'true');
+el('mochiPet').events.click();assert.equal(el('mochiCompanion').dataset.petted,'true');assert.match(el('mochiMessage').textContent,/scritch/);
+assert.doesNotMatch(fs.readFileSync(path.join(__dirname,'../sunhacks/static/mochi.js'),'utf8'),/fetch\(|getUserMedia|\/api\//);
+console.log('Mochi UI passed: real countdown states, explicit label guidance, help and pet interaction, no sensor/network actions.');
+
+u({stage:'result',heart_rate:{status:'idle',recorded_reading:{bpm:74.4,quality_label:'good',pulse:[0,1,0]}}});assert.equal(el('mochiPulseBpm').textContent,'74');assert.equal(el('mochiPulseStatus').textContent,'Recorded BPM');assert.match(el('mochiPulseNote').textContent,/camera is off/);
+u({stage:'recording',heart_rate:{status:'acquiring'}});assert.equal(el('mochiPulseBpm').textContent,'—');
