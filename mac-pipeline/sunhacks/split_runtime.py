@@ -1,7 +1,7 @@
 """Video-only GPU RPC; resident local audio/text, real digest and exported stack.
 
-The video classifier is an independent output and is never inserted into the
-learned two-branch Dasheng/digest stack. No raw audio or text argument is passed
+The video classifier is never inserted into the learned Dasheng/digest stack.
+An explicit pilot_blend setting can use it in a separate experimental blend. No raw audio or text argument is passed
 to the video client. One source job per component bounds outstanding work; late
 features are discarded and model release waits for all forwards to finish.
 """
@@ -31,6 +31,10 @@ class SplitRuntime:
         self.config=copy.deepcopy(config)
         self.classifier_profile=self.config.get("classifier_profile","courtroom")
         if self.classifier_profile not in ("courtroom","webcam_pilot"):raise ValueError("Unknown classifier profile")
+        from .manual_blend import checked_weights
+        self.pilot_blend_weights=checked_weights(self.config.get("pilot_blend"))
+        if self.pilot_blend_weights is not None and self.classifier_profile!="webcam_pilot":
+            raise ValueError("Manual pilot blend requires the webcam_pilot profile")
         self.video_client=video_client
         self.on_progress=on_progress
         self.dasheng=dasheng
@@ -303,7 +307,9 @@ class SplitRuntime:
                         output["transcript"],branches["text"]=value["transcript"],value["text"]
                         if "claim_hook_dispatched" in value:output["claim_hook_dispatched"]=value["claim_hook_dispatched"]
                         if "claim_hook_error" in value:output["claim_hook_error"]=copy.deepcopy(value["claim_hook_error"])
-                    elif key in branches:branches[key]=value
+                    elif key in branches:
+                        value["source_window_id"]=window_id
+                        branches[key]=value
                 except Exception as exc:
                     output["timings"]["jobs"][key].update(status="error",reason=type(exc).__name__+": "+str(exc)[:240])
                     branch="text" if key=="semantic" else key
@@ -338,6 +344,12 @@ class SplitRuntime:
             # reuse the courtroom stack/cutoff if the pilot forward failed.
             decision=branches["dasheng"].get("_pilot_decision")
             branches["stack"]=copy.deepcopy(decision) if isinstance(decision,dict) else self._missing("stack","Selected pilot audio model did not complete; no courtroom fallback",window_id)
+            if self.pilot_blend_weights is not None:
+                from .manual_blend import blend
+                branches["stack"]=blend(branches,self.pilot_blend_weights,window_id)
+                diagnostic=branches["emotion"].get("trained_classifier")
+                if isinstance(diagnostic,dict) and branches["stack"]["status"]=="experimental_blend" and self.pilot_blend_weights["emotion"]>0:
+                    diagnostic.update(used_for_decision=True,role="manual_blend_input")
             if "face" in results and "face" not in output["features"]:
                 _,meta=results["face"]
                 output["features"]["face"]={"status":"available","face_detect_rate":meta["face_detect_rate"],"centre_crop_fallback":meta.get("centre_crop_fallback")}

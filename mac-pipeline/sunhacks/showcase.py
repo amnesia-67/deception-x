@@ -445,6 +445,8 @@ class ShowcaseSession:
                 fold_ranges[name]={"min":min(values),"max":max(values),"count":len(values)}
         stack=branches.get("stack",{})
         pilot=stack.get("profile")=="webcam_pilot"
+        manual=pilot and stack.get("manual_blend") is True
+        video_used=manual and stack.get("weights",{}).get("vision",0)>0
         threshold=stack.get("threshold")
         threshold_valid=ShowcaseSession._finite_number(threshold) and 0<=threshold<=1
         provenance=stack.get("threshold_provenance")
@@ -453,23 +455,28 @@ class ShowcaseSession:
                   "threshold_provenance":provenance if isinstance(provenance,str) else None,"calibrated": False,
                   "model_result_valid":False,"model_label":None,
                   "branch_scores":{name:None for name in aliases},"distance_from_threshold":None,
-                  "video_used_in_verdict":False,"fold_score_ranges":{},
+                  "video_used_in_verdict":video_used,"fold_score_ranges":{},
+                  "manual_blend":manual,"weights":copy.deepcopy(stack.get("weights",{})),
                   "remote_video_enabled":video_enabled,
                   "classifier_profile":"webcam_pilot" if pilot else "courtroom",
-                  "validation_context":{"source":"webcam-pilot audio export" if pilot else "deployed ensemble export","model_id":stack.get("model_id"),
+                  "validation_context":{"source":"unvalidated manual pilot blend" if manual else "webcam-pilot audio export" if pilot else "deployed ensemble export","model_id":stack.get("model_id"),
                       "calibration_scope":stack.get("calibration_scope"),
                       "reported_cv_metrics":copy.deepcopy(stack.get("cv_metrics")),
                       "caveats":copy.deepcopy(stack.get("caveats",[]))},
                   "processing_ms": answer.get("processing_ms"), "duration_seconds": window.get("duration_seconds"),
                   "source_session_id": source_session,
-                  "source_window_id": window.get("id"), "video_in_local_ensemble": False,
-                  "decision_rule": "Class-1 score at or above the reviewed export's threshold means deceptive; not a personal cutoff.",
+                  "source_window_id": window.get("id"), "video_in_local_ensemble": video_used,
+                  "decision_rule": "Weighted calibrated branch margins determine the experimental verdict." if manual else "Class-1 score at or above the reviewed export's threshold means deceptive; not a personal cutoff.",
                   "uncertainty": "Experimental prediction; not evidence that a person is lying."}
         required = {"vision": ("trained_classifier",), "dasheng": ("trained", "trained_classifier"),
                     "text": ("base",), "emotion": ("base",),
                     "tabular": ("trained_classifier",), "stack": ("trained_classifier",)}
         if pilot:
             for name in ("text","emotion","tabular"):required.pop(name)
+        if manual:
+            required["stack"]=("experimental_blend",)
+            if video_used and not video_enabled:
+                return {**common,"reason":"This blend requires a same-answer GPU video result."}
         if not video_enabled:
             required.pop("vision");scores["video"]=None;fold_ranges.pop("video",None)
         if (state.get("session_id") != source_session or latest.get("mock") is not False or
@@ -501,7 +508,7 @@ class ShowcaseSession:
         common.update(branch_scores=scores,distance_from_threshold=abs(score-threshold),fold_score_ranges=fold_ranges)
         value={**common, "label":"lie" if score>=threshold else "truth", "model_label":"lie" if score>=threshold else "truth",
                "model_result_valid":True,"score":float(score),"recognized_text":transcript["text"],
-               "reason":("Prediction from the selected webcam-pilot audio model; GPU video is " if pilot else "Prediction from the trained local Dasheng and behavioral ensemble; GPU video is ")+("checked separately." if video_enabled else "disabled.")}
+               "reason":"Prediction from the user-selected experimental blend; accuracy has not been validated." if manual else ("Prediction from the selected webcam-pilot audio model; GPU video is " if pilot else "Prediction from the trained local Dasheng and behavioral ensemble; GPU video is ")+("checked separately." if video_enabled else "disabled.")}
         return ShowcaseSession._guarded_verdict(value,latest)
 
     @staticmethod

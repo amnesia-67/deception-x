@@ -102,6 +102,11 @@ class AnswerPipelineMixin:
                     value["reason"]="The local digest worker is not ready. Prepare local models again before starting an answer."
         ready=bool(value.get("local_weights_loaded") and (not video_enabled or (remote.get("classifier_ready") and
                    remote.get("classifier_response_validated") and remote.get("participant_media_authorized"))))
+        blend_weights=getattr(self.fast_runtime,"pilot_blend_weights",None)
+        value["pilot_blend_weights"]=blend_weights
+        if blend_weights and blend_weights.get("vision",0)>0 and not video_enabled:
+            ready=False
+            value["reason"]="This manual blend requires GPU video. Enable video or remove the blend setting."
         value.update(mode="split_local_video",remote=remote,remote_video_enabled=video_enabled,live_ready=ready,
                      locality={"video":"friend_gpu" if video_enabled else "local_face_features_only","audio":"mac","transcript":"mac","ensemble":"mac"},
                      reason=("Ready for one answer; only video leaves this Mac." if video_enabled else "Ready for a local-model test. GPU video is off; the contradiction check has its own setting.") if ready else

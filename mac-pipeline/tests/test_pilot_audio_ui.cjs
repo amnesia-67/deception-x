@@ -72,3 +72,23 @@ const enoughTimeFewFrames=structuredClone(recording);enoughTimeFewFrames.answer.
 
 const pilotCase=structuredClone(complete);pilotCase.deployment.classifier_profile='webcam_pilot';pilotCase.deployment.classifier_architecture='webcam-pilot-dasheng-v1';pilotCase.latest.branches.stack.profile='webcam_pilot';pilotCase.latest.branches.stack.threshold=.5436123431421811;
 context.render(pilotCase);assert.equal(get('stackPanel').hidden,false);assert.match(get('stackPanelTitle').textContent,/webcam-pilot audio/);assert.match(get('stackExplanation').textContent,/Only the webcam-pilot Dasheng/);assert.match(get('fusionReason').textContent,/exported calibration and cutoff/);console.log('Pilot profile UI passed: selected audio model and independent diagnostics are explicitly identified.');
+
+const manualPilot=structuredClone(complete);
+manualPilot.deployment.classifier_profile='webcam_pilot';
+manualPilot.deployment.pilot_blend_weights={dasheng:.5,vision:.25,emotion:.25};
+manualPilot.latest.branches.stack={status:'experimental_blend',profile:'webcam_pilot',manual_blend:true,raw_score:.55,weights:manualPilot.deployment.pilot_blend_weights,inputs:{dasheng:{score:.8},vision:{score:.2},emotion:{score:.4}}};
+context.render(manualPilot);
+assert.equal(get('stackRawScore').textContent,'0.550');
+assert.equal(get('stackAudioScore').textContent,'0.800');
+assert.equal(get('stackVideoScore').textContent,'0.200');
+assert.equal(get('stackEmotionScore').textContent,'0.400');
+assert.equal(get('stackDigestRow').hidden,true);
+assert.equal(get('stackVideoRow').hidden,false);
+assert.equal(get('stackWeights').children.length,3);
+assert.match(get('stackWarning').textContent,/not been validated/);
+assert.match(get('runtimeLocalNote').textContent,/manual blend/);
+manualPilot.latest.branches.stack.status='unavailable';
+context.render(manualPilot);
+assert.equal(get('stackRawScore').textContent,'—');
+assert.equal(get('stackWeights').children.length,3);
+console.log('Manual blend UI checks passed: correct input scores, configured weights, and incomplete result suppression.');

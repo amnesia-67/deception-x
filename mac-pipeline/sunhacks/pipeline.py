@@ -420,6 +420,7 @@ class Pipeline(AnswerPipelineMixin,ClaimPipelineMixin):
                      "calibration":self.calibration,"transcript":self.transcript,"runtime":self._runtime_state(),
                      "deployment":{**self.config.get("deployment",{}),"fusion_architecture":self.config.get("models",{}).get("fusion",{}).get("architecture"),
                                    "fusion_training_domain":"generated_synthetic_features" if self.config.get("models",{}).get("fusion",{}).get("architecture")=="friend-reda-dare-synthetic-v1" else None,
+                                   "pilot_blend_weights":(self.config.get("pilot_blend") or {}).get("weights"),
                                    "local_asr_configured":bool(self.config.get("models",{}).get("asr",{}).get("path"))},
                      "warning":"Experimental observations; task-specific trained heads and calibration are absent."}
             return public(copy.deepcopy(value))

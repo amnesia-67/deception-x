@@ -21,7 +21,25 @@ After integration, the guided test records one seven-second answer and stops on 
 
 ## Decisions and privacy
 
-The historical learned classifier combines tuned Dasheng and an XGBoost behavioral digest. Its video score is separate and unused in the verdict. The new teammate export changes the digest to `v3-fixed-lag-motion` (88 fields), refits the two-branch stack and supplies its own threshold. These artifacts must be adopted together with their reviewed schema, hashes and decision rule. Do not copy a new threshold onto old model weights or invent a video fusion weight.
+The default `webcam_pilot` release uses the exported Dasheng-only decision. An
+explicit experimental override is available in the machine's local config:
+
+```json
+"pilot_blend": {"weights": {"dasheng": 0.5, "vision": 0.25, "emotion": 0.25}}
+```
+
+This reduces Dasheng from 100% to 50%; V-JEPA 2.1 ViT-L and tuned emotion2vec
+supply the rest. The blend compares the weighted average of calibrated scores
+with the same weighted average of each branch's exported cutoff. These manual
+weights and the resulting joint decision have **not been validated**. Missing,
+stale or invalid weighted inputs block the verdict; there is no automatic
+renormalization. GPU video must stay enabled when its weight is positive.
+The dashboard displays the exact weights and contributing calibrated scores.
+Remove `pilot_blend` and restart to restore the unmodified exported decision.
+Trained artifacts and the contradiction-only override remain unchanged.
+
+
+The historical learned classifier combines tuned Dasheng and an XGBoost behavioral digest. Its video score is separate and unused in the verdict. The new teammate export changes the digest to `v3-fixed-lag-motion` (88 fields), refits the two-branch stack and supplies its own threshold. These artifacts must be adopted together with their reviewed schema, hashes and decision rule. Do not copy a new threshold onto old model weights. The explicit manual override above is separate from the learned fusion and its reported metrics.
 
 The contradiction check uses **one Drex Max decision request through OpenRouter**. With the disclosed checkbox selected (on by default), the same answer's recognized transcript and two selected camera photos go to OpenRouter's DeepInfra provider. Raw audio, embeddings, behavioral model scores and practice recordings are not sent. The checkbox can be turned off before capture, and that choice persists across answers. Legacy internal `visual_claim_check`/`visual_authorized` flags now authorize this complete transcript-and-photo request, not only an image check.
 
