@@ -1,0 +1,47 @@
+{
+  "test": "video-only generated fixture over Tailscale",
+  "frame_hashes_verified": 105,
+  "timestamp_hash_verified": true,
+  "expected_manifest_sha256": "e0910ae6d979521db7f2af25a91d22647c0be87a462cd0ff5af9f686a5fdb9f8",
+  "golden_runs": [
+    {
+      "window_id": 910,
+      "raw_score": 0.664105,
+      "reference_raw_score": 0.664105,
+      "absolute_score_error": 0.0,
+      "attention_max_abs_error": 0.0,
+      "calibrated_probability": 0.615926,
+      "threshold": 0.5225017022420966,
+      "elapsed_ms": 4119.3,
+      "request_bytes": 4859630,
+      "request_identity_validated": true,
+      "source_unique_frames": 105,
+      "calibration_matches_manifest": true,
+      "threshold_matches_manifest": true
+    },
+    {
+      "window_id": 911,
+      "raw_score": 0.664105,
+      "reference_raw_score": 0.664105,
+      "absolute_score_error": 0.0,
+      "attention_max_abs_error": 0.0,
+      "calibrated_probability": 0.615926,
+      "threshold": 0.5225017022420966,
+      "elapsed_ms": 3978.1,
+      "request_bytes": 4859630,
+      "request_identity_validated": true,
+      "source_unique_frames": 105,
+      "calibration_matches_manifest": true,
+      "threshold_matches_manifest": true
+    }
+  ],
+  "repeatability_abs_error": 0.0,
+  "different_generated_video_raw_score": 0.63477,
+  "different_input_changes_output": true,
+  "participant_media_used": false,
+  "audio_or_transcript_sent": false,
+  "predictive_accuracy_validated": false,
+  "reference_score_and_attention_match_exactly": true,
+  "verdict_model": "dasheng",
+  "video_used_in_verdict": false
+}
